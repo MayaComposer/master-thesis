@@ -8,11 +8,9 @@ rslider bounds(296, 162, 100, 100), channel("gain"), range(0, 1, 0, 1, .01), tex
 -n -d
 </CsOptions>
 <CsInstruments>
-; Initialize the global variables. 
 ksmps = 32
 nchnls = 2
 0dbfs = 1
-
 
 instr 1
 
