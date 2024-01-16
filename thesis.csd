@@ -13,7 +13,7 @@ nchnls = 2
 0dbfs = 1
 
 instr 1
-  ;a  commit from old pcdssjodfosdifojisd
+  ;a  commit from old pcdssjodfosdifojisd and if i add more?
   kMouseX chnget "MOUSE_X"
   kMouseY chnget "MOUSE_Y"
   kCurrentKey chnget "KEY_PRESSED"
