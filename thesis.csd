@@ -13,7 +13,7 @@ nchnls = 2
 0dbfs = 1
 
 instr 1
-  ;a  commit from old pc
+  ;a  commit from old pcdssjodfosdifojisd
   kMouseX chnget "MOUSE_X"
   kMouseY chnget "MOUSE_Y"
   kCurrentKey chnget "KEY_PRESSED"
