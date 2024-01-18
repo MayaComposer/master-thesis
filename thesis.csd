@@ -1,7 +1,6 @@
 <Cabbage>
-form caption("Thesis") size(800, 600), guiMode("queue") pluginId("def1")
-rslider bounds(296, 162, 100, 100), channel("gain"), range(0, 1, 0, 1, .01), text("Gain"), trackerColour("lime"), outlineColour(0, 0, 0, 50), textColour("black")
-
+form caption("Master's Thesis Maya Engel") size(800, 600), guiMode("queue") pluginId("def1")
+button bounds(10, 10, 143, 38), latched(0), channel("button1"), text("Button")
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
@@ -12,14 +11,12 @@ ksmps = 32
 nchnls = 2
 0dbfs = 1
 
+
 instr 1
-  ;a  commit from old pcdssjodfosdifojisd and if i add more?
-  kMouseX chnget "MOUSE_X"
-  kMouseY chnget "MOUSE_Y"
-  kCurrentKey chnget "KEY_PRESSED"
-  
-  printk 0.1, kCurrentKey
-  
+  ;check for keypress and print it when keydown
+  kKeyTrig chnget "KEY_DOWN"
+  kKeyNum chnget "KEY_PRESSED"
+  printf "Key:%d", kKeyTrig, kKeyNum
 endin
 
 </CsInstruments>
