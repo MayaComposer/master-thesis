@@ -1,6 +1,13 @@
 <Cabbage>
-form caption("Master's Thesis Maya Engel") size(800, 600), guiMode("queue") pluginId("def1")
-button bounds(10, 10, 143, 38), latched(0), channel("button1"), text("Button")
+form caption("Master's Thesis Maya Engel"), size(800, 600), guiMode("queue") pluginId("def1"), colour(255,255,255)
+
+;this button merely exists because otherwise keyboard presses do not work lol
+button bounds(-1000, 10, 143, 38), latched(0), channel("button1"), text("Button")
+
+label bounds(200, 20, 400, 94), channel("Header"), text("Untitled by Maya Engel"), align("center"), fontSize("36")
+
+label bounds(100, 182, 400, 200), channel("CueLabel"), text("Current cue: 0"), align("center"), fontSize("36")
+
 </Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
@@ -11,12 +18,28 @@ ksmps = 32
 nchnls = 2
 0dbfs = 1
 
+gkCurrentCue init 0
+gkKeyPressed init 0
 
 instr 1
   ;check for keypress and print it when keydown
-  kKeyTrig chnget "KEY_DOWN"
+  kKeyDown chnget "KEY_DOWN"
   kKeyNum chnget "KEY_PRESSED"
-  printf "Key:%d", kKeyTrig, kKeyNum
+  printf "KeyNum:%d", kKeyDown, kKeyNum
+  printf " KeyPressed:%d", kKeyDown, gkKeyPressed
+  printf " CurrentCue:%d", kKeyDown, gkCurrentCue
+  printf " KeyDown:%d \n", kKeyDown, kKeyDown
+
+  SCueText sprintfk "Current cue: %d", gkCurrentCue
+  cabbageSet kKeyDown, "CueLabel", "text", SCueText
+
+  ;change cue
+  if (kKeyDown == 1) && (gkKeyPressed == 0) then
+    gkCurrentCue += 1
+    gkKeyPressed = 1
+  elseif (kKeyDown == 0) && (gkKeyPressed == 1) then
+    gkKeyPressed = 0
+  endif
 endin
 
 </CsInstruments>
