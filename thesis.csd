@@ -21,10 +21,27 @@ nchnls = 2
 gkCurrentCue init 0
 gkKeyPressed init 0
 
-instr 1
+instr Main
   ;check for keypress and print it when keydown
   kKeyDown chnget "KEY_DOWN"
   kKeyNum chnget "KEY_PRESSED"
+
+  ;change cue
+  if (kKeyDown == 1) && (gkKeyPressed == 0) then
+    gkCurrentCue += 1
+    gkKeyPressed = 1
+
+    if (gkCurrentCue == 1) then
+      event "i", "Cue1", 0, 10
+    elseif (gkCurrentCue == 2) then
+      event "i", "Cue2", 0, 10
+    endif
+
+  elseif (kKeyDown == 0) && (gkKeyPressed == 1) then
+    gkKeyPressed = 0
+  endif
+
+  ;print useful things
   printf "KeyNum:%d", kKeyDown, kKeyNum
   printf " KeyPressed:%d", kKeyDown, gkKeyPressed
   printf " CurrentCue:%d", kKeyDown, gkCurrentCue
@@ -32,21 +49,22 @@ instr 1
 
   SCueText sprintfk "Current cue: %d", gkCurrentCue
   cabbageSet kKeyDown, "CueLabel", "text", SCueText
-
-  ;change cue
-  if (kKeyDown == 1) && (gkKeyPressed == 0) then
-    gkCurrentCue += 1
-    gkKeyPressed = 1
-  elseif (kKeyDown == 0) && (gkKeyPressed == 1) then
-    gkKeyPressed = 0
-  endif
 endin
+
+instr Cue1
+  printks "Cue 1 is happening rn \\n", 1
+endin
+
+instr Cue2
+  printks "Cue 2 is happening rn \\n", 1
+endin
+
 
 </CsInstruments>
 <CsScore>
 ;causes Csound to run for about 7000 years...
 f0 z
 ;starts instrument 1 and runs it for a week
-i1 0 [60*60*24*7] 
+i "Main" 0 [60*60*24*7] 
 </CsScore>
 </CsoundSynthesizer>
