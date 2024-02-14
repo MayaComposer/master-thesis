@@ -1,12 +1,17 @@
 <Cabbage>
 form caption("Master's Thesis Maya Engel"), size(800, 600), guiMode("queue") pluginId("def1"), colour(255,255,255)
 
+;temp is just there so it does not fuck up my syntax highlighting
+#define STYLE #temp(0), fontColour("black")#
+
 ;this button merely exists because otherwise keyboard presses do not work lol
 button bounds(-1000, 10, 143, 38), latched(0), channel("button1"), text("Button")
 
-label bounds(200, 20, 400, 94), channel("Header"), text("Untitled by Maya Engel"), align("center"), fontSize("36")
 
-label bounds(100, 182, 400, 200), channel("CueLabel"), text("Current cue: 0"), align("center"), fontSize("36")
+
+label bounds(200, 20, 400, 94), channel("Header"), text("Untitled by Maya Engel"), align("center"), fontSize("36") $STYLE
+
+label bounds(100, 182, 400, 200), channel("CueLabel"), text("Current cue: 0"), align("center"), fontSize("36") $STYLE
 
 </Cabbage>
 <CsoundSynthesizer>
@@ -52,11 +57,21 @@ instr Main
 endin
 
 instr Cue1
-  printks "Cue 1 is happening rn \\n", 1
+  printks "Cue 1 is happening rn \n", 1
+
+  if gkCurrentCue == 2 then
+    printf "turning off instrument 1 \n", 1
+    turnoff
+  endif
 endin
 
 instr Cue2
-  printks "Cue 2 is happening rn \\n", 1
+  printks "Cue 2 is happening rn \n", 1
+
+  if gkCurrentCue == 3 then
+    printf "turning off instrument 2 \n", 1
+    turnoff
+  endif
 endin
 
 
