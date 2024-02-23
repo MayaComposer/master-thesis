@@ -39,15 +39,15 @@ opcode ca_update2D, i[][], i[][]
                               
             ; Apply the Life-like cellular automaton rules
             if (icell == 1) then
-                ; Any live cell with 2 or 3 live neighbors survives, otherwise it dies.
+                ; Any live cell with X or Y live neighbors survives, otherwise it dies.
                 if (ilive_neighbors == 2) || (ilive_neighbors == 3) then
                     iOutput[icount1][icount2] = 1
-                else
-                    iOutput[icount1][icount2] = 0
+                ;else
+                    ;iOutput[icount1][icount2] = 0
                 endif
             else
-                ; Any dead cell with exactly 3 live neighbors becomes alive.
-                if (ilive_neighbors == 3) then
+                ; Any dead cell with exactly X live neighbors becomes alive.
+                if (ilive_neighbors == 1) then
                     iOutput[icount1][icount2] = 1
                 else
                     iOutput[icount1][icount2] = 0
@@ -99,17 +99,4 @@ opcode ca_print_cells2D, 0, i[][]
         prints("\n")
         icount1 += 1
     od
-endop
-
-opcode make_binary, i[], i
-  ; make binary
-  irule xin
-  iRule[] fillarray (irule >> 7) & 1, (irule >> 6) & 1,
-  (irule >> 5) & 1, (irule >> 4) & 1,
-  (irule >> 3) & 1, (irule >> 2) & 1,
-  (irule >> 1) & 1, irule & 1
-  prints("Rule %d: \n", irule)
-  printarray iRule, "%d"
-  prints("\n")
-  xout iRule
 endop
