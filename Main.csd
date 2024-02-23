@@ -26,6 +26,11 @@ nchnls = 2
 gkCurrentCue init 0
 gkKeyPressed init 0
 
+
+;define channels
+chn_k "Centroid", 1, 1, 0, 0, 20000
+chn_k "Pitch", 1, 1, 0, 0, 20000
+
 instr Main
   ;check for keypress and print it when keydown
   kKeyDown chnget "KEY_DOWN"
@@ -56,9 +61,36 @@ instr Main
   cabbageSet kKeyDown, "CueLabel", "text", SCueText
 endin
 
+; read sound, analyze, apply amp to another sound
+instr AudioDescriptors
+  a1 inch 1
+  ; analyze amp, pitch 
+  kpitch,kamp_ pitchamdf a1, 100, 900
+  kamp rms a1
+  ; shape the amp even more
+  kamp pow kamp, 2
+  ; and scale it as we want
+  ;scale function
+  kpitch scale2 kpitch, 0.0, 1.0, 0, 1000
+  
+  ; analyze amp and centroid
+  kcentroid centroid a1, 1, 512
+  kcentroid tonek kcentroid, 10 ; the centroid varies very quickly (noisy), so it makes sense to filter it
+  kcentroid scale2 kcentroid, 0.0, 1.0, 0, 20000
+  ;send to channels
+  chnset kcentroid, "Centroid"
+  chnset kpitch, "Pitch"
+  printk2 kpitch, 4
+endin
+
+instr Randomness
+  kRnd    gaussi    kgaussiRange, kgaussiAmp, kgaussiCps
+endin
+
 instr Cue1
   printks "Cue 1 is happening rn \n", 1
 
+  ;turnoff instrument when the next cue gets triggered
   if gkCurrentCue == 2 then
     printf "turning off instrument 1 \n", 1
     turnoff
@@ -68,6 +100,7 @@ endin
 instr Cue2
   printks "Cue 2 is happening rn \n", 1
 
+  ;turnoff instrument when the next cue gets triggered
   if gkCurrentCue == 3 then
     printf "turning off instrument 2 \n", 1
     turnoff
