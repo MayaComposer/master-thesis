@@ -108,16 +108,15 @@ endin
 
 ; play cellular automation, update intervals according to cell values
 instr MainAlgo
-  kTempo chnget "McDiff"
+  kTempo chnget "Pitch"
   kTempo scale2 kTempo, 0.75, 10, 0.0, 1.0
   ktrig metro kTempo
-  printk2 kTempo, 4
 
-  if pitch > 0.75 then
-    smth growth pattern
-
-  if pitch < 0.25 then
-    smth growth pattern
+  kGrowthRate init 0
+  kGrowthRate chnget "Pitch"
+  kGrowthRate scale2 kGrowthRate, 1, 5, 0.0, 1.0
+  kGrowthRate = round(kGrowthRate)
+  chnset kGrowthRate, "GrowthRate"
   
   if ktrig == 1 then
     event "i", "GrowCells", 0, 1 ; update cells
@@ -182,7 +181,7 @@ instr Grain
   asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
   ;grain pitch 
   kwavfreq = 1
-  kgrainrate = 10 ;kcell8 > 0 ? 100 : 10
+  kgrainrate sumarray giCells
   agrainrate interp kgrainrate
 
   ;grain duration                                                                          
