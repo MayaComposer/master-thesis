@@ -39,20 +39,36 @@ opcode ca_update2D, i[][], i[][]
                               
             ; Apply the Life-like cellular automaton rules
             if (icell == 1) then
-                ; Any live cell with X or Y live neighbors survives, otherwise it dies.
-                if (ilive_neighbors == 2) || (ilive_neighbors == 3) then
+                ; Any live cell with fewer than two or more than three live neighbours dies
+                if (ilive_neighbors < 2) || (ilive_neighbors > 3) then
+                    iOutput[icount1][icount2] = 0
+                ; Any live cell with two or three live neighbours lives
+                else
                     iOutput[icount1][icount2] = 1
-                ;else
-                    ;iOutput[icount1][icount2] = 0
                 endif
             else
-                ; Any dead cell with exactly X live neighbors becomes alive.
-                if (ilive_neighbors == 1) then
+                ; Any dead cell with exactly three live neighbours becomes alive
+                if (ilive_neighbors == 3) then
                     iOutput[icount1][icount2] = 1
                 else
                     iOutput[icount1][icount2] = 0
                 endif
             endif
+            ; if (icell == 1) then
+;                 ; Any live cell with X or Y live neighbors survives, otherwise it dies.
+;                 if (ilive_neighbors == 2) || (ilive_neighbors == 3) then
+;                     iOutput[icount1][icount2] = 1
+;                 ;else
+;                     ;iOutput[icount1][icount2] = 0
+;                 endif
+;             else
+;                 ; Any dead cell with exactly X live neighbors becomes alive.
+;                 if (ilive_neighbors == 3) then
+;                     iOutput[icount1][icount2] = 1
+;                 else
+;                     iOutput[icount1][icount2] = 0
+;                 endif
+;             endif
             
             icount2 += 1
         od
@@ -99,4 +115,5 @@ opcode ca_print_cells2D, 0, i[][]
         prints("\n")
         icount1 += 1
     od
+    prints("\n")
 endop

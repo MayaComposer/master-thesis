@@ -1,17 +1,6 @@
-<Cabbage>
-form caption("Cellular Algo"), size(800, 600), guiMode("queue") pluginId("clls"), colour(255,255,255)
-
-;temp is just there so it does not fuck up my syntax highlighting
-#define STYLE #temp(0), fontColour("black")#
-csoundoutput bounds(8, 382, 781, 206) channel("csoundoutput10000")
-label bounds(100, 82, 400, 200), channel("Label1"), text("Current cue: 0"), align("center"), fontSize("36") $STYLE
-label bounds(100, 182, 400, 200), channel("Label2"), text("Current cue: 0"), align("center"), fontSize("36") $STYLE
-</Cabbage>
-
 <CsoundSynthesizer>
 <CsOptions>
--m0 -n -d 
--o dac -i adc
+-odac -m0
 </CsOptions>
 <CsInstruments>
 
@@ -20,36 +9,83 @@ ksmps = 10
 nchnls = 2
 0dbfs	= 1
 
-;includes
-#include "cellular_utilities.inc"
-#include "analyze_udos.inc"
-#include "analyze_chn_init.inc"
+#include "cellular_2D.inc"
 
+#include "analyze_udos.inc"
+
+#include "analyze_chn_init.inc" ;for some reason there needs to be a line between the includes
+
+;fft stuff
 giSine	ftgen	0, 0, 65536, 10, 1			; sine wave
 gifftsize 	= 1024
 chnset gifftsize, "fftsize"
 giFftTabSize	= (gifftsize / 2)+1
 gifna     	ftgen   1 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
 gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analysis
-
 giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for autocorr
 
+;cellular automata
+giSize = 8
+giCells[][] init giSize, giSize
+
+; Glider pattern in the top-left corner
+giCells[1][1] = 0
+giCells[1][2] = 1
+giCells[1][3] = 0
+giCells[2][1] = 0
+giCells[2][2] = 0
+giCells[2][3] = 1
+giCells[3][1] = 1
+giCells[3][2] = 1
+giCells[3][3] = 1
+
+; ; Glider pattern in the top-right corner
+; giCells[1][12] = 0
+; giCells[1][13] = 1
+; giCells[1][14] = 0
+; giCells[2][12] = 0
+; giCells[2][13] = 0
+; giCells[2][14] = 1
+; giCells[3][12] = 1
+; giCells[3][13] = 1
+; giCells[3][14] = 1
+
+; ; Glider pattern in the bottom-left corner
+; giCells[12][1] = 0
+; giCells[12][2] = 1
+; giCells[12][3] = 0
+; giCells[13][1] = 0
+; giCells[13][2] = 0
+; giCells[13][3] = 1
+; giCells[14][1] = 1
+; giCells[14][2] = 1
+; giCells[14][3] = 1
+
+; ; Glider pattern in the bottom-right corner
+; giCells[12][12] = 0
+; giCells[12][13] = 1
+; giCells[12][14] = 0
+; giCells[13][12] = 0
+; giCells[13][13] = 0
+; giCells[13][14] = 1
+; giCells[14][12] = 1
+; giCells[14][13] = 1
+; giCells[14][14] = 1
 
 
-; set up initial population of cells
-gisize = 32
-giCells[] init gisize ; the array contining the population of cells
 
-giCells[15] = 1
+
+
+;if you go off X and Y coordinates, the syntax is giCells[Y][X] because it is rows and columns instead of x and y
 
 ;soundfiles
 giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
 
-; classic waveforms
+;classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
 giCosine	ftgen	0, 0, 8193, 9, 1, 1, 90					; cosine wave
 
-; grain envelope tables
+;grain envelope tables
 giSigmoRise 	ftgen	0, 0, 8193, 19, 0.5, 1, 270, 1				; rising sigmoid
 giSigmoFall 	ftgen	0, 0, 8193, 19, 0.5, 1, 90, 1				; falling sigmoid
 
@@ -58,179 +94,39 @@ giSigmoFall 	ftgen	0, 0, 8193, 19, 0.5, 1, 90, 1				; falling sigmoid
 chn_k "Centroid", 1, 1, 0, 0, 20000
 chn_k "Pitch", 1, 1, 0, 0, 20000
 
-
-; make binary rule array
-instr Rule
-  irule = p4
-  giRule[] make_binary irule ; make the array containing the rule
-endin
+chn_a "signal", 2
 
 ; grow next generation of cells
 instr GrowCells
-  giCells ca_update giCells, giRule ; update the live/dead status of all cells in the population
+  giCells ca_update2D giCells ; update the live/dead status of all cells in the population
 endin
 
 ; print cells
 instr PrintCells
-  ca_print_cells giCells ; print
+  ca_print_cells2D giCells ; print
 endin
 
 ; play cellular automation, update intervals according to cell values
 instr MainAlgo
-  ktrig metro p4
+  kTempo chnget "McDiff"
+  kTempo scale2 kTempo, 0.75, 10, 0.0, 1.0
+  ktrig metro kTempo
+  printk2 kTempo, 4
 
-  idur = 1/p4 ; duration relative to tempo
+  if pitch > 0.75 then
+    smth growth pattern
+
+  if pitch < 0.25 then
+    smth growth pattern
+  
   if ktrig == 1 then
-    kcount = 0
-    k0 = giCells[0*ktrig]
-    chnset k0, "cell0"
-
-    k1 = giCells[1*ktrig]
-    chnset k1, "cell1"
-
-    k2 = giCells[2*ktrig]
-    chnset k2, "cell2"
-
-    k3 = giCells[3*ktrig]
-    chnset k3, "cell3"
-
-    k4 = giCells[4*ktrig]
-    chnset k4, "cell4"
-
-    k5 = giCells[5*ktrig]
-    chnset k5, "cell5"
-
-    k6 = giCells[6*ktrig]
-    chnset k6, "cell6"
-
-    k7 = giCells[7*ktrig]
-    chnset k7, "cell7" 
-
-    k8 = giCells[8*ktrig]
-    chnset k8, "cell8"
-
-    k9 = giCells[9*ktrig]
-    chnset k9, "cell9"
-
-    k10 = giCells[10*ktrig]
-    chnset k10, "cell10" 
-
-    k11 = giCells[11*ktrig]
-    chnset k11, "cell11"
-
-    k12 = giCells[12*ktrig]
-    chnset k12, "cell12"
-
-    k13 = giCells[13*ktrig]
-    chnset k13, "cell13"
-
-    k14 = giCells[14*ktrig]
-    chnset k14, "cell14"
-
-    k15 = giCells[15*ktrig]
-    chnset k15, "cell15"
-
-    k16 = giCells[16*ktrig]
-    chnset k16, "cell16"
-
-    k17 = giCells[17*ktrig]
-    chnset k17, "cell17"
-
-    k18 = giCells[18*ktrig]
-    chnset k18, "cell18"
-
-    k19 = giCells[19*ktrig]
-    chnset k19, "cell19"
-
-    k20 = giCells[20*ktrig]
-    chnset k20, "cell20"
-
-    k21 = giCells[21*ktrig]
-    chnset k21, "cell21"
-
-    k22 = giCells[22*ktrig]
-    chnset k22, "cell22"
-
-    k23 = giCells[23*ktrig]
-    chnset k23, "cell23"
-
-    k24 = giCells[24*ktrig]
-    chnset k24, "cell24"
-
-    k25 = giCells[25*ktrig]
-    chnset k25, "cell25"
-
-    k26 = giCells[26*ktrig]
-    chnset k26, "cell26"
-
-    k27 = giCells[27*ktrig]
-    chnset k27, "cell27"
-
-    k28 = giCells[28*ktrig]
-    chnset k28, "cell28"
-
-    k29 = giCells[29*ktrig]
-    chnset k29, "cell29"
-
-    k30 = giCells[30*ktrig]
-    chnset k30, "cell30"
-
-    k31 = giCells[31*ktrig]
-    chnset k31, "cell31"
-
-
-
-    while kcount < lenarray(giCells) do ; do this FOR ALL CELLS in a generation in one go
-      kcell = giCells[kcount] ; get live/dead status of a cell
-      
-      if kcount == lenarray(giCells)-1 then ; when we are at the last count in a generation of cells
-        event "i", "GrowCells", 0, 1 ; update cells
-        event "i", "PrintCells", 0, 1 ; print current state of the cells
-      endif
-      kcount += 1
-    od
+    event "i", "GrowCells", 0, 1 ; update cells
+    event "i", "PrintCells", 0, 1 ; print current state of the cells
   endif
 endin
 
-
-
 ;granular synth
 instr Grain
-  ;retrieve the cells
-  kcell0  chnget "cell0"
-  kcell1  chnget "cell1"
-  kcell2  chnget "cell2"
-  kcell3  chnget "cell3"
-  kcell4  chnget "cell4"
-  kcell5  chnget "cell5"
-  kcell6  chnget "cell6"
-  kcell7  chnget "cell7"
-  kcell8  chnget "cell8"
-  kcell9  chnget "cell9"
-  kcell10 chnget "cell10"
-  kcell11 chnget "cell11"
-  kcell12 chnget "cell12"
-  kcell13 chnget "cell13"
-  kcell14 chnget "cell14"
-  kcell15 chnget "cell15"
-  kcell16 chnget "cell16"
-  kcell17 chnget "cell17"
-  kcell18 chnget "cell18"
-  kcell19 chnget "cell19"
-  kcell20 chnget "cell20"
-  kcell21 chnget "cell21"
-  kcell22 chnget "cell22"
-  kcell23 chnget "cell23"
-  kcell24 chnget "cell24"
-  kcell25 chnget "cell25"
-  kcell26 chnget "cell26"
-  kcell27 chnget "cell27"
-  kcell28 chnget "cell28"
-  kcell29 chnget "cell29"
-  kcell30 chnget "cell30"
-  kcell31 chnget "cell31"
-
-  kCellSum = kcell0 + kcell1 + kcell2 + kcell3 + kcell4 + kcell5 + kcell6 + kcell7 + kcell8 + kcell9 + kcell10 + kcell11 + kcell12 + kcell13 + kcell14 + kcell15 + kcell16 + kcell17 + kcell18 + kcell19 + kcell20 + kcell21 + kcell22 + kcell23 + kcell24 + kcell25 + kcell26 + kcell27 + kcell28 + kcell29 + kcell30 + kcell31
   ; amp
   kamp = ampdbfs(-3)
 
@@ -285,25 +181,22 @@ instr Grain
   asamplepos3	= asamplepos3*(1-kwave3Single) + isamplepos3
   asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
   ;grain pitch 
-  kwavfreq scale2 kCellSum, 0.1, 1.3, 0, 31
-  kgrainrate = kCellSum + 10 ;kcell8 > 0 ? 100 : 10
+  kwavfreq = 1
+  kgrainrate = 10 ;kcell8 > 0 ? 100 : 10
   agrainrate interp kgrainrate
 
   ;grain duration                                                                          
-  kCellSum3 = kcell1 + kcell2 + kcell3 + kcell4 + kcell5
-  kgraindur scale2 kCellSum, 0.1, 0.9, 0, 31
+  kgraindur = 1
   kduration	= (kgraindur*1000)/kgrainrate	; grain dur in milliseconds, relative to grain rate
 
   ; grain shape
-  ka_d_ratio chnget "Pitch" ; scale2 kCellSum1, 0.1, 0.9, 0.0, 3.0   ; ratio of attach time to decay time in the envelope for each grain
+  ka_d_ratio = 0.5 ; scale2 kCellSum1, 0.1, 0.9, 0.0, 3.0   ; ratio of attach time to decay time in the envelope for each grain
   ksustain_amount	= 0	 ; balance between enveloped time(attack+decay) and sustain level time, 0.0 = no time at sustain level
 
   ; masking
   igainmasks	ftgentmp	0, 0, 16, -2, 0, 0,   1
   ichannelmasks	ftgentmp	0, 0, 16, -2,  0, 0,  0.5
 
-  kCellSum2 = kcell1 + kcell2 + kcell3
-  krandommask chnget "Flatness"
   krandommask = 0 ; = 1 - krandommask
   iwaveamptab	ftgentmp	0, 0, 32, -2, 0, 0,   1,0,0,0,0
 
@@ -344,13 +237,13 @@ instr Grain
         ichannelmasks, krandommask,  kwaveform1, kwaveform2, kwaveform3, kwaveform4, \
         iwaveamptab, asamplepos1, asamplepos2, asamplepos3, asamplepos4, \
         kwavekey1, kwavekey2, kwavekey3, kwavekey4, imax_grains 
-
+  chnmix a1+a2, "signal"
   outs a1, a2
       
 endin
 
 instr AudioDescriptors
-  a1 inch 1
+  a1 chnget "signal"
   #include "analyze_audio.inc"
   ;send to channels
   chnset kcentroid_n, "Centroid"
@@ -367,23 +260,18 @@ instr Randomness
   kRange = 1.0
   kRnd gaussi kRange, kAmp, kFreq 
 endin
-
-
 </CsInstruments>
 <CsScore>
+
 ;causes Csound to run for about 7000 years...
 f0 z
-i "Rule" 0 1 54 ; make rule array
 i "PrintCells" 0 1 ; print cells before we start running anything
-;        tempo amp note pan
-i "MainAlgo" 0 [60*60*24*7]  0.5   ;start running algorithm
+
+i "MainAlgo" 0 [60*60*24*7] 1   ;start running algorithm
 
 i "AudioDescriptors" 0 [60*60*24*7]
-
-i "Randomness" 0 [60*60*24*7]
 
 i "Grain" 0 [60*60*24*7]
 
 </CsScore>
-
 </CsoundSynthesizer>

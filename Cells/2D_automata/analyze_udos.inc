@@ -18,7 +18,7 @@
 ;***************************************************
 ; Transient detection udo
 
-	opcode TransientDetect, kk,kikkkk
+opcode TransientDetect, kk,kikkkk
 	kin, iresponse, ktthresh, klowThresh, kdecThresh, kdoubleLimit xin 
 /*
 	iresponse	= 10 		; response time in milliseconds
@@ -60,7 +60,7 @@ double:
 
 ;***************************************************
 ; epoch filtering udo
-	opcode EpochCps, k,a
+opcode EpochCps, k,a
 	a1              xin 
 	                setksmps 10
 	a20		butterbp a1, 20, 5
@@ -96,7 +96,7 @@ double:
 ;***************************************************
 ; auto normalize udo
 
-        opcode AutoNormalize, k, kkkki
+  opcode AutoNormalize, k, kkkki
         kval, kreset, kcalibrate, knormalize, iperiod xin 
         inormsize       = kr*iperiod
         kNormArr[]      init inormsize
@@ -162,7 +162,7 @@ double:
 
 ;***************************************************
 
-        opcode RhythmRatio, kkkk, k
+opcode RhythmRatio, kkkk, k
 krel1 xin
 
 ; for rational approximation, we use table lookup since there are a lot of specific fractions sthat we do not want
