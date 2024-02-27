@@ -181,7 +181,7 @@ instr Grain
   asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
   ;grain pitch 
   kwavfreq = 1
-  kgrainrate sumarray giCells
+  kgrainrate = 10
   agrainrate interp kgrainrate
 
   ;grain duration                                                                          
