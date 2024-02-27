@@ -1,6 +1,7 @@
 <CsoundSynthesizer>
 <CsOptions>
--odac -m0
+-m0 -n -d 
+-o dac -i adc
 </CsOptions>
 <CsInstruments>
 
@@ -25,8 +26,26 @@ gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analys
 giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for autocorr
 
 ;cellular automata
-giSize = 8
+giSize = 16
 giCells[][] init giSize, giSize
+
+giRow1[] init 16
+giCells[0][0] = 1
+giCells[1][1] = 1
+giCells[2][2] = 1
+giCells[3][3] = 1
+giCells[4][4] = 1
+giCells[5][5] = 1
+giCells[6][6] = 1
+giCells[7][7] = 1
+giCells[8][8] = 1
+giCells[9][9] = 1
+giCells[10][10] = 1
+giCells[11][11] = 1
+giCells[12][12] = 1
+giCells[13][13] = 1
+giCells[14][14] = 1
+giCells[15][15] = 1
 
 ; Glider pattern in the top-left corner
 giCells[1][1] = 0
@@ -40,42 +59,37 @@ giCells[3][2] = 1
 giCells[3][3] = 1
 
 ; ; Glider pattern in the top-right corner
-; giCells[1][12] = 0
-; giCells[1][13] = 1
-; giCells[1][14] = 0
-; giCells[2][12] = 0
-; giCells[2][13] = 0
-; giCells[2][14] = 1
-; giCells[3][12] = 1
-; giCells[3][13] = 1
-; giCells[3][14] = 1
+giCells[1][12] = 0
+giCells[1][13] = 1
+giCells[1][14] = 0
+giCells[2][12] = 0
+giCells[2][13] = 0
+giCells[2][14] = 1
+giCells[3][12] = 1
+giCells[3][13] = 1
+giCells[3][14] = 1
 
-; ; Glider pattern in the bottom-left corner
-; giCells[12][1] = 0
-; giCells[12][2] = 1
-; giCells[12][3] = 0
-; giCells[13][1] = 0
-; giCells[13][2] = 0
-; giCells[13][3] = 1
-; giCells[14][1] = 1
-; giCells[14][2] = 1
-; giCells[14][3] = 1
+; Glider pattern in the bottom-left corner
+giCells[12][1] = 0
+giCells[12][2] = 1
+giCells[12][3] = 0
+giCells[13][1] = 0
+giCells[13][2] = 0
+giCells[13][3] = 1
+giCells[14][1] = 1
+giCells[14][2] = 1
+giCells[14][3] = 1
 
-; ; Glider pattern in the bottom-right corner
-; giCells[12][12] = 0
-; giCells[12][13] = 1
-; giCells[12][14] = 0
-; giCells[13][12] = 0
-; giCells[13][13] = 0
-; giCells[13][14] = 1
-; giCells[14][12] = 1
-; giCells[14][13] = 1
-; giCells[14][14] = 1
-
-
-
-
-
+; Glider pattern in the bottom-right corner
+giCells[12][12] = 0
+giCells[12][13] = 1
+giCells[12][14] = 0
+giCells[13][12] = 0
+giCells[13][13] = 0
+giCells[13][14] = 1
+giCells[14][12] = 1
+giCells[14][13] = 1
+giCells[14][14] = 1
 ;if you go off X and Y coordinates, the syntax is giCells[Y][X] because it is rows and columns instead of x and y
 
 ;soundfiles
@@ -93,9 +107,26 @@ giSigmoFall 	ftgen	0, 0, 8193, 19, 0.5, 1, 90, 1				; falling sigmoid
 ;define channels
 chn_k "Centroid", 1, 1, 0, 0, 20000
 chn_k "Pitch", 1, 1, 0, 0, 20000
-
 chn_a "signal", 2
 
+;global variables
+gkGrainRate init 10
+gkDur init 1
+
+;influence the cells by pitch tracking or smth
+instr ManipulateCells
+  giRow1[] getrow giCells, 0
+  iAmp = p4
+  iPitch = p5
+  iCentroid = p6
+  iRand round rnd(15)
+  
+  
+  
+  if iCentroid > 0.1 then
+    giCells[iRand][iRand] = 1
+  endif
+endin
 ; grow next generation of cells
 instr GrowCells
   giCells ca_update2D giCells ; update the live/dead status of all cells in the population
@@ -106,22 +137,46 @@ instr PrintCells
   ca_print_cells2D giCells ; print
 endin
 
-; play cellular automation, update intervals according to cell values
 instr MainAlgo
-  kTempo chnget "Pitch"
-  kTempo scale2 kTempo, 0.75, 10, 0.0, 1.0
-  ktrig metro kTempo
+  kPitch chnget "Pitch"
+  kAmp chnget "Amplitude"
+  kCentroid chnget "Centroid"
 
-  kGrowthRate init 0
-  kGrowthRate chnget "Pitch"
-  kGrowthRate scale2 kGrowthRate, 1, 5, 0.0, 1.0
-  kGrowthRate = round(kGrowthRate)
-  chnset kGrowthRate, "GrowthRate"
-  
-  if ktrig == 1 then
+  kTempo = p4
+  kTrig metro kTempo
+  kCountX init 0
+  kCountY init 0
+  gkDir init 1
+
+  if kTrig == 1 then
+    kCountX = 0
+    while kCountX < giSize do
+      kCountY = 0
+      while kCountY < giSize do
+        kCell = giCells[kCountX][kCountY] ; get live/dead status of a cell
+        if gkGrainRate < 10 then
+          gkDir = 1
+        elseif gkGrainRate > 100 then
+          gkDir = -1
+        endif
+        gkGrainRate += gkDir
+
+        ; gkFreq += kCell == 1 ? 1 : -1
+        ; printk2 gkFreq, 4
+        
+        ;increment
+        kCountY += 1
+      od
+      kCountX += 1
+    od
+
+
+    ;start the instruments
+    event "i", "ManipulateCells", 0, 1, kAmp, kPitch, kCentroid
     event "i", "GrowCells", 0, 1 ; update cells
     event "i", "PrintCells", 0, 1 ; print current state of the cells
   endif
+  ;kCountX = (kCountX+kTrig)%giSize
 endin
 
 ;granular synth
@@ -181,7 +236,8 @@ instr Grain
   asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
   ;grain pitch 
   kwavfreq = 1
-  kgrainrate = 10
+
+  kgrainrate = gkGrainRate
   agrainrate interp kgrainrate
 
   ;grain duration                                                                          
@@ -243,12 +299,13 @@ endin
 
 instr AudioDescriptors
   a1 chnget "signal"
+  ;a1 inch 1
   #include "analyze_audio.inc"
   ;send to channels
   chnset kcentroid_n, "Centroid"
   chnset kpitch_n, "Pitch"
-  chnset kflatness_n, "Flatness"
   chnset kmfccdiff, "McDiff" ;timbral pressedness
+  chnset krms, "Amplitude"
 endin
 
 ;do random stuff
@@ -266,7 +323,7 @@ endin
 f0 z
 i "PrintCells" 0 1 ; print cells before we start running anything
 
-i "MainAlgo" 0 [60*60*24*7] 1   ;start running algorithm
+i "MainAlgo" 0 [60*60*24*7] 1  ;start running algorithm
 
 i "AudioDescriptors" 0 [60*60*24*7]
 
