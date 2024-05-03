@@ -19,7 +19,7 @@
 
         chnset -61, "inputNoisefloor"
 
-        chnset 1, "pitchmethod"
+        chnset 2, "pitchmethod"
 	chnset 25, "pitchFilterSize"
         chnset 150, "pitch_low"       ; string channels due to gui wodget type
         chnset 800, "pitch_high"

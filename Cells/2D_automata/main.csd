@@ -1,7 +1,9 @@
 <CsoundSynthesizer>
 <CsOptions>
 -m0 -n -d 
--o dac -i adc
+-o dac 
+-i adc 
+;test.wav 
 </CsOptions>
 <CsInstruments>
 
@@ -28,6 +30,7 @@ giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transie
 ;cellular automata
 giSize = 16
 giCells[][] init giSize, giSize
+giTotalCells = giSize^2
 
 giRow1[] init 16
 giCells[0][0] = 1
@@ -93,7 +96,8 @@ giCells[14][14] = 1
 ;if you go off X and Y coordinates, the syntax is giCells[Y][X] because it is rows and columns instead of x and y
 
 ;soundfiles
-giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+giSoundfile1	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0			; soundfile
+giSoundfile2	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
 
 ;classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
@@ -103,30 +107,19 @@ giCosine	ftgen	0, 0, 8193, 9, 1, 1, 90					; cosine wave
 giSigmoRise 	ftgen	0, 0, 8193, 19, 0.5, 1, 270, 1				; rising sigmoid
 giSigmoFall 	ftgen	0, 0, 8193, 19, 0.5, 1, 90, 1				; falling sigmoid
 
-
 ;define channels
-chn_k "Centroid", 1, 1, 0, 0, 20000
-chn_k "Pitch", 1, 1, 0, 0, 20000
+chn_k "Centroid", 1
+chn_k "Pitch", 1
+chn_k "Amplitude", 1
 chn_a "signal", 2
 
 ;global variables
 gkGrainRate init 10
 gkDur init 1
+gkMask init 0
+gkFreq init 1
+gkAmp init 0.1
 
-;influence the cells by pitch tracking or smth
-instr ManipulateCells
-  giRow1[] getrow giCells, 0
-  iAmp = p4
-  iPitch = p5
-  iCentroid = p6
-  iRand round rnd(15)
-  
-  
-  
-  if iCentroid > 0.1 then
-    giCells[iRand][iRand] = 1
-  endif
-endin
 ; grow next generation of cells
 instr GrowCells
   giCells ca_update2D giCells ; update the live/dead status of all cells in the population
@@ -142,41 +135,71 @@ instr MainAlgo
   kAmp chnget "Amplitude"
   kCentroid chnget "Centroid"
 
-  kTempo = p4
+  ;tempo gets influenced by pitch
+  kTempo scale2 kCentroid, 1.2, 5, 0.0, 1.5, 1
   kTrig metro kTempo
+  
   kCountX init 0
   kCountY init 0
-  gkDir init 1
+
+  kCellCount init 0
+  kDensity init 0
+  
 
   if kTrig == 1 then
     kCountX = 0
+    kCellCount = 0
+    
     while kCountX < giSize do
       kCountY = 0
       while kCountY < giSize do
         kCell = giCells[kCountX][kCountY] ; get live/dead status of a cell
-        if gkGrainRate < 10 then
-          gkDir = 1
-        elseif gkGrainRate > 100 then
-          gkDir = -1
-        endif
-        gkGrainRate += gkDir
 
-        ; gkFreq += kCell == 1 ? 1 : -1
-        ; printk2 gkFreq, 4
-        
-        ;increment
+        ;calculate cell density
+        kCellCount += kCell
+        kDensity = kCellCount/giTotalCells * 100
+
+        ;set grain rate equal to desnity of cells in percentage
+        gkGrainRate = round(kDensity*3.0)
+        gkAmp = 10 ; scale2 kDensity, -10, -5, 0.0, 50.0
+
+        ;duration from 0.1 to 2
+        gkDur = 50  ; scale2 kDensity, 3.0, 0.2, 0.0, 50
+        gkFreq scale2 kDensity, 50, 51, 0.0, 50
+
         kCountY += 1
       od
       kCountX += 1
     od
-
-
     ;start the instruments
-    event "i", "ManipulateCells", 0, 1, kAmp, kPitch, kCentroid
+    ;event "i", "ManipulateCells", 0, 1, kAmp, kPitch, kCentroid
     event "i", "GrowCells", 0, 1 ; update cells
     event "i", "PrintCells", 0, 1 ; print current state of the cells
   endif
   ;kCountX = (kCountX+kTrig)%giSize
+endin
+
+;influence the cells by pitch tracking or smth
+instr ManipulateCells
+  giRow1[] getrow giCells, 0
+  iRand round rnd(15)
+  iAmp = p4
+  iPitch = p5
+  iCentroid = p6
+  print iPitch
+  print iAmp
+  print iCentroid
+  ;scale pitch tracking to the grid
+  iCellX = round(iPitch * (giSize-1))
+  
+  if iCentroid < 0.2   then
+    giCells[iCellX][iCellX] = 1
+    giCells[iCellX-1][iCellX] = 1
+    giCells[iCellX-2][iCellX] = 1
+    giCells[iCellX-1][iCellX-1] = 1
+    giCells[iCellX-2][iCellX-2] = 1
+    prints "adding random cell \n", 0
+  endif
 endin
 
 ;granular synth
@@ -189,9 +212,9 @@ instr Grain
   kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
   kwaveform2	= giSoundfile1		; source audio waveform 2
   kwave2Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-  kwaveform3	= giSoundfile1		; source audio waveform 3
+  kwaveform3	= giSoundfile2  ; source audio waveform 3
   kwave3Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-  kwaveform4	= giSoundfile1		; source audio waveform 4
+  kwaveform4	= giSoundfile2		; source audio waveform 4
   kwave4Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
   ; get source waveform length (used when calculating transposition and time pointer)
@@ -206,10 +229,10 @@ instr Grain
 
   ; original pitch for each waveform, use if they should be transposed individually
   ; can also be used as a "cycles per second" parameter for single cycle waveforms (assuming that the kwavfreq parameter has a value of 1.0)
-  kwavekey1	= 1
-  kwavekey2	= 1
-  kwavekey3	= 1
-  kwavekey4	= 1
+  kwavekey1	= 1.0
+  kwavekey2	= 1.0
+  kwavekey3	= 1.0
+  kwavekey4	= 1.0
 
   ; set original key dependant on waveform length (only for sampled waveforms, not for single cycle waves)
   kwavekey1	= (kwave1Single > 0 ? kwavekey1 : kwavekey1/kfildur1)
@@ -235,25 +258,25 @@ instr Grain
   asamplepos3	= asamplepos3*(1-kwave3Single) + isamplepos3
   asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
   ;grain pitch 
-  kwavfreq = 1
+  kwavfreq = 0.67
 
-  kgrainrate = gkGrainRate
+  kgrainrate = 100 ;gkGrainRate
   agrainrate interp kgrainrate
 
   ;grain duration                                                                          
-  kgraindur = 1
+  kgraindur = 3.51
   kduration	= (kgraindur*1000)/kgrainrate	; grain dur in milliseconds, relative to grain rate
 
   ; grain shape
-  ka_d_ratio = 0.5 ; scale2 kCellSum1, 0.1, 0.9, 0.0, 3.0   ; ratio of attach time to decay time in the envelope for each grain
+  ka_d_ratio = 0.5
   ksustain_amount	= 0	 ; balance between enveloped time(attack+decay) and sustain level time, 0.0 = no time at sustain level
 
   ; masking
-  igainmasks	ftgentmp	0, 0, 16, -2, 0, 0,   1
+  igainmasks = -1 ;ftgentmp	0, 0, 16, -2, 0.1, 0.1, 0.1, 0.1
   ichannelmasks	ftgentmp	0, 0, 16, -2,  0, 0,  0.5
 
-  krandommask = 0 ; = 1 - krandommask
-  iwaveamptab	ftgentmp	0, 0, 32, -2, 0, 0,   1,0,0,0,0
+  krandommask = 0.0 ;gkMask ; = 1 - krandommask
+  iwaveamptab	= -1 ;ftgentmp	0, 0, 32, -2, 0, 0,   1,0,0,0,0
 
   kdistribution line 0, 5, 1
   idisttab ftgen 0, 0, 32768, 7, 0, 32768, 1 
@@ -274,15 +297,15 @@ instr Grain
   ktraincps = 1 ; trainlet cps
   knumpartials = 1  ; number of partials in trainlet
   kchroma = 1 ; chroma of trainlet
-  kwaveform2 = kwaveform1 ; in the simplest version we only use waveform1
-  kwaveform3 = kwaveform1 ; in the simplest version we only use waveform1
-  kwaveform4 = kwaveform1 ; in the simplest version we only use waveform1
-  asamplepos2 = asamplepos1 ; in the simplest version we only use waveform1
-  asamplepos3 = asamplepos1 ; in the simplest version we only use waveform1
-  asamplepos4 = asamplepos1 ; in the simplest version we only use waveform1
-  kwavekey2 = kwavekey1 ; in the simplest version we only use waveform1
-  kwavekey3 = kwavekey1 ; in the simplest version we only use waveform1
-  kwavekey4 = kwavekey1 ; in the simplest version we only use waveform1
+  kwaveform2 = kwaveform2 ; in the simplest version we only use waveform1
+  kwaveform3 = kwaveform3 ; in the simplest version we only use waveform1
+  kwaveform4 = kwaveform4 ; in the simplest version we only use waveform1
+  asamplepos2 = asamplepos2 ; in the simplest version we only use waveform1
+  asamplepos3 = asamplepos3 ; in the simplest version we only use waveform1
+  asamplepos4 = asamplepos4 ; in the simplest version we only use waveform1
+  kwavekey2 = kwavekey2 ; in the simplest version we only use waveform1
+  kwavekey3 = kwavekey3 ; in the simplest version we only use waveform1
+  kwavekey4 = kwavekey4 ; in the simplest version we only use waveform1
   imax_grains = 100 ; max grains in one k-period (set and forget)
 
   a1,a2 partikkel agrainrate, kdistribution, idisttab, async, kenv2amt, ienv2tab, \
@@ -298,14 +321,13 @@ instr Grain
 endin
 
 instr AudioDescriptors
-  a1 chnget "signal"
-  ;a1 inch 1
+  ;a1 chnget "signal"
+  a1 inch 1
   #include "analyze_audio.inc"
   ;send to channels
   chnset kcentroid_n, "Centroid"
   chnset kpitch_n, "Pitch"
-  chnset kmfccdiff, "McDiff" ;timbral pressedness
-  chnset krms, "Amplitude"
+  chnset krms_preEq, "Amplitude"
 endin
 
 ;do random stuff
@@ -319,15 +341,22 @@ endin
 </CsInstruments>
 <CsScore>
 
-;causes Csound to run for about 7000 years...
+;live version
 f0 z
 i "PrintCells" 0 1 ; print cells before we start running anything
 
-i "MainAlgo" 0 [60*60*24*7] 1  ;start running algorithm
+i "MainAlgo" 0 [60*60*24*7] ;start running algorithm
 
 i "AudioDescriptors" 0 [60*60*24*7]
-
 i "Grain" 0 [60*60*24*7]
+
+;audio out version
+; i "PrintCells" 0 1 ; print cells before we start running anything
+
+; i "MainAlgo" 0 240
+
+; i "AudioDescriptors" 0 240 
+; i "Grain" 0 240 
 
 </CsScore>
 </CsoundSynthesizer>
