@@ -22,6 +22,9 @@ stop_event = asyncio.Event()
 receive_address = '127.0.0.1', 9000
 send_address = '127.0.0.1', 9001
 
+global mode 
+mode = "Training" #Training or Predicting mode
+
 def init_osc_client():
     '''Initialize the OSC client'''
     global client
@@ -55,34 +58,41 @@ signal.signal(signal.SIGINT, inner_ctrl_c_signal_handler)
 init_osc_client()
 dispatcher = dispatcher.Dispatcher()
 
-mode = 0
-
 #Handle OSC messages
-def osc_handler(address, *data):
-    #TO DO HERE
-    #update the variables for the MLP received through OSC
-    print(f"Received message from {address}: {data}")
-    if data[0] == 1:
+def unspecified_address(address, *osc_arguments: list[any]):
+    print("unspecified address", address, osc_arguments)
+
+def set_training_mode(address, message):
+    global mode
+    # Update the MLP training mode based on the OSC message
+    if message == 0:
         mode = "Training"
-        print(mode)
-    elif data[0] == 0:
+    elif message == 1:
         mode = "Predicting"
-        print(mode)
+
 
 
 #Loop of the program
 async def loop():
     while not stop_event.is_set():
-        #TO DO HERE
-        #train the network when in training mode
-        #make predictions when in prediction mode
-        if mode == "Training":
-            print("Training")
-        elif mode == "Predicting":
-            print("Predicting")
+        # Check for bugs such as null pointer references, unhandled exceptions, and more
+        try:
+            #TODO add training and prediction
+            #train the network when in training mode
+            #make predictions when in prediction mode
+            if mode == "Training":
+                pass
+                #print("Traininggggg")
+
+            elif mode == "Predicting":
+                pass
+                #print("Predictingggg")
+        except Exception as e:
+            raise ValueError("Unhandled exception in main loop: " + str(e)) from e
 
         #what does this function do?
         await asyncio.sleep(0)
+
 
 #_____________________________________
 
@@ -107,8 +117,12 @@ print("Predicted values:", predictions)
 #__________________________________________
 
 #__________________________________________
+
+#map OSC functions
+dispatcher.set_default_handler(unspecified_address)
+dispatcher.map("/mode", set_training_mode)
+
 #start the program
-dispatcher.map("/in", osc_handler)
 asyncio.run(run_osc_server())
 
 #__________________________________________
