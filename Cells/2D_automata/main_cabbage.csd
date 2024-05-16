@@ -1,3 +1,7 @@
+<Cabbage>
+form caption("cells") size(1000, 600), guiMode("queue"), colour(2, 145, 209) pluginId("def1")
+</Cabbage>
+
 <CsoundSynthesizer>
 <CsOptions>
 -m0 -n -d 
@@ -74,6 +78,24 @@ chn_a "signal", 2
 ;global variables
 gkDensity init 0
 
+instr start
+	iX, iY init 0
+    iWidgetCount init 0
+    iNumSteps = giSize
+    iNumRows = giSize
+    
+    while iY < iNumRows do
+        while iX < iNumSteps do
+            SWidget sprintf "bounds(%d, %d, 25, 25), channel(\"check%d\"), colour:0(0, 0, 0) colour:1(200, 200, 200)", 20+iX*30, 10+iY*30, iWidgetCount
+            cabbageCreate "checkbox", SWidget
+            iWidgetCount += 1
+            iX += 1
+        od
+        iX = 0
+        iY += 1
+    od
+endin
+
 ; grow next generation of cells
 instr GrowCells
 	iGrowDir = p4
@@ -86,7 +108,6 @@ instr PrintCells
 endin
 
 instr MainAlgo
-
   ;tempo gets influenced by pitch
   kTempo = 1
   kTrig metro kTempo
@@ -101,34 +122,41 @@ instr MainAlgo
   if kTrig == 1 then
     kCountX = 0
     kCellCount = 0
-    
+    kWidget = 0
+
     while kCountX < giSize do
-      kCountY = 0
-      while kCountY < giSize do
-        kCell = giCells[kCountX][kCountY] ; get live/dead status of a cell
+        kCountY = 0
+        while kCountY < giSize do
+            kCell = giCells[kCountX][kCountY] ; get live/dead status of a cell
+                
+            ;update graphics, i am not quite sure why it works, but it does. 
+            ;Also, not sure why it is here instead of somewhere else, but it works. 
+            ;The graphics are just a bit slow compared to printing, but that is fine.
+            SBoxChannel sprintfk "check%d", kWidget
+            cabbageSetValue SBoxChannel, kCell
+            kWidget += 1
 
-        ;calculate cell density
-        kCellCount += kCell
+            ;calculate cell density
+            kCellCount += kCell
 
-		;density in percentage
-        gkDensity = kCellCount/giTotalCells * 100
+            ;density in percentage
+            gkDensity = kCellCount/giTotalCells * 100
 
-		kGrowDir init 1
-		if (gkDensity < 15) then
-			kGrowDir = 1
-		elseif (gkDensity >= 35) then 
-			kGrowDir = -1
-		endif
-		printk2 round(gkDensity), 8
-		printk2 kGrowDir, 4
+            kGrowDir init 1
 
-        kCountY += 1
-      od
-      kCountX += 1
+            if (gkDensity < 15) then
+                kGrowDir = 1
+            elseif (gkDensity >= 35) then 
+                kGrowDir = -1
+            endif
+
+                kCountY += 1
+        od
+        kCountX += 1
     od
     ;start the instruments
-	event "i", "GrowCells", 0, 1, kGrowDir
-	event "i", "ManipulateCells", 0, 1, gkDensity ; update cells
+    event "i", "GrowCells", 0, 1, kGrowDir
+    event "i", "ManipulateCells", 0, 1, gkDensity ; update cells
     event "i", "PrintCells", 0, 1 ; print current state of the cells
   endif
 endin
@@ -150,7 +178,7 @@ endin
 ;granular synth
 instr Grain1
 	; amp
-	kamp = gkAmp
+	kamp = 0.0 ;gkAmp
 
 	; select source waveforms
 	kwaveform1 = giSoundfile1		; source audio waveform 1
@@ -266,18 +294,19 @@ instr Grain1
 endin
 
 
+
 </CsInstruments>
 <CsScore>
 
 ;live version
 f0 z
+i "start" 0 1
 i "PrintCells" 0 1 ; print cells before we start running anything
 
 i "MainAlgo" 0 [60*60*24*7] ;start running algorithm
 i "ControlSynth" 0 [60*60*24*7]
 
 i "Grain1" 0 [60*60*24*7] 
-i "Grain2" 0 [60*60*24*7] 
 
 ;audio out version
 ; i "PrintCells" 0 1 ; print cells before we start running anything

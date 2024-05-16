@@ -1,0 +1,12 @@
+//different curves for ReaLearn
+
+
+//Bell curve
+mean = 0.5;
+stdDev = 0.1;
+y = exp(-(pow(x - mean, 2) / (2 * pow(stdDev, 2))));
+
+
+//reset on no input, exponential curve
+y = x > 0 ? y_last + pow(x, 0.3) * (1 - y_last) : 0;
+
