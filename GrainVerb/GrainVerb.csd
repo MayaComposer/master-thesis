@@ -163,7 +163,6 @@ combobox bounds(8, 8, 85, 40), mode("resize"), value(3)
     printk2 kdelayTimeSec, 4
 
     ksampleDelay = kdelayTimeSec / giLiveFeedLenSec
-    ktimedev = 1/(giLiveFeedLenSec*1000)
 
     #define TimeDeviation(N)#
     kdevpos$N. rnd31 ksampleDelay, 1 
