@@ -1,9 +1,8 @@
 <Cabbage> bounds(0, 0, 0, 0)
-form caption("ui designer") size(900, 675), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
+form caption("Grain Synth") size(900, 675), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
 
-#define DESIGN colour(228, 193, 249) trackerColour(58, 124, 165) fontSize(1)
-#define SLIDER valueTextBox(1) trackerInsideRadius(0.75)
-#define FONT fontColour(58, 124, 165) textColour(58, 124, 165)
+
+;on either side
 
 ;label bounds(0, 37, 900, 600) channel("label10009") colour(223, 181, 248, 255) alpha(0.8) text("")
 
@@ -12,23 +11,64 @@ vmeter bounds(858, 490, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0),
 
 ;csoundoutput bounds(8, 450, 399, 217) channel("csoundoutput10010"), fontColour("white")
 
-combobox bounds(0, 0, 80, 40), mode("resize"), value(3) automatable(0) channel("PluginResizerCombBox") $DESIGN $FONT
+combobox bounds($PADDING, 0, 80, 40), mode("resize"), value(3) automatable(0) channel("PluginResizerCombBox") $DESIGN $FONT
 
 
 
-;GRAIN RATE
-groupbox bounds(0, 38, 300, 250) channel("groupbox10010") outlineThickness(0) colour(195, 148, 202, 255)   {
-label bounds(98, 0, 142, 25) channel("label10001") text("Grain rate") $FONT fontSize(16) align("left") fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
+;- Region: GRAIN RATE
+groupbox bounds(10, 38, $BGX, $BGY) channel("groupbox10010") outlineThickness(0) $BOXCOL   {
+label bounds(98, 0, 142, 25) channel("label10001") text("Grain rate") $FONT fontSize(16) align("left")
 rslider bounds(0, 125, 100, 100) channel("rslider10001") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 200, 200) channel("xChan10001", "yChan10001") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) colour(228, 193, 249, 255)   trackerColour(58, 124, 165, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+xypad bounds(98, 25, 180, 180) channel("xChan10001", "yChan10001") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
 
 
-label bounds(108, 225, 80, 16) channel("label10002") text("alpha") $FONT fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
-label bounds(208, 225, 80, 16) channel("label10003") text("beta") $FONT fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
+label bounds(108, 225, 80, 16) channel("label10002") text("alpha") $FONT 
+label bounds(208, 225, 80, 16) channel("label10003") text("beta") $FONT
 
 button bounds(0, 0, 30, 24) channel("button10014") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
+;- Region: Duration
+groupbox bounds(310, 38, $BGX, $BGY) channel("groupbox10011") outlineThickness(0) $BOXCOL   {
+label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSize(16) align("left")
+rslider bounds(0, 125, 100, 100) channel("rslider10002") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+xypad bounds(98, 25, 180, 180) channel("xChan10002", "yChan10002") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) colour(228, 193, 249, 255)   trackerColour(58, 124, 165, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+
+
+label bounds(108, 225, 80, 16) channel("label10003") text("alpha") $FONT
+label bounds(208, 225, 80, 16) channel("label10004") text("beta") $FONT 
+
+button bounds(0, 0, 30, 24) channel("button10015") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
+}
+
+;- Region: Freq
+groupbox bounds(610, 38, $BGX, $BGY) channel("groupbox10012") outlineThickness(0) $BOXCOL   {
+label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  fontSize(16) align("left")
+rslider bounds(0, 125, 100, 100) channel("rslider10003") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+xypad bounds(98, 25, 180, 180) channel("xChan10003", "yChan10003") ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0) $DESIGN 
+
+
+label bounds(108, 225, 80, 16) channel("label10005") text("alpha") $FONT
+label bounds(208, 225, 80, 16) channel("label10006") text("beta") $FONT
+
+button bounds(0, 0, 30, 24) channel("button10016") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
+}
+
+;- Region: FM
+;FM pitch
+;FM index
+;randomness
+groupbox bounds(10, 298, $BGX, $BGY) channel("groupbox10013") outlineThickness(0) $BOXCOL   {
+label bounds(98, 0, 142, 25) channel("label1007") text("FM") $FONT fontSize(16) align("left")
+rslider bounds(0, 125, 100, 100) channel("rslider10004") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+xypad bounds(98, 25, 180, 180) channel("xChan10004", "yChan10004") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+
+
+label bounds(108, 225, 80, 16) channel("label10008") text("alpha") $FONT 
+label bounds(208, 225, 80, 16) channel("label10009") text("beta") $FONT
+
+button bounds(0, 0, 30, 24) channel("button10017") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
+}
 
 </Cabbage>
 
@@ -37,11 +77,11 @@ button bounds(0, 0, 30, 24) channel("button10014") fontColour:0(0, 0, 0, 255) fo
 -m0 -n -d 
 </CsOptions>
 <CsInstruments>
-
-  sr   = 48000
-  ksmps   = 10
-  nchnls   = 2
-  0dbfs  = 1
+	
+	sr = 48000
+	ksmps   = 10
+	nchnls   = 2
+	0dbfs  = 1
 
 ;***************************************************
 ;ftables
@@ -54,7 +94,7 @@ gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analys
 giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for 
 
 ;soundfiles
-giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+;giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
 
 ; classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
@@ -128,7 +168,7 @@ endop
 
 
 ;granular synth
-instr Grain1
+instr 1 
 	; amp
 	kamp = ampdbfs(-20)
 
@@ -272,12 +312,12 @@ instr Grain1
 		iwaveamptab, asamplepos1, asamplepos2, asamplepos3, asamplepos4, \
 		kwavekey1, kwavekey2, kwavekey3, kwavekey4, imax_grains 
 
-	;outs a1, a2
+	outs a1, a2
 endin
 
 </CsInstruments>
 <CsScore>
-;  start  dur
-i1   0     60
+f0 z
+i1 0 865000
 </CsScore>
 </CsoundSynthesizer>
