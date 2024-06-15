@@ -1,55 +1,76 @@
-<Cabbage> bounds(0, 0, 0, 0)
+<Cabbage> 
 form caption("Grain Synth") size(900, 675), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
 
+#define DESIGN colour(228, 193, 249) trackerColour(58, 124, 165) fontSize(1)
+
+#define SLIDER valueTextBox(1) trackerInsideRadius(0.75)
+
+#define FONT fontColour(58, 124, 165) textColour(58, 124, 165)
+
+#define BOXCOL colour(195, 148, 202, 255)
+
+#define BGX 280
+
+#define BGY 250 
+
+#define PADDINGX 10 
+
+#define PADDINGY 38 
 
 ;on either side
 
 ;label bounds(0, 37, 900, 600) channel("label10009") colour(223, 181, 248, 255) alpha(0.8) text("")
 
-vmeter bounds(820, 490, 36, 180) channel("vu1") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1) 
-vmeter bounds(858, 490, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1)
+
 
 ;csoundoutput bounds(8, 450, 399, 217) channel("csoundoutput10010"), fontColour("white")
 
-combobox bounds($PADDING, 0, 80, 40), mode("resize"), value(3) automatable(0) channel("PluginResizerCombBox") $DESIGN $FONT
+combobox bounds($PADDINGX, 0, 80, 40), mode("resize"), value(3) automatable(0) channel("PluginResizerCombBox") $DESIGN $FONT
 
 
 
 ;- Region: GRAIN RATE
-groupbox bounds(10, 38, $BGX, $BGY) channel("groupbox10010") outlineThickness(0) $BOXCOL   {
+groupbox bounds($PADDINGX, $PADDINGY, $BGX, $BGY) channel("groupbox10010") outlineThickness(0) $BOXCOL   {
 label bounds(98, 0, 142, 25) channel("label10001") text("Grain rate") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10001") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10001", "yChan10001") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+rslider bounds(0, 125, 100, 100) channel("GrainRateSlider") range(1, 100, 1, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+xypad bounds(98, 25, 180, 180) channel("GrainRateAmp", "GrainRateFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
 
-label bounds(108, 225, 80, 16) channel("label10002") text("alpha") $FONT 
-label bounds(208, 225, 80, 16) channel("label10003") text("beta") $FONT
+label bounds(106, 225, 80, 16) channel("label10002") text("Amp") $FONT 
+label bounds(192, 225, 80, 16) channel("label10003") text("Freq") $FONT
 
-button bounds(0, 0, 30, 24) channel("button10014") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
+button bounds(0, 0, 30, 24) channel("GrainRateToggle") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
 ;- Region: Duration
-groupbox bounds(310, 38, $BGX, $BGY) channel("groupbox10011") outlineThickness(0) $BOXCOL   {
+groupbox bounds(310, $PADDINGY, $BGX, $BGY) channel("groupbox10011") outlineThickness(0) $BOXCOL   
+{
+
 label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10002") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10002", "yChan10002") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) colour(228, 193, 249, 255)   trackerColour(58, 124, 165, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+
+rslider bounds(0, 125, 100, 100) channel("DurSlider") range(20, 1000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
 
-label bounds(108, 225, 80, 16) channel("label10003") text("alpha") $FONT
-label bounds(208, 225, 80, 16) channel("label10004") text("beta") $FONT 
+label bounds(108, 225, 80, 16) channel("label10003") text("Amp") $FONT
+label bounds(208, 225, 80, 16) channel("label10004") text("Freq") $FONT 
 
 button bounds(0, 0, 30, 24) channel("button10015") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
 ;- Region: Freq
-groupbox bounds(610, 38, $BGX, $BGY) channel("groupbox10012") outlineThickness(0) $BOXCOL   {
+groupbox bounds(610, $PADDINGY, $BGX, $BGY) channel("groupbox10012") outlineThickness(0) $BOXCOL   {
+
 label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10003") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10003", "yChan10003") ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0) $DESIGN 
+
+rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(50, 800, 200, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1) $DESIGN 
 
 
-label bounds(108, 225, 80, 16) channel("label10005") text("alpha") $FONT
-label bounds(208, 225, 80, 16) channel("label10006") text("beta") $FONT
+label bounds(108, 225, 80, 16) channel("label10005") text("Amp") $FONT
+label bounds(208, 225, 80, 16) channel("label10006") text("Freq") $FONT
 
 button bounds(0, 0, 30, 24) channel("button10016") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
@@ -59,19 +80,50 @@ button bounds(0, 0, 30, 24) channel("button10016") fontColour:0(0, 0, 0, 255) fo
 ;FM index
 ;randomness
 groupbox bounds(10, 298, $BGX, $BGY) channel("groupbox10013") outlineThickness(0) $BOXCOL   {
+
 label bounds(98, 0, 142, 25) channel("label1007") text("FM") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10004") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10004", "yChan10004") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
 
+rslider bounds(0, 25, 100, 100) channel("FmPitch") range(0, 10, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
-label bounds(108, 225, 80, 16) channel("label10008") text("alpha") $FONT 
-label bounds(208, 225, 80, 16) channel("label10009") text("beta") $FONT
+rslider bounds(0, 125, 100, 100) channel("FmIndex") range(0, 20, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("FmAmp", "FmFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
+
+label bounds(108, 225, 80, 16) channel("label10008") text("Amp") $FONT 
+label bounds(208, 225, 80, 16) channel("label10009") text("Freq") $FONT
 
 button bounds(0, 0, 30, 24) channel("button10017") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
-</Cabbage>
+;- Region: misc parameters
+;ad ratio
+;random mask
+;channel mask
+;waveamptamp to do a sort of morphing thing between sines and samples
+;distribution
+;envelope
+groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0) $BOXCOL  {
 
+	hslider bounds(0, 0, 115, 50) channel("hslider10036") range(0, 1, 0, 1, 0.001) text("ad ratio") $COLOR $FONT
+	hslider bounds(0, 50, 115, 50) channel("hslider10037") range(0, 1, 0, 1, 0.001) text("distribution") $COLOR $FONT
+	hslider bounds(0, 100, 115, 50) channel("hslider10038") range(0, 1, 0, 1, 0.001) text("rndmask") $COLOR $FONT
+
+}
+
+
+;label bounds(100, 64, 100, 16) channel("label10016") text("ad ratio") $FONT fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
+;label bounds(100, 80, 100, 16) channel("label10016") text("chanmasking") $FONT
+;label bounds(100, 96, 100, 16) channel("label10016") text("distribution") $FONT
+;label bounds(100, 112, 100, 16) channel("label10016") text("envelope") $FONT
+;label bounds(100, 128, 100, 16) channel("label10016") text("grain masking") $FONT
+;label bounds(100, 144, 100, 16) channel("label10015") text("waveamptab") $FONT fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
+
+; vmeter bounds(820, 490, 36, 180) channel("vu1") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1) 
+; vmeter bounds(858, 490, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1)
+
+;MISC sliders
+
+</Cabbage>
 <CsoundSynthesizer>
 <CsOptions>
 -m0 -n -d 
@@ -110,45 +162,27 @@ giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window
 
 
 ;parameters to change
-;grain rate
-;grain dur
-;freq 
+;grain rate ✅
+;grain dur ✅
+;freq ✅
+;fm PITCH ✅
+;Fm Index ✅
 ;ad ratio
 ;random mask
 ;channel mask
 ;waveamptamp to do a sort of morphing thing between sines and samples
-;fm PITCH
-;Fm Index
+;distribution
+;envelope
 
-;channels
-/* 
-Freq
-GrainRate
-Dur
-Envelope
-RndMask
-Distribution
-FmFreq
-FmIndex 
-
-_______randomness______
-betarandomness:
-	range
-	alpha
-	beta
-
-gauss:
-	range
-	amp
-	freq
-	mean
-*/
+;TODO add morphing  between sine waves and sound file
 
 
 ;random distribution around a center  value (mean) with an amplitude, which is how
 ;wide the distribution is basically
 ;frequency is how often it changes
 ;xamp scales the output
+;the mean needs to be added to the result to make it positive. The mean for now 
+; is the same as the range. 
 
 opcode RandomGaus, k, kkkk
 	kRange, kRandAmp, kRandFreq, kMean xin
@@ -161,14 +195,74 @@ endop
 ;kRand betarand krange, kalpha, kbeta
 
 
-;chnget "Seconds"
-;freq = 1/seconds 
-
-
-
 
 ;granular synth
-instr 1 
+instr GrainSynth 
+	;______PROCESS SLIDERS______
+
+	;GRAIN RATE
+	kGrainRateSlider chnget "GrainRateSlider"
+	kGrainRateAmp chnget "GrainRateAmp"
+	kGrainRateFreq chnget "GrainRateFreq"
+
+	;if on button == on then
+	kGrainRate RandomGaus kGrainRateSlider, kGrainRateAmp, kGrainRateFreq, kGrainRateSlider
+	kGrainRate round kGrainRate
+
+	;else****************************
+	
+	aGrainRate interp kGrainRate
+
+	;______________________________________________________________
+
+	;DURATION______________________________________________________
+	kDurSlider chnget "DurSlider"
+	kDurAmp chnget "DurAmp"
+	kDurFreq chnget "DurFreq"
+
+	;if on button == on then                                                             
+	kGrainDur RandomGaus kDurSlider, kDurAmp, kDurFreq, kDurSlider
+	kDuration = (kGrainDur)/kGrainRate	; grain dur in milliseconds, relative to grain rate
+
+	;______________________________________________________________
+
+
+	;FREQUENCY_____________________________________________________
+	kFreqSlider chnget "FreqSlider"
+	kFreqAmp chnget "FreqAmp"
+	kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
+
+	;if on button == on then this
+	kWavFreq RandomGaus kFreqSlider, kFreqAmp, kFreqFreq, kFreqSlider
+
+	;else
+	;kWavFreq = kfreqslider
+
+	;_________________________________________________________________
+
+	
+	;FM modulation____________________________________________________
+	kFmRatioSlider chnget "FmPitch"
+	kFmIndexSlider chnget "FmIndex"
+	kFmAmpSlider chnget "FmAmp"
+	kFmFreqSlider chnget "FmFreq"
+
+
+	; FM of grain pitch (playback speed)
+	;kPitchFmFreq chnget "FmFreq"
+	kFmRatioSlider RandomGaus kFmRatioSlider, kFmAmpSlider, kFmFreqSlider, kFmRatioSlider
+	kPitchFmFreq = kWavFreq * kFmRatioSlider ;200				; FM freq, modulating waveform pitch
+
+	;kPitchFmIndex chnget "FmIndex"
+	kPitchFmIndex = kFmIndexSlider ;RandomGaus 30, 1, 0.5, 5 ;linseg 10, 20, 1, 20, 2, 20, 3			; FM index, modulating waveform pitch
+	
+
+
+	;_________________________________________________________________
+
+
+	;printing
+
 	; amp
 	kamp = ampdbfs(-20)
 
@@ -193,7 +287,7 @@ instr 1
 	kfildur4	= kfilen4 / sr			; same as above, for source waveform 4
 
 	; original pitch for each waveform, use if they should be transposed individually
-	; can also be used as a "cycles per second" parameter for single cycle waveforms (assuming that the kwavfreq parameter has a value of 1.0)
+	; can also be used as a "cycles per second" parameter for single cycle waveforms (assuming that the kWavFreq parameter has a value of 1.0)
 	kwavekey1	= 1
 	kwavekey2	= 1
 	kwavekey3	= 1
@@ -222,19 +316,6 @@ instr 1
 	asamplepos2	= asamplepos2*(1-kwave2Single) + isamplepos2
 	asamplepos3	= asamplepos3*(1-kwave3Single) + isamplepos3
 	asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
-	
-    ;grain pitch 
-	;kwavfreq chnget "Freq"
-	kwavfreq RandomGaus 100, 0.1, 0.5, 400
-
-	;kgrainrate chnget "GrainRate"
-	kgrainrate RandomGaus 100, 0.1, 0.5, 150
-	agrainrate interp kgrainrate
-
-	;grain duration     
-	;kgraindur chnget "Dur"                                                                  
-	kgraindur = 10 ;linseg 1, 10, 20, 40, 50
-	kduration	= (kgraindur*1000)/kgrainrate	; grain dur in milliseconds, relative to grain rate
 
 	; grain shape
 	;ka_d_ratio chnget "Envelope"
@@ -276,13 +357,7 @@ instr 1
 	iwavfreqstarttab = -1 ; table for pitch sweep start points
 	iwavfreqendtab = -1 ; table for pitch sweep end points
 
-	; FM of grain pitch (playback speed)
-	;kPitchFmFreq chnget "FmFreq"
-	kPitchFmFreq	= 200				; FM freq, modulating waveform pitch
 
-	;kPitchFmIndex chnget "FmIndex"
-	kPitchFmIndex RandomGaus 30, 1, 0.5, 5 ;linseg 10, 20, 1, 20, 2, 20, 3			; FM index, modulating waveform pitch
-	
 	iPitchFmWave	= giSine						; FM waveform, modulating waveform pitch
 	ifmamptab	ftgentmp	0, 0, 16, -2, 0, 0,   1			; FM index scalers, per grain
 	ifmenv		= giTriangleWin 					; FM index envelope, over each grain (from table)
@@ -304,9 +379,9 @@ instr 1
 	kwavekey4 = kwavekey4 ; in the simplest version we only use waveform1
 	imax_grains = 100 ; max grains in one k-period (set and forget)
 
-	a1,a2 partikkel agrainrate, kdistribution, idisttab, async, kenv2amt, ienv2tab, \
-		ienv_attack, ienv_decay, ksustain_amount, ka_d_ratio, kduration, kamp, igainmasks, \
-		kwavfreq, ksweepshape, iwavfreqstarttab, iwavfreqendtab, awavfm, \
+	a1,a2 partikkel aGrainRate, kdistribution, idisttab, async, kenv2amt, ienv2tab, \
+		ienv_attack, ienv_decay, ksustain_amount, ka_d_ratio, kDuration, kamp, igainmasks, \
+		kWavFreq, ksweepshape, iwavfreqstarttab, iwavfreqendtab, awavfm, \
 		ifmamptab, ifmenv, giCosine, ktraincps, knumpartials, kchroma, \
 		ichannelmasks, krandommask,  kwaveform1, kwaveform2, kwaveform3, kwaveform4, \
 		iwaveamptab, asamplepos1, asamplepos2, asamplepos3, asamplepos4, \
@@ -318,6 +393,6 @@ endin
 </CsInstruments>
 <CsScore>
 f0 z
-i1 0 865000
+i "GrainSynth" 0 865000
 </CsScore>
 </CsoundSynthesizer>
