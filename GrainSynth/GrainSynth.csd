@@ -1,4 +1,4 @@
-<Cabbage> 
+<Cabbage>  bounds(0, 0, 0, 0)
 form caption("Grain Synth") size(900, 675), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
 
 #define DESIGN colour(228, 193, 249) trackerColour(58, 124, 165) fontSize(1)
@@ -36,8 +36,8 @@ rslider bounds(0, 125, 100, 100) channel("GrainRateSlider") range(1, 100, 1, 1, 
 xypad bounds(98, 25, 180, 180) channel("GrainRateAmp", "GrainRateFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
 
-label bounds(106, 225, 80, 16) channel("label10002") text("Amp") $FONT 
-label bounds(192, 225, 80, 16) channel("label10003") text("Freq") $FONT
+label bounds(104, 225, 80, 16) channel("label10002") text("Amp") $FONT 
+label bounds(204, 225, 80, 16) channel("label10003") text("Freq") $FONT
 
 button bounds(0, 0, 30, 24) channel("GrainRateToggle") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
@@ -48,7 +48,7 @@ groupbox bounds(310, $PADDINGY, $BGX, $BGY) channel("groupbox10011") outlineThic
 
 label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSize(16) align("left")
 
-rslider bounds(0, 125, 100, 100) channel("DurSlider") range(20, 1000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+rslider bounds(0, 125, 100, 100) channel("DurSlider") range(1, 1000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
 xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
@@ -64,7 +64,7 @@ groupbox bounds(610, $PADDINGY, $BGX, $BGY) channel("groupbox10012") outlineThic
 
 label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  fontSize(16) align("left")
 
-rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(50, 800, 200, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(0.1, 10.0, 1.0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
 xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1) $DESIGN 
 
@@ -104,9 +104,9 @@ button bounds(0, 0, 30, 24) channel("button10017") fontColour:0(0, 0, 0, 255) fo
 ;envelope
 groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0) $BOXCOL  {
 
-	hslider bounds(0, 0, 115, 50) channel("hslider10036") range(0, 1, 0, 1, 0.001) text("ad ratio") $COLOR $FONT
-	hslider bounds(0, 50, 115, 50) channel("hslider10037") range(0, 1, 0, 1, 0.001) text("distribution") $COLOR $FONT
-	hslider bounds(0, 100, 115, 50) channel("hslider10038") range(0, 1, 0, 1, 0.001) text("rndmask") $COLOR $FONT
+	hslider bounds(0, 0, 115, 50) channel("Envelope") range(0, 1, 0, 1, 0.001) text("ad ratio") $COLOR $FONT
+	hslider bounds(0, 50, 115, 50) channel("Distribution") range(0, 1, 0, 1, 0.001) text("distribution") $COLOR $FONT
+	hslider bounds(0, 100, 115, 50) channel("RndMask") range(0, 1, 0, 1, 0.001) text("rndmask") $COLOR $FONT
 
 }
 
@@ -123,7 +123,14 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 
 ;MISC sliders
 
+
+csoundoutput bounds(488, 474, 401, 191) channel("Console") visible(0)
+
+
+button bounds(874, 648, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
+
 </Cabbage>
+
 <CsoundSynthesizer>
 <CsOptions>
 -m0 -n -d 
@@ -146,7 +153,7 @@ gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analys
 giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for 
 
 ;soundfiles
-;giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
 
 ; classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
@@ -240,21 +247,22 @@ instr GrainSynth
 
 	;_________________________________________________________________
 
+	;FM pitch
+	;FM index
+	;randomness
 	
 	;FM modulation____________________________________________________
-	kFmRatioSlider chnget "FmPitch"
+	kFmPitchSlider chnget "FmPitch"
 	kFmIndexSlider chnget "FmIndex"
 	kFmAmpSlider chnget "FmAmp"
 	kFmFreqSlider chnget "FmFreq"
 
 
 	; FM of grain pitch (playback speed)
-	;kPitchFmFreq chnget "FmFreq"
-	kFmRatioSlider RandomGaus kFmRatioSlider, kFmAmpSlider, kFmFreqSlider, kFmRatioSlider
-	kPitchFmFreq = kWavFreq * kFmRatioSlider ;200				; FM freq, modulating waveform pitch
+	kFmPitchSlider RandomGaus kFmPitchSlider, kFmAmpSlider, kFmFreqSlider, kFmPitchSlider
+	kPitchFmFreq = kWavFreq * kFmPitchSlider				; FM freq, modulating waveform pitch
 
-	;kPitchFmIndex chnget "FmIndex"
-	kPitchFmIndex = kFmIndexSlider ;RandomGaus 30, 1, 0.5, 5 ;linseg 10, 20, 1, 20, 2, 20, 3			; FM index, modulating waveform pitch
+	kPitchFmIndex = kFmIndexSlider
 	
 
 
@@ -266,15 +274,25 @@ instr GrainSynth
 	; amp
 	kamp = ampdbfs(-20)
 
+	; ; select source waveforms
+	; kwaveform1 = giSoundfile1		; source audio waveform 1
+	; kwave1Single	= 1			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform2	= giSine		; source audio waveform 2
+	; kwave2Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform3	= giSine  ; source audio waveform 3
+	; kwave3Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform4	= giSine	; source audio waveform 4
+	; kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+
 	; select source waveforms
-	kwaveform1 = giSine		; source audio waveform 1
-	kwave1Single	= 1			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform2	= giSine		; source audio waveform 2
-	kwave2Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform3	= giSine  ; source audio waveform 3
-	kwave3Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform4	= giSine	; source audio waveform 4
-	kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform1 = giSoundfile1		; source audio waveform 1
+	kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform2	= giSoundfile1		; source audio waveform 2
+	kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform3	= giSoundfile1  ; source audio waveform 3
+	kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform4	= giSoundfile1	; source audio waveform 4
+	kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
 	; get source waveform length (used when calculating transposition and time pointer)
 	kfilen1		tableng	 kwaveform1		; get length of the first source waveform
@@ -318,16 +336,16 @@ instr GrainSynth
 	asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
 
 	; grain shape
-	;ka_d_ratio chnget "Envelope"
-	ka_d_ratio = 0.5
+	kAdSlider chnget "Envelope"
+	ka_d_ratio = kAdSlider
 	ksustain_amount	= 0	 ; balance between enveloped time(attack+decay) and sustain level time, 0.0 = no time at sustain level
 
 	; masking
 	igainmasks = -1 ;ftgentmp	0, 0, 16, -2, 0.1, 0.1, 0.1, 0.1
 	ichannelmasks	ftgentmp	0, 0, 16, -2,  0, 0,  0.5
 
-	;krandommask chnget "RndMask"
-	krandommask = 0
+	kRndMaskSlider chnget "RndMask"
+	krandommask = kRndMaskSlider
 
 
     ;modulation of waveform amplitude
@@ -390,9 +408,24 @@ instr GrainSynth
 	outs a1, a2
 endin
 
+instr Control
+	;things to control UI and stuff
+
+	kToggleValue cabbageGet "ConsoleToggle", "value"
+
+	printk2 kToggleValue
+
+	if kToggleValue == 1 then
+		cabbageSet 1, "Console", "visible", 1
+	else
+		cabbageSet 1, "Console", "visible", 0
+	endif
+endin 
+
 </CsInstruments>
 <CsScore>
 f0 z
 i "GrainSynth" 0 865000
+i "Control" 0 865000
 </CsScore>
 </CsoundSynthesizer>

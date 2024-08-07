@@ -32,38 +32,45 @@ combobox bounds($PADDINGX, 0, 80, 40), mode("resize"), value(3) automatable(0) c
 ;- Region: GRAIN RATE
 groupbox bounds($PADDINGX, $PADDINGY, $BGX, $BGY) channel("groupbox10010") outlineThickness(0) $BOXCOL   {
 label bounds(98, 0, 142, 25) channel("label10001") text("Grain rate") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10001") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10001", "yChan10001") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+rslider bounds(0, 125, 100, 100) channel("GrainRateSlider") range(1, 100, 1, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+xypad bounds(98, 25, 180, 180) channel("GrainRateAmp", "GrainRateFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
 
-label bounds(108, 225, 80, 16) channel("label10002") text("alpha") $FONT 
-label bounds(208, 225, 80, 16) channel("label10003") text("beta") $FONT
+label bounds(106, 225, 80, 16) channel("label10002") text("Amp") $FONT 
+label bounds(192, 225, 80, 16) channel("label10003") text("Freq") $FONT
 
-button bounds(0, 0, 30, 24) channel("button10014") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
+button bounds(0, 0, 30, 24) channel("GrainRateToggle") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
 ;- Region: Duration
-groupbox bounds(310, $PADDINGY, $BGX, $BGY) channel("groupbox10011") outlineThickness(0) $BOXCOL   {
+groupbox bounds(310, $PADDINGY, $BGX, $BGY) channel("groupbox10011") outlineThickness(0) $BOXCOL   
+{
+
 label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10002") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10002", "yChan10002") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) colour(228, 193, 249, 255)   trackerColour(58, 124, 165, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
+
+rslider bounds(0, 125, 100, 100) channel("DurSlider") range(20, 1000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
 
 
-label bounds(108, 225, 80, 16) channel("label10003") text("alpha") $FONT
-label bounds(208, 225, 80, 16) channel("label10004") text("beta") $FONT 
+label bounds(108, 225, 80, 16) channel("label10003") text("Amp") $FONT
+label bounds(208, 225, 80, 16) channel("label10004") text("Freq") $FONT 
 
 button bounds(0, 0, 30, 24) channel("button10015") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
 
 ;- Region: Freq
 groupbox bounds(610, $PADDINGY, $BGX, $BGY) channel("groupbox10012") outlineThickness(0) $BOXCOL   {
+
 label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10003") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10003", "yChan10003") ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0) $DESIGN 
+
+rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(50, 800, 200, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1) $DESIGN 
 
 
-label bounds(108, 225, 80, 16) channel("label10005") text("alpha") $FONT
-label bounds(208, 225, 80, 16) channel("label10006") text("beta") $FONT
+label bounds(108, 225, 80, 16) channel("label10005") text("Amp") $FONT
+label bounds(208, 225, 80, 16) channel("label10006") text("Freq") $FONT
 
 button bounds(0, 0, 30, 24) channel("button10016") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
@@ -73,13 +80,17 @@ button bounds(0, 0, 30, 24) channel("button10016") fontColour:0(0, 0, 0, 255) fo
 ;FM index
 ;randomness
 groupbox bounds(10, 298, $BGX, $BGY) channel("groupbox10013") outlineThickness(0) $BOXCOL   {
+
 label bounds(98, 0, 142, 25) channel("label1007") text("FM") $FONT fontSize(16) align("left")
-rslider bounds(0, 125, 100, 100) channel("rslider10004") range(0, 1, 0, 1, 0.001)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
-xypad bounds(98, 25, 180, 180) channel("xChan10004", "yChan10004") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0, 1, 0) rangeY(0, 1, 0)
 
+rslider bounds(0, 25, 100, 100) channel("FmPitch") range(0, 10, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
-label bounds(108, 225, 80, 16) channel("label10008") text("alpha") $FONT 
-label bounds(208, 225, 80, 16) channel("label10009") text("beta") $FONT
+rslider bounds(0, 125, 100, 100) channel("FmIndex") range(0, 20, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+
+xypad bounds(98, 25, 180, 180) channel("FmAmp", "FmFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.1, 1.0, 0.1) rangeY(0.1, 50.0, 0.1)
+
+label bounds(108, 225, 80, 16) channel("label10008") text("Amp") $FONT 
+label bounds(208, 225, 80, 16) channel("label10009") text("Freq") $FONT
 
 button bounds(0, 0, 30, 24) channel("button10017") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "on")
 }
