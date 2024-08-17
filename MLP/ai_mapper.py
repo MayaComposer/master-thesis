@@ -1,7 +1,11 @@
 #This file takes input using OSC, maps it to x amount of parameters using an MLP. and outputs back using OSC
-from sklearn.neural_network import MLPClassifier
-from sklearn.neural_network import MLPRegressor
 import numpy as np
+from sklearn.neural_network import MLPRegressor
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import MinMaxScaler
+
+import pandas as pd
+
 
 """
 OSC server and client, for communicating with Csound
@@ -46,7 +50,6 @@ def inner_ctrl_c_signal_handler(sig, frame):
     Function that gets called when the user issues a
     keyboard interrupt (ctrl+c) to stop the server
     '''
-    print("Ctrl+C ...")
     stop_event.set()
     
 async def run_osc_server():
@@ -64,8 +67,11 @@ init_osc_client()
 dispatcher = dispatcher.Dispatcher()
 
 #Handle OSC messages
+
+#other address
 def unspecified_address(address, *osc_arguments: list[any]):
-    print("unspecified address", address, osc_arguments)
+    pass
+    #print("unspecified address", address, osc_arguments)
 
 def set_training_mode(address, message):
     global mode
@@ -80,6 +86,7 @@ def audio_feature_to_table(address: str, *args: List[Any]) -> None:
     #filter osc messages and add them to a list
     i = int(address[-1:])
     audio_features[i-1] = args[0]
+    #print('audio features' + str(audio_features))
 
 def synth_parameter_to_table(address: str, *args: List[Any]) -> None:
     pass
@@ -99,13 +106,15 @@ async def loop():
 
             elif mode == 'Predicting':
                 # Make predictions
-                y_pred = mlp.predict(np.array(audio_features).reshape(1, -1))
+                y_pred = mlp_model.predict(np.array(audio_features).reshape(1, -1))
 
                 out_list = y_pred[0]
 
                 #unravel array so it can be sent as an osc message
                 for index, feature_value in enumerate(out_list, start=1):
                     sendOSC('/feature' + f'/{index}', feature_value)
+                    # if index == 1:
+                    #     print("feature " + str(index) + ": " + str(feature_value))
                     if index == 5:
                         break
                 
@@ -119,22 +128,64 @@ async def loop():
 
 #__________________________________________
 
-# Generate some synthetic data for demonstration
-np.random.seed(42)
-X = np.random.rand(500, 5)  # 100 samples, 5 features (input)
-y = np.random.rand(500, 10)  # 100 samples, 10 targets (output)
+# Define the input data (X)
+np.random.seed()
+input_data = np.random.rand(10000, 5)
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Define the target data (y)
+target_data = np.random.rand(10000, 10)
 
-# Create the MLPRegressor model
-mlp = MLPRegressor(hidden_layer_sizes=(100, 50), max_iter=500, random_state=42)
+# Create a MinMaxScaler object
+scaler = MinMaxScaler()
 
-# Train the model
-mlp.fit(X_train, y_train)
+# Scale the input data
+scaled_input_data = scaler.fit_transform(input_data)
 
-# Evaluate the model
-score = mlp.score(X_test, y_test)
+# Scale the target data
+scaled_target_data = scaler.fit_transform(target_data)
+
+# Create a KFold object with 5 folds
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+
+# Create the MLP model with more hidden layers or neurons
+mlp_model = MLPRegressor(
+    hidden_layer_sizes=(100, 50),  # Increase the number of neurons in each hidden layer
+    activation='relu',  # Use a different activation function
+    solver='adam',  # Use a different solver
+    learning_rate_init=0.001,  # Adjust the learning rate
+    max_iter=1000,  # Increase the number of iterations
+    alpha=0.0001,  # Adjust the regularization strength
+)
+
+
+# Initialize the scores list
+scores = []
+
+# Loop through the folds
+for training_index, validation_index in kfold.split(scaled_input_data):
+    # Split the data into training and validation sets
+    training_data, validation_data = (
+        scaled_input_data[training_index],
+        scaled_input_data[validation_index]
+    )
+    training_target, validation_target = (
+        scaled_target_data[training_index],
+        scaled_target_data[validation_index]
+    )
+
+    # Train the model
+    mlp_model.fit(training_data, training_target)
+
+    # Evaluate the model
+    score = mlp_model.score(validation_data, validation_target)
+    scores.append(score)
+
+    # Check if the score is high enough
+    if np.mean(scores) >= 0.9:
+        break
+
+# Print the average score
+print("Average R-squared score:", np.mean(scores))
 
 #__________________________________________
 
