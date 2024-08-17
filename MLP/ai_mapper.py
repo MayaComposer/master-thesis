@@ -6,14 +6,8 @@ from sklearn.preprocessing import MinMaxScaler
 
 import pandas as pd
 
+import os
 
-"""
-OSC server and client, for communicating with Csound
-
-@author: Øyvind Brandtsegg
-@contact: obrandts@gmail.com
-@license: GPL
-"""
 
 from pythonosc.udp_client import SimpleUDPClient
 from pythonosc import dispatcher
@@ -83,15 +77,24 @@ def set_training_mode(address, message):
         print("Predicting")
 
 def audio_feature_to_table(address: str, *args: List[Any]) -> None:
-    #filter osc messages and add them to a list
-    i = int(address[-1:])
-    audio_features[i-1] = args[0]
-    #print('audio features' + str(audio_features))
+
+    if mode == 'Training':
+        print("audio feature", address, args)
+        #filter osc messages and add them to a list
+        i = int(address[-1:])
+        audio_features[i-1] = args[0]
+        
+        # Save the audio feature data to a CSV file
+        data = pd.DataFrame({'feature': [i], 'value': [args[0]]})
+        data.to_csv('audio_features.csv', mode='a', header=False, index=False)
+    elif mode == 'Predicting':
+        pass
 
 def synth_parameter_to_table(address: str, *args: List[Any]) -> None:
-    pass
-
-
+    if mode == 'Training':
+        pass
+    elif mode == 'Predicting':
+        pass
 
 #Loop of the program
 async def loop():
@@ -113,8 +116,8 @@ async def loop():
                 #unravel array so it can be sent as an osc message
                 for index, feature_value in enumerate(out_list, start=1):
                     sendOSC('/feature' + f'/{index}', feature_value)
-                    # if index == 1:
-                    #     print("feature " + str(index) + ": " + str(feature_value))
+                    if index == 1:
+                        print("feature " + str(index) + ": " + str(feature_value))
                     if index == 5:
                         break
                 
@@ -133,7 +136,7 @@ np.random.seed()
 input_data = np.random.rand(10000, 5)
 
 # Define the target data (y)
-target_data = np.random.rand(10000, 10)
+target_data = np.random.rand(10000, 2)
 
 # Create a MinMaxScaler object
 scaler = MinMaxScaler()
@@ -149,21 +152,31 @@ kfold = KFold(n_splits=5, shuffle=True, random_state=42)
 
 # Create the MLP model with more hidden layers or neurons
 mlp_model = MLPRegressor(
-    hidden_layer_sizes=(100, 50),  # Increase the number of neurons in each hidden layer
-    activation='relu',  # Use a different activation function
-    solver='adam',  # Use a different solver
-    learning_rate_init=0.001,  # Adjust the learning rate
-    max_iter=1000,  # Increase the number of iterations
-    alpha=0.0001,  # Adjust the regularization strength
+hidden_layer_sizes=(10, 5),  # Increase the number of neurons in each hidden layer
+activation='relu',  # Use a different activation function
+solver='adam',  # Use a different solver
+learning_rate='adaptive',
+learning_rate_init=1.0,  # Adjust the learning rate
+max_iter=1000,  # Increase the number of iterations
+alpha=0.0001,  # Adjust the regularization strength
 )
 
+# var mlp = FluidMLPRegressor(s,
+# 		[7],
+# 		activation:FluidMLPRegressor.sigmoid,
+# 		outputActivation:FluidMLPRegressor.sigmoid,
+# 		maxIter: 1000,
+# 		learnRate:0.1,
+# 		batchSize:1,
+# 		validation:0
+# 	);
 
 # Initialize the scores list
 scores = []
 
 # Loop through the folds
 for training_index, validation_index in kfold.split(scaled_input_data):
-    # Split the data into training and validation sets
+# Split the data into training and validation sets
     training_data, validation_data = (
         scaled_input_data[training_index],
         scaled_input_data[validation_index]
@@ -185,7 +198,7 @@ for training_index, validation_index in kfold.split(scaled_input_data):
         break
 
 # Print the average score
-print("Average R-squared score:", np.mean(scores))
+# print("Average R-squared score:", np.mean(scores))
 
 #__________________________________________
 
