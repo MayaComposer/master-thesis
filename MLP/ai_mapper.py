@@ -24,9 +24,17 @@ stop_event = asyncio.Event()
 receive_address = '127.0.0.1', 8000
 send_address = '127.0.0.1', 8001
 
-mode = 'Predicting' #Training or Predicting mode
+mode = 'Training' #Training or Predicting mode
 
 audio_features = [0, 0, 0, 0, 0]
+
+synth_params = [0, 0, 0]
+
+training_data = np.array([]).reshape(0, 5)
+
+target_data = np.array([]).reshape(0, 3)
+
+audio_features_in = [0, 0, 0, 0, 0]
 
 def init_osc_client():
     '''Initialize the OSC client'''
@@ -67,7 +75,7 @@ def unspecified_address(address, *osc_arguments: list[any]):
     pass
     #print("unspecified address", address, osc_arguments)
 
-def set_training_mode(address, message):
+def set_mode(address, message):
     global mode
     if message == 0:
         mode = 'Training'
@@ -76,50 +84,75 @@ def set_training_mode(address, message):
         mode = 'Predicting'
         print("Predicting")
 
-def audio_feature_to_table(address: str, *args: List[Any]) -> None:
 
+#add here the ability to save the data to the arrays
+def audio_feature_to_table(address: str, *args: List[Any]) -> None:
+    global audio_features
+    global training_data
+    global target_data
+    #filter osc messages and add them to a list
     if mode == 'Training':
-        print("audio feature", address, args)
-        #filter osc messages and add them to a list
-        i = int(address[-1:])
-        audio_features[i-1] = args[0]
-        
-        # Save the audio feature data to a CSV file
-        data = pd.DataFrame({'feature': [i], 'value': [args[0]]})
-        data.to_csv('audio_features.csv', mode='a', header=False, index=False)
+       #filter feature index
+       index = int(address[-1:])
+       audio_features[index-1] = args[0]
+       array = np.array(audio_features)
+       
+       training_data = np.concatenate((training_data, [array]), axis=0)
+       print('\n', training_data, '\n')
+
     elif mode == 'Predicting':
-        pass
+        index = int(address[-1:])
+        audio_features_in[index-1] = args[0]
 
 def synth_parameter_to_table(address: str, *args: List[Any]) -> None:
+    global synth_params
+    global target_data
+    #filter osc messages and add them to a list
     if mode == 'Training':
-        pass
-    elif mode == 'Predicting':
-        pass
+       #filter feature index
+       index = int(address[-1:])
+       synth_params[index-1] = args[0]
+       array = np.array(synth_params)
+       
+       target_data = np.concatenate((target_data, [array]), axis=0)
+       print('\n', target_data, '\n')
+
+
+def fit_data(address: str, *args: List[Any]) -> None:
+    global training_data
+    global target_data
+    print("fit data called")
+    # Check the shape of X and y
+    print(training_data.shape)  # Output: (801, ...)
+    print(target_data.shape)  # Output: (9, ...)
+
+    # Adjust the dataset to have a consistent number of samples
+    if training_data.shape[0] != target_data.shape[0]:
+        # Remove samples from X to match the number of samples in y
+        training_data = training_data[:target_data.shape[0], :]
+        print("Adjusted X shape:", training_data.shape)
+
+    # Call the fit method with the adjusted dataset
+    mlp_model.fit(training_data, target_data)
+
+    # Evaluate the model
+    score = mlp_model.score(training_data, target_data)
+    print(score)
+
+
 
 #Loop of the program
 async def loop():
     while not stop_event.is_set():
         try:
-            #train the network when in training mode
-            if mode == 'Training':
-                
-                #save the synth data and audiofeature data to cvs (?)
-
-                pass
-
-            elif mode == 'Predicting':
+            if mode == 'Predicting':
                 # Make predictions
-                y_pred = mlp_model.predict(np.array(audio_features).reshape(1, -1))
+                y_predicted = mlp_model.predict(np.array(audio_features_in).reshape(1, -1))
 
-                out_list = y_pred[0]
-
-                #unravel array so it can be sent as an osc message
-                for index, feature_value in enumerate(out_list, start=1):
-                    sendOSC('/feature' + f'/{index}', feature_value)
-                    if index == 1:
-                        print("feature " + str(index) + ": " + str(feature_value))
-                    if index == 5:
-                        break
+                # Unravel array so it can be sent as an osc message
+                for index, predicted_value in enumerate(y_predicted[0], start=1):
+                    sendOSC('/synthparameter' + f'/{index}', predicted_value)
+                    print(f'/synthparameter' + f'/{index}', predicted_value)
                 
         except Exception as e:
             raise ValueError("Unhandled exception in main loop: " + str(e)) from e
@@ -133,32 +166,18 @@ async def loop():
 
 # Define the input data (X)
 np.random.seed()
-input_data = np.random.rand(10000, 5)
 
-# Define the target data (y)
-target_data = np.random.rand(10000, 2)
-
-# Create a MinMaxScaler object
-scaler = MinMaxScaler()
-
-# Scale the input data
-scaled_input_data = scaler.fit_transform(input_data)
-
-# Scale the target data
-scaled_target_data = scaler.fit_transform(target_data)
-
-# Create a KFold object with 5 folds
-kfold = KFold(n_splits=5, shuffle=True, random_state=42)
 
 # Create the MLP model with more hidden layers or neurons
 mlp_model = MLPRegressor(
-hidden_layer_sizes=(10, 5),  # Increase the number of neurons in each hidden layer
-activation='relu',  # Use a different activation function
+hidden_layer_sizes=(2, 5),  # Increase the number of neurons in each hidden layer
+activation='logistic',  # Use a different activation function
 solver='adam',  # Use a different solver
 learning_rate='adaptive',
-learning_rate_init=1.0,  # Adjust the learning rate
+learning_rate_init=0.1,  # Adjust the learning rate
 max_iter=1000,  # Increase the number of iterations
 alpha=0.0001,  # Adjust the regularization strength
+batch_size=1
 )
 
 # var mlp = FluidMLPRegressor(s,
@@ -171,40 +190,12 @@ alpha=0.0001,  # Adjust the regularization strength
 # 		validation:0
 # 	);
 
-# Initialize the scores list
-scores = []
-
-# Loop through the folds
-for training_index, validation_index in kfold.split(scaled_input_data):
-# Split the data into training and validation sets
-    training_data, validation_data = (
-        scaled_input_data[training_index],
-        scaled_input_data[validation_index]
-    )
-    training_target, validation_target = (
-        scaled_target_data[training_index],
-        scaled_target_data[validation_index]
-    )
-
-    # Train the model
-    mlp_model.fit(training_data, training_target)
-
-    # Evaluate the model
-    score = mlp_model.score(validation_data, validation_target)
-    scores.append(score)
-
-    # Check if the score is high enough
-    if np.mean(scores) >= 0.9:
-        break
-
-# Print the average score
-# print("Average R-squared score:", np.mean(scores))
-
 #__________________________________________
 
 #map OSC functions
 dispatcher.set_default_handler(unspecified_address)
-dispatcher.map('/mode', set_training_mode)
+dispatcher.map('/mode', set_mode)
+dispatcher.map('/fit', fit_data)
 dispatcher.map('/audiofeature*', audio_feature_to_table)
 dispatcher.map('/synthparameter*', synth_parameter_to_table)
 
