@@ -180,16 +180,6 @@ alpha=0.0001,  # Adjust the regularization strength
 batch_size=1
 )
 
-# var mlp = FluidMLPRegressor(s,
-# 		[7],
-# 		activation:FluidMLPRegressor.sigmoid,
-# 		outputActivation:FluidMLPRegressor.sigmoid,
-# 		maxIter: 1000,
-# 		learnRate:0.1,
-# 		batchSize:1,
-# 		validation:0
-# 	);
-
 #__________________________________________
 
 #map OSC functions
