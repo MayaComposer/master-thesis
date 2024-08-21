@@ -112,6 +112,9 @@ def synth_parameter_to_table(address: str, *args: List[Any]) -> None:
        #filter feature index
        index = int(address[-1:])
        synth_params[index-1] = args[0]
+
+       #add to array only when all parameters have been received. so probs when a button is pressed.
+       #thus mapp the code after this to a different function probs
        array = np.array(synth_params)
        
        target_data = np.concatenate((target_data, [array]), axis=0)
@@ -151,8 +154,8 @@ async def loop():
 
                 # Unravel array so it can be sent as an osc message
                 for index, predicted_value in enumerate(y_predicted[0], start=1):
-                    sendOSC('/synthparameter' + f'/{index}', predicted_value)
-                    print(f'/synthparameter' + f'/{index}', predicted_value)
+                    sendOSC('/prediction' + f'/{index}', predicted_value)
+                    print(f'/prediction' + f'/{index}', predicted_value)
                 
         except Exception as e:
             raise ValueError("Unhandled exception in main loop: " + str(e)) from e
