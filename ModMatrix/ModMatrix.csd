@@ -22,8 +22,6 @@
 	; modulation scaling and routing (mod matrix) table, start with empty table
 	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is it genroutine -2?
 
-	gSChannelList[] fillarray "fader1"
-
 
 	;OSC 
 	giOscHandler OSCinit 9999
@@ -39,15 +37,6 @@
 
 		 if kAnswerFader == 1 then
 		 	chnset kInputFader, "fader1"
-		; else
-		; 	;SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]
-		; 	SChannel, kTrig cabbageChanged gSChannelList
-		; 	if kTrig == 1 then 
-		; 		printks "trying to send \n", 0
-		; 		kSlider cabbageGetValue "fader1"
-		; 		printk2 kSlider
-		; 		OSCsend kSlider, "192.168.8.105", 9998, "/fader1", "f", kSlider
-		; 	endif
 		endif
 	endin
 
