@@ -1,7 +1,0 @@
-Noisy																		
-Scale.Coeff	Freq	Cutoff	LFOFreq															
-Expr.	100	500	5															
-LFO	10	50	0															
-																		
-																		
-																		

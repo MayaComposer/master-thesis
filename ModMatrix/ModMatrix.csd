@@ -25,7 +25,7 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 	giParam_Out ftgen 0, 0, giMaxNumParam, 2, 0	; output parameters table (parameter values with added modulators)
 	giModulators ftgen 0, 0, giMaxNumMod, 2, 0	 ; modulators table
 	; modulation scaling and routing (mod matrix) table, start with empty table
-	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	
+	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is genroutine -2?
 
 	instr ModMatrix
 
@@ -35,7 +35,7 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 
 		icps1 = 100
 		icps2 = 0.1
-		icutoff = 1
+		icutoff = 0
 
 		; write input parameters to table
 		tableiw	icps1, 0, giParam_In
@@ -45,9 +45,10 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 
 		;SCALING TABLE______________________________________
 		;read table from left to right top to bottom (see excel)
+		;the scaling values decide the max value added to the target parameter. 
 
 		;tableiw isig, indx, ifn
-		tableiw	0, 0, giModScale ;expr to freq
+		tableiw	200, 0, giModScale ;expr to freq
 		tableiw 200, 1, giModScale ;expr to cutoff
 		tableiw 5, 2, giModScale ;expr to lfofreq
 		tableiw	0, 3, giModScale ;lfo to freq
@@ -91,7 +92,7 @@ instr Processing
 
 	aSignal vco2 0.1, kFreq
 
-	aSignal tone aSignal, kCutoff
+	aSignal tone aSignal, 200 - kCutoff
 
 	outs aSignal, aSignal
 
