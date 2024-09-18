@@ -1,11 +1,6 @@
-SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]tablew	kLFO1, 1, giModulators<Cabbage> bounds(0, 0, 0, 0)
-form size(1000, 600), caption("Untitled") size(900, 675), guiMode("queue") pluginId("sdfa") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
-vslider bounds(312, 54, 288, 391) channel("fader1") range(0, 1, 0, 1, 0.001)
-</Cabbage>
-
 <CsoundSynthesizer>
 <CsOptions>
--m0 -n -d 
+-odac -m0
 ;--output=OUT.wav
 </CsOptions>
 <CsInstruments>
@@ -42,9 +37,8 @@ vslider bounds(312, 54, 288, 391) channel("fader1") range(0, 1, 0, 1, 0.001)
 		kAnswerXY OSClisten giOscHandler, "/xy1", "ff", kInputX, kInputY
 		kAnswerFader OSClisten giOscHandler, "/fader1", "f", kInputFader
 
-
-		if kAnswerFader == 1 then
-			cabbageSetValue "fader1", kInputFader
+		 if kAnswerFader == 1 then
+		 	chnset kInputFader, "fader1"
 		; else
 		; 	;SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]
 		; 	SChannel, kTrig cabbageChanged gSChannelList
@@ -90,8 +84,8 @@ vslider bounds(312, 54, 288, 391) channel("fader1") range(0, 1, 0, 1, 0.001)
 		
 		;MODULATORS_______________________________________
 		;slider
-		kExpression1 cabbageGetValue "fader1"
-		;printk2 kExpression1
+		kExpression1 chnget "fader1"
+		printk2 kExpression1
 		tablew	kExpression1, 0, giModulators
 
 		; LFO1, 1.5 Hz, normalized range (0.0 to 1.0)
@@ -136,7 +130,6 @@ endin
 <CsScore>
 
 	f0 z
-
 	
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
