@@ -1,6 +1,7 @@
 <CsoundSynthesizer>
 <CsOptions>
--odac -m0
+-o dac 
+-m0
 ;--output=OUT.wav
 </CsOptions>
 <CsInstruments>
