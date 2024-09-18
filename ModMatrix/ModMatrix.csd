@@ -1,6 +1,6 @@
-<Cabbage> bounds(0, 0, 0, 0)
+SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]tablew	kLFO1, 1, giModulators<Cabbage> bounds(0, 0, 0, 0)
 form size(1000, 600), caption("Untitled") size(900, 675), guiMode("queue") pluginId("sdfa") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
-vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
+vslider bounds(312, 54, 288, 391) channel("fader1") range(0, 1, 0, 1, 0.001)
 </Cabbage>
 
 <CsoundSynthesizer>
@@ -25,13 +25,44 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 	giParam_Out ftgen 0, 0, giMaxNumParam, 2, 0	; output parameters table (parameter values with added modulators)
 	giModulators ftgen 0, 0, giMaxNumMod, 2, 0	 ; modulators table
 	; modulation scaling and routing (mod matrix) table, start with empty table
-	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is genroutine -2?
+	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is it genroutine -2?
+
+	gSChannelList[] fillarray "fader1"
+
+
+	;OSC 
+	giOscHandler OSCinit 9999
+
+	instr Receiver
+		kInputX init 0
+		kInputY init 0
+		kInputFader init 0
+
+		; listen to osc ports
+		kAnswerXY OSClisten giOscHandler, "/xy1", "ff", kInputX, kInputY
+		kAnswerFader OSClisten giOscHandler, "/fader1", "f", kInputFader
+
+
+		if kAnswerFader == 1 then
+			cabbageSetValue "fader1", kInputFader
+		; else
+		; 	;SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]
+		; 	SChannel, kTrig cabbageChanged gSChannelList
+		; 	if kTrig == 1 then 
+		; 		printks "trying to send \n", 0
+		; 		kSlider cabbageGetValue "fader1"
+		; 		printk2 kSlider
+		; 		OSCsend kSlider, "192.168.8.105", 9998, "/fader1", "f", kSlider
+		; 	endif
+		endif
+	endin
 
 	instr ModMatrix
 
 		prints "ModMatrix initialised"
 
 		;INPUT PARAMETERS
+		;these are the parameters that go into the modmatrix and get modulated
 
 		icps1 = 100
 		icps2 = 0.1
@@ -59,16 +90,16 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 		
 		;MODULATORS_______________________________________
 		;slider
-		kExpression1 cabbageGetValue "slider1"
+		kExpression1 cabbageGetValue "fader1"
 		;printk2 kExpression1
+		tablew	kExpression1, 0, giModulators
 
 		; LFO1, 1.5 Hz, normalized range (0.0 to 1.0)
 		kLFO1	oscil	0.5, 1.5, giSine		; generate LFO signal
 		kLFO1	= kLFO1+0.5				; offset
-
-		; write modulators to table
-		tablew	kExpression1, 0, giModulators
 		tablew	kLFO1, 1, giModulators
+		
+		
 
 		;___________________________________________________
 
@@ -86,9 +117,10 @@ vslider bounds(312, 54, 288, 391) channel("slider1") range(0, 1, 0, 1, 0.001)
 instr Processing
 	prints "\n Processing initialised"
 
+	;parameters get read from modmatrix output table
+
 	kFreq table	0, giParam_Out
 	kCutoff table 1, giParam_Out
-	printk2 kCutoff
 
 	aSignal vco2 0.1, kFreq
 
@@ -105,6 +137,8 @@ endin
 
 	f0 z
 
+	
+	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
 	i "Processing" 0 865000
 
