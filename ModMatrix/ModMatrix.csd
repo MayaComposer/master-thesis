@@ -63,12 +63,27 @@
 		;the scaling values decide the max value added to the target parameter. 
 
 		;tableiw isig, indx, ifn
-		tableiw	200, 0, giModScale ;expr to freq
-		tableiw 200, 1, giModScale ;expr to cutoff
-		tableiw 5, 2, giModScale ;expr to lfofreq
-		tableiw	0, 3, giModScale ;lfo to freq
-		tableiw 0, 4, giModScale ;lfo to cutoff
-		tableiw	0, 5, giModScale ;lfo to lfofreq
+		;tableiw ModCoeff, tableindex, giModScale
+		tableiw 1, 0, giModScale ; morphX to MixX
+		tableiw 0, 1, giModScale ; morphX to MixY
+		tableiw 0, 2, giModScale ; morphX to Freq
+		tableiw 0, 3, giModScale ; morphX to Cutoff
+		tableiw 0, 4, giModScale ; morphX to LFOFreq
+		tableiw 0, 5, giModScale ; morphY to MixX
+		tableiw 1, 6, giModScale ; morphY to MixY
+		tableiw 0, 7, giModScale ; morphY to Freq
+		tableiw 0, 8, giModScale ; morphY to Cutoff
+		tableiw 0, 9, giModScale ; morphY to LFOFreq
+		tableiw 0, 10, giModScale ; Expr. to MixX
+		tableiw 0, 11, giModScale ; Expr. to MixY
+		tableiw 100, 12, giModScale ; Expr. to Freq
+		tableiw 500, 13, giModScale ; Expr. to Cutoff
+		tableiw 5, 14, giModScale ; Expr. to LFOFreq
+		tableiw 0, 15, giModScale ; LFO to MixX
+		tableiw 0, 16, giModScale ; LFO to MixY
+		tableiw 10, 17, giModScale ; LFO to Freq
+		tableiw 50, 18, giModScale ; LFO to Cutoff
+		tableiw 0, 19, giModScale ; LFO to LFOFreq
 		;___________________________________________________
 
 		
@@ -76,13 +91,19 @@
 		;slider
 		kExpression1 chnget "fader1"
 		printk2 kExpression1
-		tablew	kExpression1, 0, giModulators
+
+		kName chnget ""
+		;tablew	kName, Index giModulators
 
 		; LFO1, 1.5 Hz, normalized range (0.0 to 1.0)
 		kLFO1	oscil	0.5, 1.5, giSine		; generate LFO signal
 		kLFO1	= kLFO1+0.5				; offset
-		tablew	kLFO1, 1, giModulators
-		
+
+
+		tablew	kExpression1, 3, giModulators
+		tablew	kLFO1, 4, giModulators
+
+		;cannot decide if the tablewrite should be all at the end or at the end of each parameter codeblock		
 		
 
 		;___________________________________________________
@@ -91,8 +112,8 @@
 		kupdate	init 1 ;chnget	"modulatorUpdateFlag"		
 
 		; run the mod matrix 
-		inum_mod = 2
-		inum_param = 2
+		inum_mod = 4
+		inum_param = 5
 		modmatrix giParam_Out, giModulators, giParam_In, \
 		giModScale, inum_mod, inum_param, kupdate
 
