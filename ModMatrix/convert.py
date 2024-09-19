@@ -11,26 +11,72 @@ print("DataFrame:\n", dataframe1)
 
 counter = 0
 
-parameters = []
+parameter_definitions = []
+
+input_parameters = []
 
 coefficients = []
 
 channels = []
+
 modulators = []
 
+output_parameters = []
+
 for row_name in dataframe1.index:
-    #print modulators
-    #;tablew	kName, Index giModulators
-    print('k' + str(row_name) + ' ' + 'chnget' + ' ' + '"' + str(row_name) + '"')
-    print('tablew' + ' ' + 'k' + str(row_name) + ', ' + str(dataframe1.index.get_loc(row_name)))
-    print('\n')
+
+    #write code to lists
+
+    #receive channels for modulators
+    channels.append('k' + str(row_name) + ' ' + 'chnget' + ' ' + '"' + str(row_name) + '"')
+
+    #modulator tablew statements
+    modulators.append('tablew' + ' ' + 'k' + str(row_name) + ', ' + str(dataframe1.index.get_loc(row_name)) + ', giModulators')
     
     for col_name in dataframe1.columns:
         
-
-        #print tablewrite code for coefficients
-        #print('tableiw' + ' ' + str(dataframe1.at[row_name, col_name]) + ', ' + str(counter) + ', ' + 'giModScale' + ' ; ' + str(row_name + ' to ' + col_name))
+        #tablewrite code for coefficients
+        coefficients.append('tableiw' + ' ' + str(dataframe1.at[row_name, col_name]) + ', ' + str(counter) + ', giModScale' + ' ; ' + str(row_name + ' to ' + col_name))
 
         counter += 1
 
+#input parameters looped seperately here. 
+for col_name in dataframe1.columns:
+    #tableiw	icps1, 0, giParam_In
+    parameter_definitions.append('i' + col_name + ' = 0')
+    input_parameters.append('tableiw' + ' ' + 'i' + col_name + ', ' + str(dataframe1.columns.get_loc(col_name)) + ', giParam_In')
+    
+    #parameters getting read from out table
+    #kFreq table	0, giParam_Out
+    output_parameters.append('k' + col_name + ' table ' + str(dataframe1.columns.get_loc(col_name)) + ', giParam_Out')
+    print('\n')
 
+for i in range(len(parameter_definitions)):
+    print(parameter_definitions[i])
+
+print('\n')
+
+for i in range(len(input_parameters)):
+    print(input_parameters[i])
+
+print('\n')
+
+for i in range(len(coefficients)):
+    print(coefficients[i])
+
+print('\n')
+
+for i in range(len(channels)):
+    print(channels[i])
+
+print('\n')
+
+for i in range(len(modulators)):
+    print(modulators[i])
+
+print('\n')
+
+for i in range(len(output_parameters)):
+    print(output_parameters[i])
+
+print('\n')
