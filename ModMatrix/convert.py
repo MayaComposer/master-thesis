@@ -4,7 +4,7 @@ import numpy as np
 
 
 # read by default 1st sheet of an excel file
-dataframe1 = pd.read_excel('ModMatrix/ModMatrixTable.xlsx', index_col=0, header=0)
+dataframe1 = pd.read_excel('ModMatrixTable.xlsx', index_col=0, header=0)
 
 # Print the DataFrame to verify it's loaded correctly
 print("DataFrame:\n", dataframe1)
@@ -31,7 +31,7 @@ for row_name in dataframe1.index:
     channels.append('k' + str(row_name) + ' ' + 'chnget' + ' ' + '"' + str(row_name) + '"')
 
     #modulator tablew statements
-    modulators.append('tablew' + ' ' + 'k' + str(row_name) + ', ' + str(dataframe1.index.get_loc(row_name)) + ', giModulators')
+    modulators.append('tablew' + ' ' + 'k' + str(row_name) + ', ' + str(dataframe1.index.get_loc(row_name)) + ', .giModulators')
     
     for col_name in dataframe1.columns:
         
@@ -50,33 +50,46 @@ for col_name in dataframe1.columns:
     #kFreq table	0, giParam_Out
     output_parameters.append('k' + col_name + ' table ' + str(dataframe1.columns.get_loc(col_name)) + ', giParam_Out')
     print('\n')
+    
+output = open('code.inc', 'w')
+
+print(';____________________________________ \n', file=output)
+
+
+print(';parameter definitions \n', file=output)
 
 for i in range(len(parameter_definitions)):
-    print(parameter_definitions[i])
+    print(parameter_definitions[i], file=output)
 
-print('\n')
+print('\n', file=output)
+
+print(';input parameters \n', file=output)
 
 for i in range(len(input_parameters)):
-    print(input_parameters[i])
+    print(input_parameters[i], file=output)
 
-print('\n')
+print('\n', file=output)
 
 for i in range(len(coefficients)):
-    print(coefficients[i])
+    print(coefficients[i], file=output)
 
-print('\n')
+print('\n', file=output)
 
 for i in range(len(channels)):
-    print(channels[i])
+    print(channels[i], file=output)
 
-print('\n')
+print('\n', file=output)
 
 for i in range(len(modulators)):
-    print(modulators[i])
+    print(modulators[i], file=output)
 
-print('\n')
+print('\n', file=output)
 
 for i in range(len(output_parameters)):
-    print(output_parameters[i])
+    print(output_parameters[i], file=output)
 
-print('\n')
+print('\n', file=output)
+
+print(';____________________________________ \n', file=output)
+
+output.close()

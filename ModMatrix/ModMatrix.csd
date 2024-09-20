@@ -126,8 +126,6 @@ instr Processing
 
 endin
 
-
-
 </CsInstruments>
 <CsScore>
 
