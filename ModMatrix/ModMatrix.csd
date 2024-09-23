@@ -5,7 +5,7 @@
 ;--output=OUT.wav
 </CsOptions>
 <CsInstruments>
-	0dbfs = 30
+	0dbfs = 1
 	ksmps = 128
 	nchnls = 2
 
@@ -23,78 +23,53 @@
 	; modulation scaling and routing (mod matrix) table, start with empty table
 	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is it genroutine -2?
 
+	;soundfiles
+	giCello	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+	giElect	ftgen	0, 0, 0, 1, "elect.wav", 0, 0, 0			; soundfile
+
+	gSCello = "cello.wav"
+	gSElect = "elect.wav"
+
 
 	;OSC 
 	giOscHandler OSCinit 9999
 
 	instr Receiver
-		kInputX init 0
-		kInputY init 0
-		kInputFader init 0
+		prints "osc receiver initiliased"
+
+		kMorphX init 0
+		kMorphY init 0
+		kExpression init 0
+
 
 		; listen to osc ports
-		kAnswerXY OSClisten giOscHandler, "/xy1", "ff", kInputX, kInputY
-		kAnswerFader OSClisten giOscHandler, "/fader1", "f", kInputFader
+		kAnswerXY OSClisten giOscHandler, "/xy1", "ff", kMorphX, kMorphY
+		kAnswerFader OSClisten giOscHandler, "/fader1", "f", kExpression
 
-		 if kAnswerFader == 1 then
-		 	chnset kInputFader, "fader1"
+		if kAnswerFader == 1 then
+			chnset kExpression, "Expression"
+			;printk2 kExpression
 		endif
+
+		if kAnswerXY == 1 then
+			chnset kMorphX, "InputX"
+			chnset kMorphY, "InputY"
+
+			;printk2 kMorphX
+			;printk2 kMorphY
+		endif
+
+		chnset kMorphX, "MorphX"
+		chnset kMorphY, "MorphY"
+		chnset kExpression, "Expression"
 	endin
 
 	instr ModMatrix
 
 		prints "ModMatrix initialised"
 
-		;INPUT PARAMETERS
-		;these are the parameters that go into the modmatrix and get modulated
-		iMixX = 0
-		iMixY = 0
-		iFreq = 200
-		iCutoff = 5000
-		iLFOFreq = 0
+		#include "input.inc"
 
-
-		tableiw iMixX, 0, giParam_In
-		tableiw iMixY, 1, giParam_In
-		tableiw iFreq, 2, giParam_In
-		tableiw iCutoff, 3, giParam_In
-		tableiw iLFOFreq, 4, giParam_In
-
-
-		tableiw 1, 0, giModScale ; MorphX to MixX
-		tableiw 0, 1, giModScale ; MorphX to MixY
-		tableiw 0, 2, giModScale ; MorphX to Freq
-		tableiw 0, 3, giModScale ; MorphX to Cutoff
-		tableiw 0, 4, giModScale ; MorphX to LFOFreq
-		tableiw 0, 5, giModScale ; MorphY to MixX
-		tableiw 1, 6, giModScale ; MorphY to MixY
-		tableiw 0, 7, giModScale ; MorphY to Freq
-		tableiw 0, 8, giModScale ; MorphY to Cutoff
-		tableiw 0, 9, giModScale ; MorphY to LFOFreq
-		tableiw 0, 10, giModScale ; Expression to MixX
-		tableiw 0, 11, giModScale ; Expression to MixY
-		tableiw 100, 12, giModScale ; Expression to Freq
-		tableiw 500, 13, giModScale ; Expression to Cutoff
-		tableiw 5, 14, giModScale ; Expression to LFOFreq
-		tableiw 0, 15, giModScale ; LFO to MixX
-		tableiw 0, 16, giModScale ; LFO to MixY
-		tableiw 10, 17, giModScale ; LFO to Freq
-		tableiw 50, 18, giModScale ; LFO to Cutoff
-		tableiw 0, 19, giModScale ; LFO to LFOFreq
-
-
-		kMorphX chnget "MorphX"
-		kMorphY chnget "MorphY"
-		kExpression chnget "Expression"
-		kLFO chnget "LFO"
-
-
-		tablew kMorphX, 0, giModulators
-		tablew kMorphY, 1, giModulators
-		tablew kExpression, 2, giModulators
-		tablew kLFO, 3, giModulators
-
-		;___________________________________________________
 
 		; get the update flag
 		kupdate	init 1 ;chnget	"modulatorUpdateFlag"		
@@ -112,17 +87,27 @@ instr Processing
 
 	;parameters get read from modmatrix output table
 
-	kMixX table 0, giParam_Out
-	kMixY table 1, giParam_Out
-	kFreq table 2, giParam_Out
-	kCutoff table 3, giParam_Out
-	kLFOFreq table 4, giParam_Out
+	#include "output.inc"
 
 	aSignal vco2 0.1, kFreq
 
 	aSignal tone aSignal, 200 - kCutoff
 
 	outs aSignal, aSignal
+
+endin
+
+instr sound_file
+
+	kMixX table 0, giParam_Out
+	printk2 kMixX
+	aCello diskin gSCello, 1, 0, 1
+	aElect diskin gSElect, 1, 0, 1
+
+	aOut = aCello * kMixX * 0.5 + aElect * (1 - kMixX) * 0.5
+
+	outs aOut, aOut
+
 
 endin
 
@@ -133,7 +118,8 @@ endin
 	
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
-	i "Processing" 0 865000
+	;i "Processing" 0 865000
+	i "sound_file" 0 865000
 
 </CsScore>
 </CsoundSynthesizer>

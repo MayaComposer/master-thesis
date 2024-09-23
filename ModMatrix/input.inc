@@ -18,6 +18,8 @@ tableiw iCutoff, 3, giParam_In
 tableiw iLFOFreq, 4, giParam_In
 
 
+;coefficients:___________________________________________ 
+
 tableiw 1, 0, giModScale ; MorphX to MixX
 tableiw 0, 1, giModScale ; MorphX to MixY
 tableiw 0, 2, giModScale ; MorphX to Freq
@@ -40,24 +42,19 @@ tableiw 50, 18, giModScale ; LFO to Cutoff
 tableiw 0, 19, giModScale ; LFO to LFOFreq
 
 
+;channels to be read for input___________________________ 
+
 kMorphX chnget "MorphX"
 kMorphY chnget "MorphY"
 kExpression chnget "Expression"
 kLFO chnget "LFO"
 
 
-tablew kMorphX, 0, .giModulators
-tablew kMorphY, 1, .giModulators
-tablew kExpression, 2, .giModulators
-tablew kLFO, 3, .giModulators
+;modulators___________________________ 
 
+tablew kMorphX, 0, giModulators
+tablew kMorphY, 1, giModulators
+tablew kExpression, 2, giModulators
+tablew kLFO, 3, giModulators
 
-kMixX table 0, giParam_Out
-kMixY table 1, giParam_Out
-kFreq table 2, giParam_Out
-kCutoff table 3, giParam_Out
-kLFOFreq table 4, giParam_Out
-
-
-;____________________________________ 
 
