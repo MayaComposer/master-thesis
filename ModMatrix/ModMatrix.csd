@@ -75,10 +75,14 @@
 		kupdate	init 1 ;chnget	"modulatorUpdateFlag"		
 
 		; run the mod matrix 
+		;remember to update the number of paramas and modulators here otherwise the mapping gets fucked up
+		;implement this part into excel too
 		inum_mod = 4
-		inum_param = 5
+		inum_param = 6
 		modmatrix giParam_Out, giModulators, giParam_In, \
 		giModScale, inum_mod, inum_param, kupdate
+
+		#include "output.inc"
 
 	endin
 
@@ -86,8 +90,10 @@ instr Processing
 	prints "\n Processing initialised"
 
 	;parameters get read from modmatrix output table
+	kFreq chnget "Freq"
 
-	#include "output.inc"
+	kCutoff chnget "Cutoff"
+	printk2 kFreq
 
 	aSignal vco2 0.1, kFreq
 
@@ -118,8 +124,8 @@ endin
 	
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
-	;i "Processing" 0 865000
-	i "sound_file" 0 865000
+	i "Processing" 0 865000
+	;i "sound_file" 0 865000
 
 </CsScore>
 </CsoundSynthesizer>
