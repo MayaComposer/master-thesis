@@ -25,6 +25,10 @@ output_parameters = []
 
 output_channels = []
 
+number_of_modulators = len(dataframe)
+
+number_of_parameters = len(dataframe.columns)
+
 for row_name in dataframe.index:
 
     #write code to lists
@@ -61,7 +65,7 @@ for col_name in dataframe.columns:
 ##include 'input.inc'
 ##include 'output.inc'
 
-output = open('input.inc', 'w')
+output = open('output.inc', 'w')
 
 print(';____________________________________ \n', file=output)
 
@@ -100,10 +104,11 @@ for i in range(len(modulators)):
 
 print('\n', file=output)
 
-output.close()
-
-
-output = open('output.inc', 'w')
+print('; get the update flag', file=output)
+print('kupdate	init 1 ;chnget	"modulatorUpdateFlag"', file=output)
+print('inum_mod = ' + str(number_of_modulators), file=output)
+print('inum_param = ' + str(number_of_parameters), file=output)
+print('modmatrix giParam_Out, giModulators, giParam_In, giModScale, inum_mod, inum_param, kupdate', file=output)
 
 print(';output parameters___________________________ \n', file=output)
 

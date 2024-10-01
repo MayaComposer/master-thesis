@@ -55,8 +55,8 @@
 			chnset kMorphX, "InputX"
 			chnset kMorphY, "InputY"
 
-			;printk2 kMorphX
-			;printk2 kMorphY
+			printk2 kMorphX
+			printk2 kMorphY
 		endif
 
 		chnset kMorphX, "MorphX"
@@ -67,20 +67,6 @@
 	instr ModMatrix
 
 		prints "ModMatrix initialised"
-
-		#include "input.inc"
-
-
-		; get the update flag
-		kupdate	init 1 ;chnget	"modulatorUpdateFlag"		
-
-		; run the mod matrix 
-		;remember to update the number of paramas and modulators here otherwise the mapping gets fucked up
-		;implement this part into excel too
-		inum_mod = 4
-		inum_param = 6
-		modmatrix giParam_Out, giModulators, giParam_In, \
-		giModScale, inum_mod, inum_param, kupdate
 
 		#include "output.inc"
 
