@@ -36,32 +36,10 @@
 
 	instr Receiver
 		prints "osc receiver initiliased"
+		
+		#include "receiver.inc"
 
-		kMorphX init 0
-		kMorphY init 0
-		kExpression init 0
-
-
-		; listen to osc ports
-		kAnswerXY OSClisten giOscHandler, "/xy1", "ff", kMorphX, kMorphY
-		kAnswerFader OSClisten giOscHandler, "/fader1", "f", kExpression
-
-		if kAnswerFader == 1 then
-			chnset kExpression, "Expression"
-			;printk2 kExpression
-		endif
-
-		if kAnswerXY == 1 then
-			chnset kMorphX, "InputX"
-			chnset kMorphY, "InputY"
-
-			printk2 kMorphX
-			printk2 kMorphY
-		endif
-
-		chnset kMorphX, "MorphX"
-		chnset kMorphY, "MorphY"
-		chnset kExpression, "Expression"
+		
 	endin
 
 	instr ModMatrix

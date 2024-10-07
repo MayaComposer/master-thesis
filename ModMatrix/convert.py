@@ -19,6 +19,12 @@ coefficients = []
 
 input_channels = []
 
+input_channels_set = []
+
+init_osc_param = []
+
+osc_input = []
+
 modulators = []
 
 output_parameters = []
@@ -36,6 +42,20 @@ for row_name in dataframe.index:
     #receive channels for modulators
     input_channels.append('k' + str(row_name) + ' ' + 'chnget' + ' ' + '"' + str(row_name) + '"')
 
+    #kValue OSClisten giOscHandler, "/value", "f", kData
+    #osc defs
+    #kValueTrue0 OSCListen  giOscHandler, "/Anxiety"f"kAnxiety
+
+    #kMorphX init 0
+
+    init_osc_param.append('k' + str(row_name) + ' init 0')
+    
+    osc_input.append('k' + 'InputCheck' + str(dataframe.index.get_loc(row_name)+1) + ' OSClisten ' + ' giOscHandler, ' + '"/' + str(row_name) + '", ' + '"' + 'f' + '", ' + 'k' + str(row_name))
+
+
+    #chnset kExpression, "Expression"
+    input_channels_set.append('chnset ' 'k' + str(row_name) + ', ' + '"' + str(row_name) + '"')
+   
     #modulator tablew statements
     modulators.append('tablew' + ' ' + 'k' + str(row_name) + ', ' + str(dataframe.index.get_loc(row_name)) + ', giModulators')
 
@@ -124,6 +144,26 @@ for i in range(len(output_channels)):
 
 print('\n', file=output)
 
+output.close()
+
+output = open('receiver.inc', 'w')
+
 print(';____________________________________ \n', file=output)
+
+for i in range(len(init_osc_param)):
+    print(init_osc_param[i], file=output)
+
+print('\n', file=output)
+
+
+for i in range(len(osc_input)):
+    print(osc_input[i], file=output)
+
+
+print(';put this into the receiver instrument', file=output)
+for i in range(len(input_channels_set)):
+    print(input_channels_set[i], file=output)
+
+
 
 output.close()
