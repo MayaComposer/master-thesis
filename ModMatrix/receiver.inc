@@ -6,8 +6,7 @@ kExpression init 0
 kLFO init 0
 
 
-kInputCheck1 OSClisten  giOscHandler, "/MorphX", "f", kMorphX
-kInputCheck2 OSClisten  giOscHandler, "/MorphY", "f", kMorphY
+kInputCheck1 OSClisten  giOscHandler, "/Morph", "ff", kMorphX, kMorphY
 kInputCheck3 OSClisten  giOscHandler, "/Expression", "f", kExpression
 kInputCheck4 OSClisten  giOscHandler, "/LFO", "f", kLFO
 ;put this into the receiver instrument

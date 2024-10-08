@@ -1,3 +1,25 @@
+<Cabbage>
+form caption("Grain Synth") size(1200, 900), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
+
+#define DESIGN colour(228, 193, 249) trackerColour(58, 124, 165) fontSize(1)
+
+#define SLIDER valueTextBox(1) trackerInsideRadius(0.75)
+
+#define FONT fontColour(58, 124, 165) textColour(58, 124, 165)
+
+#define BOXCOL colour(195, 148, 202, 255)
+
+#define BGX 280
+
+#define BGY 250 
+
+#define PADDINGX 10 
+
+#define PADDINGY 38 
+
+image bounds(122, 337.5, 954, 225) channel("image10000") file("matrix.png")
+</Cabbage>
+
 <CsoundSynthesizer>
 <CsOptions>
 -o dac 
@@ -69,20 +91,12 @@ endin
 
 instr sound_file
 
-	kMixX chnget "MixX"
-	kMixY chnget "MixY"
-	printk2 kMixX, 4
-	printk2 kMixY, 8
+	kMixX table 0, giParam_Out
+	printk2 kMixX
 	aCello diskin gSCello, 1, 0, 1
 	aElect diskin gSElect, 1, 0, 1
 
-	kTopLeft = (1 - kMixX) * (1 - kMixY)
-	kTopRight = kMixX * (1 - kMixY)
-	kBottomLeft = (1 - kMixX) * kMixY
-	kBottomRight = kMixX * kMixY
-	
-
-	aOut = aCello * kBottomLeft + aElect * kBottomRight
+	aOut = aCello * kMixX * 0.5 + aElect * (1 - kMixX) * 0.5
 
 	outs aOut, aOut
 
@@ -96,8 +110,8 @@ endin
 	
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
-	;i "Processing" 0 865000
-	i "sound_file" 0 865000
+	i "Processing" 0 865000
+	;i "sound_file" 0 865000
 
 </CsScore>
 </CsoundSynthesizer>
