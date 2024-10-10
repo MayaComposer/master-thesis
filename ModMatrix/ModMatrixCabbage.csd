@@ -67,7 +67,7 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 			iX = 0
 			iY += 1
 		od
-endin
+	endin
 
 	instr Receiver
 		prints "osc receiver initiliased"
