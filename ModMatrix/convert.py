@@ -167,3 +167,7 @@ for i in range(len(input_channels_set)):
 
 
 output.close()
+
+output = open('cabbage_user_interface.inc', 'w')
+
+output.close()

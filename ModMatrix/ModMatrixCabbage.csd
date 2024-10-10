@@ -1,23 +1,12 @@
-<Cabbage>
-form caption("Grain Synth") size(1200, 900), guiMode("queue") pluginId("plan") colour("beige") textColour("black") fontColour("black") typeface("sanangel.otf")
+<Cabbage> bounds(0, 0, 0, 0)
+form caption("ModMatrix") size(1200, 900), guiMode("queue"), pluginId("plan"), colour("beige"), textColour("black"), fontColour("black"), typeface("sanangel.otf")
 
-#define DESIGN colour(228, 193, 249) trackerColour(58, 124, 165) fontSize(1)
+combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
-#define SLIDER valueTextBox(1) trackerInsideRadius(0.75)
 
-#define FONT fontColour(58, 124, 165) textColour(58, 124, 165)
 
-#define BOXCOL colour(195, 148, 202, 255)
+;image bounds(138, 106, 960, 694) channel("image10000") file("matrix.png")
 
-#define BGX 280
-
-#define BGY 250 
-
-#define PADDINGX 10 
-
-#define PADDINGY 38 
-
-image bounds(122, 337.5, 954, 225) channel("image10000") file("matrix.png")
 </Cabbage>
 
 <CsoundSynthesizer>
@@ -54,7 +43,31 @@ image bounds(122, 337.5, 954, 225) channel("image10000") file("matrix.png")
 
 
 	;OSC 
-	giOscHandler OSCinit 9999
+	giOscHandler OSCinit 9994
+
+	instr UserInterface
+ 
+		iWidth chnget "SCREEN_WIDTH"
+		iHeight chnget "SCREEN_HEIGHT"
+		iTableX = 8 ;the amount of cells in the excel sheet
+		iTableY = 8
+		iGridWidth = 0.8 * iWidth / iTableX
+		iGridHeight = 0.8 * iHeight / iTableY
+		iXPadding = (iWidth - 8 * iGridWidth) / 2
+		iYPadding = (iHeight - 8 * iGridHeight) / 2
+		iX, iY init 0
+		iWidgetCount init 0
+		while iY < 8 do
+			while iX < 8 do
+				SWidget sprintf "bounds(%d, %d, %d, %d), channel(\"rslider%d\"), range(0, 1, 0, 1, 0.001), text(\"slider %d\"), markerColour(0, 0, 0, 255) outlineColour(255, 255, 255, 255)  trackerColour(120, 0, 255, 255) colour(249, 179, 255, 255) textColour(0, 0, 0, 255) trackerThickness(1)", iXPadding + iX * iGridWidth, iYPadding + iY * iGridHeight, iGridWidth, iGridHeight, iWidgetCount, iWidgetCount
+				cabbageCreate "rslider", SWidget
+				iWidgetCount += 1
+				iX += 1
+			od
+			iX = 0
+			iY += 1
+		od
+endin
 
 	instr Receiver
 		prints "osc receiver initiliased"
@@ -107,7 +120,7 @@ endin
 <CsScore>
 
 	f0 z
-	
+	i "UserInterface" 0 1
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
 	i "Processing" 0 865000
