@@ -169,5 +169,65 @@ for i in range(len(input_channels_set)):
 output.close()
 
 output = open('cabbage_user_interface.inc', 'w')
+index_list = list(dataframe.index)
+column_list = list(dataframe.columns)
+
+print(column_list)
+print(index_list)
+print(len(column_list))
+print(len(index_list))
+
+def create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label):
+    bounds_x = x_padding + x * grid_width
+    bounds_y = y_padding + y * grid_height
+    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
+    
+    return line
+
+# Generate Csound UI code
+def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
+    grid_width = 0.8 * screen_width / table_x
+    grid_height = 0.8 * screen_height / table_y
+    x_padding = (screen_width - table_x * grid_width) / 2
+    y_padding = (screen_height - table_y * grid_height) / 2
+    
+
+    widget_count = 0
+    code_lines = []
+
+    for y in range(table_y):
+        for x in range(table_x):
+            if y == 0:
+                if x > 0:
+                    label = column_list[x - 1]
+                else:
+                    label = " "
+                line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
+                code_lines.append(f'cabbageCreate "label", "{line}"')
+            elif x == 0:
+                label = index_list[y-1]
+                line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
+                code_lines.append(f'cabbageCreate "label", "{line}"')
+            else:
+                bounds_x = x_padding + x * grid_width
+                bounds_y = y_padding + y * grid_height
+                line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"slider {widget_count}\\"), markerColour(0, 0, 0, 255) outlineColour(255, 255, 255, 255) trackerColour(120, 0, 255, 255) colour(249, 179, 255, 255) textColour(0, 0, 0, 255) trackerThickness(1)'
+                code_lines.append(f'cabbageCreate "rslider", "{line}"')
+            
+
+            widget_count += 1
+
+    return "\n".join(code_lines)
+
+# Example usage
+screen_width = 1200  # Replace with actual screen width
+screen_height = 900  # Replace with actual screen height
+csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
+
+
+
+# Write to cabbage_user_interface.inc file
+with open("cabbage_user_interface.inc", "w") as file:
+    file.write(csound_code)
 
 output.close()

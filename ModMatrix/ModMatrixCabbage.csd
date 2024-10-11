@@ -47,26 +47,30 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
 	instr UserInterface
  
-		iWidth chnget "SCREEN_WIDTH"
-		iHeight chnget "SCREEN_HEIGHT"
-		iTableX = 8 ;the amount of cells in the excel sheet
-		iTableY = 8
-		iGridWidth = 0.8 * iWidth / iTableX
-		iGridHeight = 0.8 * iHeight / iTableY
-		iXPadding = (iWidth - 8 * iGridWidth) / 2
-		iYPadding = (iHeight - 8 * iGridHeight) / 2
-		iX, iY init 0
-		iWidgetCount init 0
-		while iY < 8 do
-			while iX < 8 do
-				SWidget sprintf "bounds(%d, %d, %d, %d), channel(\"rslider%d\"), range(0, 1, 0, 1, 0.001), text(\"slider %d\"), markerColour(0, 0, 0, 255) outlineColour(255, 255, 255, 255)  trackerColour(120, 0, 255, 255) colour(249, 179, 255, 255) textColour(0, 0, 0, 255) trackerThickness(1)", iXPadding + iX * iGridWidth, iYPadding + iY * iGridHeight, iGridWidth, iGridHeight, iWidgetCount, iWidgetCount
-				cabbageCreate "rslider", SWidget
-				iWidgetCount += 1
-				iX += 1
-			od
-			iX = 0
-			iY += 1
-		od
+		; iWidth chnget "SCREEN_WIDTH"
+		; iHeight chnget "SCREEN_HEIGHT"
+		; iTableX = 8 ;the amount of cells in the excel sheet
+		; iTableY = 8
+		; iGridWidth = 0.8 * iWidth / iTableX
+		; iGridHeight = 0.8 * iHeight / iTableY
+		; iXPadding = (iWidth - 8 * iGridWidth) / 2
+		; iYPadding = (iHeight - 8 * iGridHeight) / 2
+		; iX, iY init 0
+		; iWidgetCount init 0
+		; while iY < 8 do
+		; 	while iX < 8 do
+		; 		SWidget sprintf "bounds(%d, %d, %d, %d), channel(\"rslider%d\"), range(0, 1, 0, 1, 0.001), text(\"slider %d\"), markerColour(0, 0, 0, 255) outlineColour(255, 255, 255, 255)  trackerColour(120, 0, 255, 255) colour(249, 179, 255, 255) textColour(0, 0, 0, 255) trackerThickness(1)", iXPadding + iX * iGridWidth, iYPadding + iY * iGridHeight, iGridWidth, iGridHeight, iWidgetCount, iWidgetCount
+		; 		cabbageCreate "rslider", SWidget
+		; 		iWidgetCount += 1
+		; 		iX += 1
+		; 	od
+		; 	iX = 0
+		; 	iY += 1
+		; od
+
+		#include "cabbage_user_interface.inc"
+
+		
 	endin
 
 	instr Receiver
