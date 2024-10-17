@@ -114,7 +114,7 @@ combobox bounds(8, 8, 85, 40), mode("resize"), value(3)
         ;figure out why the pitch dev is not working
         ;add the pitchdev to the transpose value before converting?
         if kPitchDev > 0 then
-            kWavFreq = semitone(kTranspose) + semitone(kPitchDev)
+            kWavFreq = semitone(kTranspose + kPitchDev)
             printk2 kPitchDev, 4
             printk2 kWavFreq, 8
         else 
@@ -166,6 +166,11 @@ combobox bounds(8, 8, 85, 40), mode("resize"), value(3)
         $RecordBound(3)
         $RecordBound(4)
 
+
+        kRandomMask init 0
+
+        kRandomMask chnget "RndMaskSlider"
+
         ; activate all 4 source waveforms
         iwaveamptab ftgentmp 0, 0, 32, -2, 0, 0, 1,0,0,0,0                   
 
@@ -173,7 +178,7 @@ combobox bounds(8, 8, 85, 40), mode("resize"), value(3)
         giSigmoRise, giSigmoFall, 0, 0.5, kduration, 0.5, -1, 
         kWavFreq, 0.5, -1, -1, awavfm, 
         -1, -1, giCosine, 1, 1, 1, 
-        -1, 0, giLiveFeed, giLiveFeed, giLiveFeed, giLiveFeed, 
+        -1, kRandomMask, giLiveFeed, giLiveFeed, giLiveFeed, giLiveFeed, 
         iwaveamptab, asamplepos1, asamplepos2, 
         asamplepos3, asamplepos4, 
         kwavekey1, kwavekey2, kwavekey3, kwavekey4, 100
@@ -182,7 +187,7 @@ combobox bounds(8, 8, 85, 40), mode("resize"), value(3)
         aFeed dcblock a1 
         chnset aFeed, "partikkelFeedback" 
 
-        outs a1*ampdbfs(0), a1*ampdbfs(0)
+        outs a1, a1
         ;add sound to meter
         k1 rms a1, 20
         k2 rms a2, 20

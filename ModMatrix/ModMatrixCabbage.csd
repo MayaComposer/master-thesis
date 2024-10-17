@@ -68,9 +68,11 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 		; 	iY += 1
 		; od
 
-		#include "cabbage_user_interface.inc"
+		#include "cabbage_ui.inc"
 
-		
+		;find a way to connect the UI to the modulators so the modulators can be changed dynamically with the UI. 
+
+
 	endin
 
 	instr Receiver
@@ -86,6 +88,11 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 		prints "ModMatrix initialised"
 
 		#include "output.inc"
+
+		;for each slider in sliders
+		;if value has changed
+		;get value
+		;write to modtable
 
 	endin
 

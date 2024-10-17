@@ -180,11 +180,11 @@ print(len(index_list))
 def create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label):
     bounds_x = x_padding + x * grid_width
     bounds_y = y_padding + y * grid_height
-    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
+    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
     
     return line
 
-# Generate Csound UI code
+# Generate cabbage UI
 def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
     grid_width = 0.8 * screen_width / table_x
     grid_height = 0.8 * screen_height / table_y
@@ -198,12 +198,17 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
     for y in range(table_y):
         for x in range(table_x):
             if y == 0:
+                #output parameters
                 if x > 0:
                     label = column_list[x - 1]
-                else:
-                    label = " "
-                line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
-                code_lines.append(f'cabbageCreate "label", "{line}"')
+                    # line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
+                    # code_lines.append(f'cabbageCreate "label", "{line}"')
+
+                    bounds_x = x_padding + x * grid_width
+                    bounds_y = y_padding + y * grid_height
+                    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(23, 54, 23, 255) outlineColour(234, 200, 12, 255) trackerColour(120, 0, 255, 255) colour(60, 50, 30, 255) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+                
             elif x == 0:
                 label = index_list[y-1]
                 line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
@@ -227,7 +232,7 @@ csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) +
 
 
 # Write to cabbage_user_interface.inc file
-with open("cabbage_user_interface.inc", "w") as file:
+with open("cabbage_ui.inc", "w") as file:
     file.write(csound_code)
 
 output.close()

@@ -28,6 +28,8 @@ tableiw iLfoAmp, 8, giParam_In
 
 ;coefficients:___________________________________________ 
 
+
+
 tableiw 1, 0, giModScale ; MorphX to MixX
 tableiw 0, 1, giModScale ; MorphX to MixY
 tableiw 0, 2, giModScale ; MorphX to Delay
