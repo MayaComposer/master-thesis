@@ -177,22 +177,23 @@ print(index_list)
 print(len(column_list))
 print(len(index_list))
 
-def create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label):
-    bounds_x = x_padding + x * grid_width
-    bounds_y = y_padding + y * grid_height
-    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
+def create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label):
+    bounds_x = x_padding + x * cell_width
+    bounds_y = y_padding + y * cell_height
+    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
     
     return line
 
 # Generate cabbage UI
 def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
-    grid_width = 0.8 * screen_width / table_x
-    grid_height = 0.8 * screen_height / table_y
-    x_padding = (screen_width - table_x * grid_width) / 2
-    y_padding = (screen_height - table_y * grid_height) / 2
+    cell_width = 0.8 * screen_width / table_x
+    cell_height = 0.8 * screen_height / table_y
+    x_padding = (screen_width - table_x * cell_width) / 2
+    y_padding = (screen_height - table_y * cell_height) / 2
     
 
     widget_count = 0
+    mod_count = 0
     code_lines = []
 
     for y in range(table_y):
@@ -201,32 +202,33 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 #output parameters
                 if x > 0:
                     label = column_list[x - 1]
-                    # line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
+                    # line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                     # code_lines.append(f'cabbageCreate "label", "{line}"')
 
-                    bounds_x = x_padding + x * grid_width
-                    bounds_y = y_padding + y * grid_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(23, 54, 23, 255) outlineColour(234, 200, 12, 255) trackerColour(120, 0, 255, 255) colour(60, 50, 30, 255) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    bounds_x = x_padding + x * cell_width
+                    bounds_y = y_padding + y * cell_height
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'cabbageCreate "rslider", "{line}"')
                 
             elif x == 0:
                 label = index_list[y-1]
-                line = create_label(x_padding, y_padding, grid_width, grid_height, widget_count, x, y, label)
+                line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                 code_lines.append(f'cabbageCreate "label", "{line}"')
             else:
-                bounds_x = x_padding + x * grid_width
-                bounds_y = y_padding + y * grid_height
-                line = f'bounds({bounds_x}, {bounds_y}, {grid_width}, {grid_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"slider {widget_count}\\"), markerColour(0, 0, 0, 255) outlineColour(255, 255, 255, 255) trackerColour(120, 0, 255, 255) colour(249, 179, 255, 255) textColour(0, 0, 0, 255) trackerThickness(1)'
-                code_lines.append(f'cabbageCreate "rslider", "{line}"')
-            
+                bounds_x = x_padding + x * cell_width
+                bounds_y = y_padding + y * cell_height
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height/2}), channel(\\"mod{mod_count}\\"), range(0, 1, 0, 1, 0.01), text(\\"mod {mod_count}\\"), _type(\\"coeff\\")'
+                code_lines.append(f'cabbageCreate "nslider", "{line}"')
+
+                mod_count += 1
 
             widget_count += 1
 
     return "\n".join(code_lines)
 
 # Example usage
-screen_width = 1200  # Replace with actual screen width
-screen_height = 900  # Replace with actual screen height
+screen_width = 960  # Replace with actual screen width
+screen_height = 720  # Replace with actual screen height
 csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
 
 

@@ -1,12 +1,11 @@
 <Cabbage> bounds(0, 0, 0, 0)
-form caption("ModMatrix") size(1200, 900), guiMode("queue"), pluginId("plan"), colour("beige"), textColour("black"), fontColour("black"), typeface("sanangel.otf")
+form caption("ModMatrix") size(960, 720), guiMode("queue"), pluginId("plan"), colour("beige"), textColour("black"), fontColour("black"), typeface("sanangel.otf")
 
 combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
 
 
 ;image bounds(138, 106, 960, 694) channel("image10000") file("matrix.png")
-
 </Cabbage>
 
 <CsoundSynthesizer>
@@ -93,7 +92,9 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 		;if value has changed
 		;get value
 		;write to modtable
-
+		
+		SCoeffs[] cabbageGetWidgetChannels "_type(\"coeff\")"
+		printarray SCoeffs
 	endin
 
 instr Processing
