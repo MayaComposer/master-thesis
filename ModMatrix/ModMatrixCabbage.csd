@@ -1,7 +1,9 @@
 <Cabbage> bounds(0, 0, 0, 0)
 form caption("ModMatrix") size(960, 720), guiMode("queue"), pluginId("plan"), colour("beige"), textColour("black"), fontColour("black"), typeface("sanangel.otf")
 
-combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
+;combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
+
+label bounds(118, 648, 651, 29) channel("label1"), align("left"), fontColour(0, 0, 0, 255) text("Most recently changed widget:")
 
 
 
@@ -42,7 +44,7 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
 
 	;OSC 
-	giOscHandler OSCinit 9994
+	giOscHandler OSCinit 9993
 
 	instr UserInterface
  
@@ -87,14 +89,31 @@ combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 		prints "ModMatrix initialised"
 
 		#include "output.inc"
-
-		;for each slider in sliders
-		;if value has changed
-		;get value
-		;write to modtable
 		
+		
+
+		; This opcode takes an array of channel names and listens for a change. It reports a trigger value along with the name or index of the channel that changed. 
+		;SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]
+		;this version will return the name of the channel
+
 		SCoeffs[] cabbageGetWidgetChannels "_type(\"coeff\")"
-		printarray SCoeffs
+		
+		
+
+		kIndex init 0
+
+		kIndex, kTrig cabbageChanged SCoeffs
+
+		SUpdatedChannel, kTrig cabbageChanged SCoeffs
+
+		if kTrig == 1 then 
+			kValue cabbageGetValue SUpdatedChannel
+			tablew kValue, kIndex, giModScale
+			ftprint giModScale, -1
+		endif
+
+		cabbageSet kTrig, "label1", sprintfk("text(\"Last updated widget: %s - Index:%d\")", SUpdatedChannel, kIndex)
+	
 	endin
 
 instr Processing
@@ -104,7 +123,7 @@ instr Processing
 	kFreq chnget "Freq"
 
 	kCutoff chnget "Cutoff"
-	printk2 kFreq
+	
 
 	aSignal vco2 0.1, kFreq
 
@@ -117,7 +136,6 @@ endin
 instr sound_file
 
 	kMixX table 0, giParam_Out
-	printk2 kMixX
 	aCello diskin gSCello, 1, 0, 1
 	aElect diskin gSElect, 1, 0, 1
 
