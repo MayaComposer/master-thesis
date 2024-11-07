@@ -177,7 +177,7 @@ print(len(index_list))
 def create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label):
     bounds_x = x_padding + x * cell_width
     bounds_y = y_padding + y * cell_height
-    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
+    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"label{widget_count}\"), text(\"{label}\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)' 
     
     return line
 
@@ -207,13 +207,13 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}In\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
-                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"{label}In\"), range(0, 1, 0, 1, 0.001), text(\"{label}In\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    code_lines.append(f'rslider {line}')
                 
             elif x == 0:
                 label = index_list[y - 1]
                 line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
-                code_lines.append(f'cabbageCreate "label", "{line}"')
+                code_lines.append(f'label {line}')
             else:
 
                 #TODO
@@ -226,8 +226,8 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                 
                     
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, {default_value}, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
-                code_lines.append(f'cabbageCreate "nslider", "{line}"')
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, {default_value}, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
+                code_lines.append(f'nslider {line}')
 
                 mod_count += 1
 
@@ -238,8 +238,8 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + (y + 1) * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}Out\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}Out\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
-                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"{label}Out\"), range(0, 1, 0, 1, 0.001), text(\"{label}Out\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    code_lines.append(f'rslider {line}')
 
             
 

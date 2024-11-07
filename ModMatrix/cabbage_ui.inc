@@ -1,70 +1,70 @@
-cabbageCreate "rslider", "bounds(105.6, 14.4, 96.0, 82.28571428571429), channel(\"MixXIn\"), range(0, 1, 0, 1, 0.001), text(\"MixXIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(201.6, 14.4, 96.0, 82.28571428571429), channel(\"MixYIn\"), range(0, 1, 0, 1, 0.001), text(\"MixYIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(297.6, 14.4, 96.0, 82.28571428571429), channel(\"DelayIn\"), range(0, 1, 0, 1, 0.001), text(\"DelayIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(393.6, 14.4, 96.0, 82.28571428571429), channel(\"LPFIn\"), range(0, 1, 0, 1, 0.001), text(\"LPFIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(489.6, 14.4, 96.0, 82.28571428571429), channel(\"SendAmountIn\"), range(0, 1, 0, 1, 0.001), text(\"SendAmountIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(585.6, 14.4, 96.0, 82.28571428571429), channel(\"DistortAmountIn\"), range(0, 1, 0, 1, 0.001), text(\"DistortAmountIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(681.6, 14.4, 96.0, 82.28571428571429), channel(\"ShapeIn\"), range(0, 1, 0, 1, 0.001), text(\"ShapeIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "rslider", "bounds(777.6, 14.4, 96.0, 82.28571428571429), channel(\"LfoFreqIn\"), range(0, 1, 0, 1, 0.001), text(\"LfoFreqIn\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "label", "bounds(9.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"1 9\"), text(\"MorphX\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod0\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(201.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod1\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(297.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod2\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(393.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod3\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(489.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod4\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(585.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod5\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(681.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod6\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(777.6, 96.6857142857143, 96.0, 82.28571428571429), channel(\"mod7\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "label", "bounds(9.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"1 18\"), text(\"MorphY\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod8\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(201.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod9\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(297.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod10\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(393.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod11\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(489.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod12\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(585.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod13\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(681.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod14\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(777.6, 178.9714285714286, 96.0, 82.28571428571429), channel(\"mod15\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "label", "bounds(9.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"1 27\"), text(\"Audiodescriptor1\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod16\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(201.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod17\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(297.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod18\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(393.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod19\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(489.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod20\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(585.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod21\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(681.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod22\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(777.6, 261.25714285714287, 96.0, 82.28571428571429), channel(\"mod23\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "label", "bounds(9.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"1 36\"), text(\"Audiodescriptor2\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod24\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(201.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod25\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(297.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod26\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(393.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod27\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(489.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod28\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(585.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod29\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(681.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod30\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(777.6, 343.54285714285714, 96.0, 82.28571428571429), channel(\"mod31\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "label", "bounds(9.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"1 45\"), text(\"Audiodescriptor3\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod32\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(201.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod33\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(297.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod34\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(393.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod35\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(489.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod36\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(585.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod37\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(681.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod38\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "nslider", "bounds(777.6, 425.8285714285714, 96.0, 82.28571428571429), channel(\"mod39\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "label", "bounds(9.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"1 54\"), text(\"Expression\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)"
-cabbageCreate "nslider", "bounds(105.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod40\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(105.6, 590.4, 96.0, 82.28571428571429), channel(\"MixXOut\"), range(0, 1, 0, 1, 0.001), text(\"MixXOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(201.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod41\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(201.6, 590.4, 96.0, 82.28571428571429), channel(\"MixYOut\"), range(0, 1, 0, 1, 0.001), text(\"MixYOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(297.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod42\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(297.6, 590.4, 96.0, 82.28571428571429), channel(\"DelayOut\"), range(0, 1, 0, 1, 0.001), text(\"DelayOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(393.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod43\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(393.6, 590.4, 96.0, 82.28571428571429), channel(\"LPFOut\"), range(0, 1, 0, 1, 0.001), text(\"LPFOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(489.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod44\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(489.6, 590.4, 96.0, 82.28571428571429), channel(\"SendAmountOut\"), range(0, 1, 0, 1, 0.001), text(\"SendAmountOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(585.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod45\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(585.6, 590.4, 96.0, 82.28571428571429), channel(\"DistortAmountOut\"), range(0, 1, 0, 1, 0.001), text(\"DistortAmountOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(681.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod46\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(681.6, 590.4, 96.0, 82.28571428571429), channel(\"ShapeOut\"), range(0, 1, 0, 1, 0.001), text(\"ShapeOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
-cabbageCreate "nslider", "bounds(777.6, 508.11428571428576, 96.0, 82.28571428571429), channel(\"mod47\"), range(0, 999, 0.0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")"
-cabbageCreate "rslider", "bounds(777.6, 590.4, 96.0, 82.28571428571429), channel(\"LfoFreqOut\"), range(0, 1, 0, 1, 0.001), text(\"LfoFreqOut\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)"
+rslider bounds(105.6, 14.4, 96.0, 82.28571428571429), channel("MixXIn"), range(0, 1, 0, 1, 0.001), text("MixXIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(201.6, 14.4, 96.0, 82.28571428571429), channel("MixYIn"), range(0, 1, 0, 1, 0.001), text("MixYIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(297.6, 14.4, 96.0, 82.28571428571429), channel("DelayIn"), range(0, 1, 0, 1, 0.001), text("DelayIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(393.6, 14.4, 96.0, 82.28571428571429), channel("LPFIn"), range(0, 1, 0, 1, 0.001), text("LPFIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(489.6, 14.4, 96.0, 82.28571428571429), channel("SendAmountIn"), range(0, 1, 0, 1, 0.001), text("SendAmountIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(585.6, 14.4, 96.0, 82.28571428571429), channel("DistortAmountIn"), range(0, 1, 0, 1, 0.001), text("DistortAmountIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(681.6, 14.4, 96.0, 82.28571428571429), channel("ShapeIn"), range(0, 1, 0, 1, 0.001), text("ShapeIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+rslider bounds(777.6, 14.4, 96.0, 82.28571428571429), channel("LfoFreqIn"), range(0, 1, 0, 1, 0.001), text("LfoFreqIn"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+label bounds(9.6, 96.6857142857143, 96.0, 82.28571428571429), channel("label9"), text("MorphX"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod0"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(201.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod1"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(297.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod2"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(393.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod3"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(489.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod4"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(585.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod5"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(681.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod6"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(777.6, 96.6857142857143, 96.0, 82.28571428571429), channel("mod7"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+label bounds(9.6, 178.9714285714286, 96.0, 82.28571428571429), channel("label18"), text("MorphY"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod8"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(201.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod9"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(297.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod10"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(393.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod11"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(489.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod12"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(585.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod13"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(681.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod14"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(777.6, 178.9714285714286, 96.0, 82.28571428571429), channel("mod15"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+label bounds(9.6, 261.25714285714287, 96.0, 82.28571428571429), channel("label27"), text("Audiodescriptor1"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod16"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(201.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod17"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(297.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod18"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(393.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod19"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(489.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod20"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(585.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod21"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(681.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod22"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(777.6, 261.25714285714287, 96.0, 82.28571428571429), channel("mod23"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+label bounds(9.6, 343.54285714285714, 96.0, 82.28571428571429), channel("label36"), text("Audiodescriptor2"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod24"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(201.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod25"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(297.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod26"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(393.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod27"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(489.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod28"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(585.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod29"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(681.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod30"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(777.6, 343.54285714285714, 96.0, 82.28571428571429), channel("mod31"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+label bounds(9.6, 425.8285714285714, 96.0, 82.28571428571429), channel("label45"), text("Audiodescriptor3"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod32"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(201.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod33"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(297.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod34"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(393.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod35"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(489.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod36"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(585.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod37"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(681.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod38"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+nslider bounds(777.6, 425.8285714285714, 96.0, 82.28571428571429), channel("mod39"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+label bounds(9.6, 508.11428571428576, 96.0, 82.28571428571429), channel("label54"), text("Expression"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+nslider bounds(105.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod40"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(105.6, 590.4, 96.0, 82.28571428571429), channel("MixXOut"), range(0, 1, 0, 1, 0.001), text("MixXOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(201.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod41"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(201.6, 590.4, 96.0, 82.28571428571429), channel("MixYOut"), range(0, 1, 0, 1, 0.001), text("MixYOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(297.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod42"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(297.6, 590.4, 96.0, 82.28571428571429), channel("DelayOut"), range(0, 1, 0, 1, 0.001), text("DelayOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(393.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod43"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(393.6, 590.4, 96.0, 82.28571428571429), channel("LPFOut"), range(0, 1, 0, 1, 0.001), text("LPFOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(489.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod44"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(489.6, 590.4, 96.0, 82.28571428571429), channel("SendAmountOut"), range(0, 1, 0, 1, 0.001), text("SendAmountOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(585.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod45"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(585.6, 590.4, 96.0, 82.28571428571429), channel("DistortAmountOut"), range(0, 1, 0, 1, 0.001), text("DistortAmountOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(681.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod46"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(681.6, 590.4, 96.0, 82.28571428571429), channel("ShapeOut"), range(0, 1, 0, 1, 0.001), text("ShapeOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
+nslider bounds(777.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod47"), range(0, 999, 0.0, 1, 0.01), fontSize("15"), _type("coeff")
+rslider bounds(777.6, 590.4, 96.0, 82.28571428571429), channel("LfoFreqOut"), range(0, 1, 0, 1, 0.001), text("LfoFreqOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
