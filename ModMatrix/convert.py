@@ -194,9 +194,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
     for y in range(0, table_y):
         for x in range(0, table_x):
-            # default_value = dataframe.iat[x - 1, y - 1]
-            # print('value: ' + str(default_value))
-            default_value = 0.0
+            default_value = 0
             print(x, y)
             if y == 0:
                 #input parameters
@@ -226,7 +224,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                 
                     
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, {default_value}, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
                 code_lines.append(f'nslider {line}')
 
                 mod_count += 1
@@ -252,7 +250,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 # Example usage
 screen_width = 960  # Replace with actual screen width
 screen_height = 720  # Replace with actual screen height
-csound_code = generate_csound_ui(screen_width, screen_height, len(column_list), len(index_list))
+csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
 
 
 

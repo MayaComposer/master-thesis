@@ -78,10 +78,6 @@ nslider bounds(777.6, 508.11428571428576, 96.0, 82.28571428571429), channel("mod
 rslider bounds(777.6, 590.4, 96.0, 82.28571428571429), channel("LfoFreqOut"), range(0, 1, 0, 1, 0.001), text("LfoFreqOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
 
 
-
-;image bounds(138, 106, 960, 694) channel("image10000") file("matrix.png")
-
-
 csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(0)
 
 
