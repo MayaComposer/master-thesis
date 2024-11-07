@@ -2,30 +2,30 @@
 
 ;parameter definitions 
 
-kMixX chnget "MixXIn"
-kMixY chnget "MixYIn"
-kDelay chnget "DelayIn"
-kLPF chnget "LPFIn"
-kSendAmount chnget "SendAmountIn"
-kDistortAmount chnget "DistortAmountIn"
-kShape chnget "ShapeIn"
-kLfoFreq chnget "LfoFreqIn"
-kLfoAmp chnget "LfoAmpIn"
-kSmackidiboo chnget "SmackidibooIn"
+kMixXIn chnget "MixXIn"
+kMixYIn chnget "MixYIn"
+kDelayIn chnget "DelayIn"
+kLPFIn chnget "LPFIn"
+kSendAmountIn chnget "SendAmountIn"
+kDistortAmountIn chnget "DistortAmountIn"
+kShapeIn chnget "ShapeIn"
+kLfoFreqIn chnget "LfoFreqIn"
+kLfoAmpIn chnget "LfoAmpIn"
+kSmackidibooIn chnget "SmackidibooIn"
 
 
 ;input parameters 
 
-tablew kMixX, 0, giParam_In
-tablew kMixY, 1, giParam_In
-tablew kDelay, 2, giParam_In
-tablew kLPF, 3, giParam_In
-tablew kSendAmount, 4, giParam_In
-tablew kDistortAmount, 5, giParam_In
-tablew kShape, 6, giParam_In
-tablew kLfoFreq, 7, giParam_In
-tablew kLfoAmp, 8, giParam_In
-tablew kSmackidiboo, 9, giParam_In
+tablew kMixXIn, 0, giParam_In
+tablew kMixYIn, 1, giParam_In
+tablew kDelayIn, 2, giParam_In
+tablew kLPFIn, 3, giParam_In
+tablew kSendAmountIn, 4, giParam_In
+tablew kDistortAmountIn, 5, giParam_In
+tablew kShapeIn, 6, giParam_In
+tablew kLfoFreqIn, 7, giParam_In
+tablew kLfoAmpIn, 8, giParam_In
+tablew kSmackidibooIn, 9, giParam_In
 
 
 ;coefficients:___________________________________________ 
@@ -145,15 +145,15 @@ kSmackidiboo table 9, giParam_Out
 
 ;channels to read parameters from___________________________ 
 
-chnset kMixX, "MixXOut"
-chnset kMixY, "MixYOut"
-chnset kDelay, "DelayOut"
-chnset kLPF, "LPFOut"
-chnset kSendAmount, "SendAmountOut"
-chnset kDistortAmount, "DistortAmountOut"
-chnset kShape, "ShapeOut"
-chnset kLfoFreq, "LfoFreqOut"
-chnset kLfoAmp, "LfoAmpOut"
-chnset kSmackidiboo, "SmackidibooOut"
+cabbageSetValue "MixXOut", kMixX
+cabbageSetValue "MixYOut", kMixY
+cabbageSetValue "DelayOut", kDelay
+cabbageSetValue "LPFOut", kLPF
+cabbageSetValue "SendAmountOut", kSendAmount
+cabbageSetValue "DistortAmountOut", kDistortAmount
+cabbageSetValue "ShapeOut", kShape
+cabbageSetValue "LfoFreqOut", kLfoFreq
+cabbageSetValue "LfoAmpOut", kLfoAmp
+cabbageSetValue "SmackidibooOut", kSmackidiboo
 
 

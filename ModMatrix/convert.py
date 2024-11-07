@@ -70,16 +70,16 @@ for row_name in dataframe.index:
 #input parameters looped seperately here. 
 for col_name in dataframe.columns:
 
-    parameter_definitions.append('k' + col_name + ' chnget ' + '"' + col_name + 'In"') #add starting values of parameters here somehow. 
+    parameter_definitions.append('k' + col_name + 'In' + ' chnget ' + '"' + col_name + 'In"') #add starting values of parameters here somehow. 
 
-    input_parameters.append('tablew' + ' ' + 'k' + col_name + ', ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_In')
+    input_parameters.append('tablew' + ' ' + 'k' + col_name + 'In' +  ', ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_In')
     
     #parameters getting read from out table
     #kFreq table	0, giParam_Out
     output_parameters.append('k' + col_name + ' table ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_Out')
 
     #chnset parameter, "channel"
-    output_channels.append('chnset ' + 'k' + col_name + ', ' + str('"' + col_name + 'Out' + '"'))
+    output_channels.append('cabbageSetValue ' + str('"' + col_name + 'Out' + '"') + ', ' + 'k' + col_name)
     
 
 ##include 'input.inc'
@@ -207,7 +207,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'cabbageCreate "rslider", "{line}"')
                 
             elif x == 0:
