@@ -198,6 +198,11 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
     for y in range(0, table_y):
         for x in range(0, table_x):
+<<<<<<< HEAD
+=======
+            default_value = 0
+            print(x, y)
+>>>>>>> 2289be1 (.)
             if y == 0:
                 #input parameters
                 if x > 0:
@@ -220,8 +225,19 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
+<<<<<<< HEAD
                 line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
                 code_lines.append(f'cabbageCreate "nslider", "{line}"')
+=======
+
+
+                
+
+                
+                    
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
+                code_lines.append(f'nslider {line}')
+>>>>>>> 2289be1 (.)
 
                 mod_count += 1
 
