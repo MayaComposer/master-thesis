@@ -82,9 +82,6 @@ for col_name in dataframe.columns:
     output_channels.append('cabbageSetValue ' + str('"' + col_name + 'Out' + '"') + ', ' + 'k' + col_name)
     
 
-##include 'input.inc'
-##include 'output.inc'
-
 output = open('output.inc', 'w')
 
 print(';____________________________________ \n', file=output)
@@ -168,7 +165,6 @@ for i in range(len(input_channels_set)):
 
 output.close()
 
-output = open('cabbage_user_interface.inc', 'w')
 index_list = list(dataframe.index)
 print('index listlength: ' + str(len(index_list)))
 column_list = list(dataframe.columns)
@@ -198,6 +194,10 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
     for y in range(0, table_y):
         for x in range(0, table_x):
+            # default_value = dataframe.iat[x - 1, y - 1]
+            # print('value: ' + str(default_value))
+            default_value = 0.0
+            print(x, y)
             if y == 0:
                 #input parameters
                 if x > 0:
@@ -220,14 +220,19 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
+
+
+                
+
+                
+                    
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, {default_value}, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
                 code_lines.append(f'cabbageCreate "nslider", "{line}"')
 
                 mod_count += 1
 
             if y == table_y - 1:
                 if x > 0:
-                    print("this is where the output widgets should be created i think")
 
                     label = column_list[x - 1]
 
@@ -239,13 +244,15 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
             
 
             widget_count += 1
+            
+
 
     return "\n".join(code_lines)
 
 # Example usage
 screen_width = 960  # Replace with actual screen width
 screen_height = 720  # Replace with actual screen height
-csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
+csound_code = generate_csound_ui(screen_width, screen_height, len(column_list), len(index_list))
 
 
 

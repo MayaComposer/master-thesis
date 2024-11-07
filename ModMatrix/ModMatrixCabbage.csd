@@ -34,8 +34,8 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 	giSoftSaw ftgen	0, 0, 65537, 30, giSaw, 1, 10	; soft saw (only 10 first harmonics)
 
 	; modmatrix tables
-	giMaxNumParam	= 11
-	giMaxNumMod	= 8
+	giMaxNumParam	= 128
+	giMaxNumMod	= 32
 	giParam_In ftgen 0, 0, giMaxNumParam, 2, 0	; input parameters table
 	giParam_Out ftgen 0, 0, giMaxNumParam, 2, 0	; output parameters table (parameter values with added modulators)
 	giModulators ftgen 0, 0, giMaxNumMod, 2, 0	 ; modulators table
@@ -51,7 +51,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 
 
 	;OSC 
-	giOscHandler OSCinit 9993
+	giOscHandler OSCinit 9999
 
 	instr UserInterface
  
@@ -101,6 +101,8 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		
 		#include "receiver.inc"
 
+		printk2 kMorphX
+		printk2 kMorphY
 		
 	endin
 
