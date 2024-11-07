@@ -77,7 +77,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 
 		#include "cabbage_ui.inc"
 
-		;find a way to connect the UI to the modulators so the modulators can be changed dynamically with the UI. 
+		
 
 
 	endin
