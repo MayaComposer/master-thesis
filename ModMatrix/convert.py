@@ -215,6 +215,9 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                 code_lines.append(f'cabbageCreate "label", "{line}"')
             else:
+
+                #TODO
+                #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
                 line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'

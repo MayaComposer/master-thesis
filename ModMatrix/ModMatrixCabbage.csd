@@ -34,8 +34,8 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 	giSoftSaw ftgen	0, 0, 65537, 30, giSaw, 1, 10	; soft saw (only 10 first harmonics)
 
 	; modmatrix tables
-	giMaxNumParam	= 10
-	giMaxNumMod	= 7
+	giMaxNumParam	= 11
+	giMaxNumMod	= 8
 	giParam_In ftgen 0, 0, giMaxNumParam, 2, 0	; input parameters table
 	giParam_Out ftgen 0, 0, giMaxNumParam, 2, 0	; output parameters table (parameter values with added modulators)
 	giModulators ftgen 0, 0, giMaxNumMod, 2, 0	 ; modulators table
