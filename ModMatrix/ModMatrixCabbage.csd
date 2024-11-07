@@ -187,8 +187,6 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		; 	iY += 1
 		; od
 
-		#include "cabbage_ui.inc"
-
 		
 
 
