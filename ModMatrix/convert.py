@@ -207,7 +207,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}In\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'cabbageCreate "rslider", "{line}"')
                 
             elif x == 0:
