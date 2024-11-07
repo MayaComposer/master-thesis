@@ -187,7 +187,7 @@ def create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x,
 
 # Generate cabbage UI
 def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
-    cell_width = 0.8 * screen_width / table_x
+    cell_width = 0.9 * screen_width / table_x
     cell_height = 0.8 * screen_height / table_y
     x_padding = (screen_width - table_x * cell_width) / 10
     y_padding = (screen_height - table_y * cell_height) / 10
@@ -217,7 +217,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
             else:
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height/2}), channel(\\"mod{mod_count}\\"), range(0, 1, 0, 1, 0.01), text(\\"mod {mod_count}\\"), _type(\\"coeff\\")'
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
                 code_lines.append(f'cabbageCreate "nslider", "{line}"')
 
                 mod_count += 1

@@ -14,6 +14,7 @@ csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(0)
 
 
 button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
+
 </Cabbage>
 
 <CsoundSynthesizer>
