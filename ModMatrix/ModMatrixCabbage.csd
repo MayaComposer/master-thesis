@@ -162,7 +162,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 
 
 	;OSC 
-	giOscHandler OSCinit 9995
+	giOscHandler OSCinit 9993
 
 	instr UserInterface
  
@@ -187,6 +187,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		; 	iY += 1
 		; od
 
+		#include "cabbage_ui.inc"
 
 		
 
@@ -211,6 +212,8 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		
 		#include "receiver.inc"
 
+		printk2 kMorphX
+		printk2 kMorphY
 		
 	endin
 
