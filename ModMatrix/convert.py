@@ -70,7 +70,7 @@ for row_name in dataframe.index:
 #input parameters looped seperately here. 
 for col_name in dataframe.columns:
 
-    parameter_definitions.append('k' + col_name + ' chnget ' + '"' + col_name + '"') #add starting values of parameters here somehow. 
+    parameter_definitions.append('k' + col_name + ' chnget ' + '"' + col_name + 'In"') #add starting values of parameters here somehow. 
 
     input_parameters.append('tablew' + ' ' + 'k' + col_name + ', ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_In')
     
@@ -201,7 +201,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
             if y == 0:
                 #input parameters
                 if x > 0:
-                    label = column_list[x]
+                    label = column_list[x - 1]
                     # line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                     # code_lines.append(f'cabbageCreate "label", "{line}"')
 
@@ -211,7 +211,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                     code_lines.append(f'cabbageCreate "rslider", "{line}"')
                 
             elif x == 0:
-                label = index_list[y]
+                label = index_list[y - 1]
                 line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                 code_lines.append(f'cabbageCreate "label", "{line}"')
             else:
@@ -226,7 +226,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 if x > 0:
                     print("this is where the output widgets should be created i think")
 
-                    label = column_list[x]
+                    label = column_list[x - 1]
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + (y + 1) * cell_height
@@ -242,7 +242,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 # Example usage
 screen_width = 960  # Replace with actual screen width
 screen_height = 720  # Replace with actual screen height
-csound_code = generate_csound_ui(screen_width, screen_height, len(column_list), len(index_list))
+csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
 
 
 

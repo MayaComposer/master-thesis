@@ -2,16 +2,16 @@
 
 ;parameter definitions 
 
-kMixX chnget "MixX"
-kMixY chnget "MixY"
-kDelay chnget "Delay"
-kLPF chnget "LPF"
-kSendAmount chnget "SendAmount"
-kDistortAmount chnget "DistortAmount"
-kShape chnget "Shape"
-kLfoFreq chnget "LfoFreq"
-kLfoAmp chnget "LfoAmp"
-kSmackidiboo chnget "Smackidiboo"
+kMixX chnget "MixXIn"
+kMixY chnget "MixYIn"
+kDelay chnget "DelayIn"
+kLPF chnget "LPFIn"
+kSendAmount chnget "SendAmountIn"
+kDistortAmount chnget "DistortAmountIn"
+kShape chnget "ShapeIn"
+kLfoFreq chnget "LfoFreqIn"
+kLfoAmp chnget "LfoAmpIn"
+kSmackidiboo chnget "SmackidibooIn"
 
 
 ;input parameters 
