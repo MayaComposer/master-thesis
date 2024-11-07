@@ -32,7 +32,7 @@ tablew kSmudgirydoobidyIn, 10, giParam_In
 
 ;coefficients:___________________________________________ 
 
-tablew 1, 0, giModScale ; MorphX to MixX
+tablew 0, 0, giModScale ; MorphX to MixX
 tablew 0, 1, giModScale ; MorphX to MixY
 tablew 0, 2, giModScale ; MorphX to Delay
 tablew 0, 3, giModScale ; MorphX to LPF
@@ -42,9 +42,9 @@ tablew 0, 6, giModScale ; MorphX to Shape
 tablew 0, 7, giModScale ; MorphX to LfoFreq
 tablew 0, 8, giModScale ; MorphX to LfoAmp
 tablew 0, 9, giModScale ; MorphX to Smackidiboo
-tablew 32, 10, giModScale ; MorphX to Smudgirydoobidy
+tablew 0, 10, giModScale ; MorphX to Smudgirydoobidy
 tablew 0, 11, giModScale ; MorphY to MixX
-tablew 1, 12, giModScale ; MorphY to MixY
+tablew 0, 12, giModScale ; MorphY to MixY
 tablew 0, 13, giModScale ; MorphY to Delay
 tablew 0, 14, giModScale ; MorphY to LPF
 tablew 0, 15, giModScale ; MorphY to SendAmount
@@ -53,7 +53,7 @@ tablew 0, 17, giModScale ; MorphY to Shape
 tablew 0, 18, giModScale ; MorphY to LfoFreq
 tablew 0, 19, giModScale ; MorphY to LfoAmp
 tablew 0, 20, giModScale ; MorphY to Smackidiboo
-tablew 2, 21, giModScale ; MorphY to Smudgirydoobidy
+tablew 0, 21, giModScale ; MorphY to Smudgirydoobidy
 tablew 0, 22, giModScale ; Audiodescriptor1 to MixX
 tablew 0, 23, giModScale ; Audiodescriptor1 to MixY
 tablew 0, 24, giModScale ; Audiodescriptor1 to Delay
@@ -61,10 +61,10 @@ tablew 0, 25, giModScale ; Audiodescriptor1 to LPF
 tablew 0, 26, giModScale ; Audiodescriptor1 to SendAmount
 tablew 0, 27, giModScale ; Audiodescriptor1 to DistortAmount
 tablew 0, 28, giModScale ; Audiodescriptor1 to Shape
-tablew 20, 29, giModScale ; Audiodescriptor1 to LfoFreq
+tablew 0, 29, giModScale ; Audiodescriptor1 to LfoFreq
 tablew 0, 30, giModScale ; Audiodescriptor1 to LfoAmp
 tablew 0, 31, giModScale ; Audiodescriptor1 to Smackidiboo
-tablew 3, 32, giModScale ; Audiodescriptor1 to Smudgirydoobidy
+tablew 0, 32, giModScale ; Audiodescriptor1 to Smudgirydoobidy
 tablew 0, 33, giModScale ; Audiodescriptor2 to MixX
 tablew 0, 34, giModScale ; Audiodescriptor2 to MixY
 tablew 0, 35, giModScale ; Audiodescriptor2 to Delay
@@ -72,10 +72,10 @@ tablew 0, 36, giModScale ; Audiodescriptor2 to LPF
 tablew 0, 37, giModScale ; Audiodescriptor2 to SendAmount
 tablew 0, 38, giModScale ; Audiodescriptor2 to DistortAmount
 tablew 0, 39, giModScale ; Audiodescriptor2 to Shape
-tablew 20, 40, giModScale ; Audiodescriptor2 to LfoFreq
+tablew 0, 40, giModScale ; Audiodescriptor2 to LfoFreq
 tablew 0, 41, giModScale ; Audiodescriptor2 to LfoAmp
 tablew 0, 42, giModScale ; Audiodescriptor2 to Smackidiboo
-tablew 6, 43, giModScale ; Audiodescriptor2 to Smudgirydoobidy
+tablew 0, 43, giModScale ; Audiodescriptor2 to Smudgirydoobidy
 tablew 0, 44, giModScale ; Audiodescriptor3 to MixX
 tablew 0, 45, giModScale ; Audiodescriptor3 to MixY
 tablew 0, 46, giModScale ; Audiodescriptor3 to Delay
@@ -86,12 +86,12 @@ tablew 0, 50, giModScale ; Audiodescriptor3 to Shape
 tablew 0, 51, giModScale ; Audiodescriptor3 to LfoFreq
 tablew 0, 52, giModScale ; Audiodescriptor3 to LfoAmp
 tablew 0, 53, giModScale ; Audiodescriptor3 to Smackidiboo
-tablew 10, 54, giModScale ; Audiodescriptor3 to Smudgirydoobidy
+tablew 0, 54, giModScale ; Audiodescriptor3 to Smudgirydoobidy
 tablew 0, 55, giModScale ; Expression to MixX
 tablew 0, 56, giModScale ; Expression to MixY
-tablew 100, 57, giModScale ; Expression to Delay
-tablew 500, 58, giModScale ; Expression to LPF
-tablew 5, 59, giModScale ; Expression to SendAmount
+tablew 0, 57, giModScale ; Expression to Delay
+tablew 0, 58, giModScale ; Expression to LPF
+tablew 0, 59, giModScale ; Expression to SendAmount
 tablew 0, 60, giModScale ; Expression to DistortAmount
 tablew 0, 61, giModScale ; Expression to Shape
 tablew 0, 62, giModScale ; Expression to LfoFreq
@@ -100,15 +100,15 @@ tablew 0, 64, giModScale ; Expression to Smackidiboo
 tablew 0, 65, giModScale ; Expression to Smudgirydoobidy
 tablew 0, 66, giModScale ; LFO to MixX
 tablew 0, 67, giModScale ; LFO to MixY
-tablew 10, 68, giModScale ; LFO to Delay
-tablew 50, 69, giModScale ; LFO to LPF
+tablew 0, 68, giModScale ; LFO to Delay
+tablew 0, 69, giModScale ; LFO to LPF
 tablew 0, 70, giModScale ; LFO to SendAmount
 tablew 0, 71, giModScale ; LFO to DistortAmount
 tablew 0, 72, giModScale ; LFO to Shape
 tablew 0, 73, giModScale ; LFO to LfoFreq
 tablew 0, 74, giModScale ; LFO to LfoAmp
 tablew 0, 75, giModScale ; LFO to Smackidiboo
-tablew 4, 76, giModScale ; LFO to Smudgirydoobidy
+tablew 0, 76, giModScale ; LFO to Smudgirydoobidy
 
 
 ;input_channels to be read for input___________________________ 
