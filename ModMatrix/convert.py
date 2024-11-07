@@ -39,7 +39,7 @@ for row_name in dataframe.index:
 
     #write code to lists
 
-    #receive channels for modulators
+    #,receive channels for modulators
     input_channels.append('k' + str(row_name) + ' ' + 'chnget' + ' ' + '"' + str(row_name) + '"')
 
     #kValue OSClisten giOscHandler, "/value", "f", kData
@@ -64,22 +64,22 @@ for row_name in dataframe.index:
     for col_name in dataframe.columns:
         
         #tablewrite code for coefficients
-        coefficients.append('tableiw' + ' ' + str(dataframe.at[row_name, col_name]) + ', ' + str(counter) + ', giModScale' + ' ; ' + str(row_name + ' to ' + col_name))
+        coefficients.append('tablew' + ' ' + str(dataframe.at[row_name, col_name]) + ', ' + str(counter) + ', giModScale' + ' ; ' + str(row_name + ' to ' + col_name))
         counter += 1
 
 #input parameters looped seperately here. 
 for col_name in dataframe.columns:
 
-    parameter_definitions.append('i' + col_name + ' = 0') #add starting values of parameters here somehow. 
+    parameter_definitions.append('k' + col_name + ' chnget ' + '"' + col_name + '"') #add starting values of parameters here somehow. 
 
-    input_parameters.append('tableiw' + ' ' + 'i' + col_name + ', ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_In')
+    input_parameters.append('tablew' + ' ' + 'k' + col_name + ', ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_In')
     
     #parameters getting read from out table
     #kFreq table	0, giParam_Out
     output_parameters.append('k' + col_name + ' table ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_Out')
 
     #chnset parameter, "channel"
-    output_channels.append('chnset ' + 'k' + col_name + ', ' + str('"' + col_name + '"'))
+    output_channels.append('chnset ' + 'k' + col_name + ', ' + str('"' + col_name + 'Out' + '"'))
     
 
 ##include 'input.inc'
@@ -170,6 +170,7 @@ output.close()
 
 output = open('cabbage_user_interface.inc', 'w')
 index_list = list(dataframe.index)
+print('index listlength: ' + str(len(index_list)))
 column_list = list(dataframe.columns)
 
 print(column_list)
@@ -188,30 +189,29 @@ def create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x,
 def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
     cell_width = 0.8 * screen_width / table_x
     cell_height = 0.8 * screen_height / table_y
-    x_padding = (screen_width - table_x * cell_width) / 2
-    y_padding = (screen_height - table_y * cell_height) / 2
-    
+    x_padding = (screen_width - table_x * cell_width) / 10
+    y_padding = (screen_height - table_y * cell_height) / 10
 
     widget_count = 0
     mod_count = 0
     code_lines = []
 
-    for y in range(table_y):
-        for x in range(table_x):
+    for y in range(0, table_y):
+        for x in range(0, table_x):
             if y == 0:
-                #output parameters
+                #input parameters
                 if x > 0:
-                    label = column_list[x - 1]
+                    label = column_list[x]
                     # line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                     # code_lines.append(f'cabbageCreate "label", "{line}"')
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"rslider{widget_count}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'cabbageCreate "rslider", "{line}"')
                 
             elif x == 0:
-                label = index_list[y-1]
+                label = index_list[y]
                 line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
                 code_lines.append(f'cabbageCreate "label", "{line}"')
             else:
@@ -222,6 +222,19 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                 mod_count += 1
 
+            if y == table_y - 1:
+                if x > 0:
+                    print("this is where the output widgets should be created i think")
+
+                    label = column_list[x]
+
+                    bounds_x = x_padding + x * cell_width
+                    bounds_y = y_padding + (y + 1) * cell_height
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}Out\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}Out\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+
+            
+
             widget_count += 1
 
     return "\n".join(code_lines)
@@ -229,7 +242,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 # Example usage
 screen_width = 960  # Replace with actual screen width
 screen_height = 720  # Replace with actual screen height
-csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
+csound_code = generate_csound_ui(screen_width, screen_height, len(column_list), len(index_list))
 
 
 

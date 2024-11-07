@@ -3,11 +3,17 @@ form caption("ModMatrix") size(960, 720), guiMode("queue"), pluginId("plan"), co
 
 ;combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
-label bounds(118, 648, 651, 29) channel("label1"), align("left"), fontColour(0, 0, 0, 255) text("Most recently changed widget:")
+label bounds(2, 681, 651, 35) channel("label1"), align("left"), fontColour(0, 0, 0, 255) text("Most recently changed widget:")
 
 
 
 ;image bounds(138, 106, 960, 694) channel("image10000") file("matrix.png")
+
+
+csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(0)
+
+
+button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
 </Cabbage>
 
 <CsoundSynthesizer>
@@ -27,8 +33,8 @@ label bounds(118, 648, 651, 29) channel("label1"), align("left"), fontColour(0, 
 	giSoftSaw ftgen	0, 0, 65537, 30, giSaw, 1, 10	; soft saw (only 10 first harmonics)
 
 	; modmatrix tables
-	giMaxNumParam	= 128
-	giMaxNumMod	= 32
+	giMaxNumParam	= 10
+	giMaxNumMod	= 7
 	giParam_In ftgen 0, 0, giMaxNumParam, 2, 0	; input parameters table
 	giParam_Out ftgen 0, 0, giMaxNumParam, 2, 0	; output parameters table (parameter values with added modulators)
 	giModulators ftgen 0, 0, giMaxNumMod, 2, 0	 ; modulators table
@@ -75,6 +81,19 @@ label bounds(118, 648, 651, 29) channel("label1"), align("left"), fontColour(0, 
 
 
 	endin
+	
+	instr Control
+
+		kToggleValue cabbageGet "ConsoleToggle", "value"
+
+		printk2 kToggleValue
+
+		if kToggleValue == 1 then
+			cabbageSet 1, "Console", "visible", 1
+		else
+			cabbageSet 1, "Console", "visible", 0
+		endif
+	endin 
 
 	instr Receiver
 		prints "osc receiver initiliased"
@@ -97,8 +116,6 @@ label bounds(118, 648, 651, 29) channel("label1"), align("left"), fontColour(0, 
 		;this version will return the name of the channel
 
 		SCoeffs[] cabbageGetWidgetChannels "_type(\"coeff\")"
-		
-		
 
 		kIndex init 0
 
@@ -133,6 +150,9 @@ instr Processing
 
 endin
 
+
+
+
 instr sound_file
 
 	kMixX table 0, giParam_Out
@@ -150,7 +170,8 @@ endin
 <CsScore>
 
 	f0 z
-	i "UserInterface" 0 1
+	i "UserInterface" 0 865000
+	i "Control" 0 865000
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
 	i "Processing" 0 865000

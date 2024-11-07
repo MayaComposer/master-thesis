@@ -12,7 +12,7 @@ form caption("Grain Synth") size(900, 675), guiMode("queue") pluginId("plan") co
 #define BGX 280
 
 #define BGY 250 
-
+	
 #define PADDINGX 10 
 
 #define PADDINGY 38 
