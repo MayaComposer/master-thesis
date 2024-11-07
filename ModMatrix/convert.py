@@ -168,7 +168,6 @@ for i in range(len(input_channels_set)):
 
 output.close()
 
-output = open('cabbage_user_interface.inc', 'w')
 index_list = list(dataframe.index)
 print('index listlength: ' + str(len(index_list)))
 column_list = list(dataframe.columns)
@@ -181,7 +180,7 @@ print(len(index_list))
 def create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label):
     bounds_x = x_padding + x * cell_width
     bounds_y = y_padding + y * cell_height
-    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"1 {widget_count}\\"), text(\\"{label}\\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\\"black\\") align(\\"centre\\") fontSize(10)' 
+    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"label{widget_count}\"), text(\"{label}\"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour(\"black\") align(\"centre\") fontSize(10)' 
     
     return line
 
@@ -207,7 +206,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}In\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"{label}In\"), range(0, 1, 0, 1, 0.001), text(\"{label}In\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'rslider {line}')
                 
             elif x == 0:
@@ -239,7 +238,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + (y + 1) * cell_height
-                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}Out\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}Out\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
+                    line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"{label}Out\"), range(0, 1, 0, 1, 0.001), text(\"{label}Out\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
                     code_lines.append(f'rslider {line}')
 
             
