@@ -198,11 +198,6 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 
     for y in range(0, table_y):
         for x in range(0, table_x):
-<<<<<<< HEAD
-=======
-            default_value = 0
-            print(x, y)
->>>>>>> 2289be1 (.)
             if y == 0:
                 #input parameters
                 if x > 0:
@@ -213,22 +208,18 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + y * cell_height
                     line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}In\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}In\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
-                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+                    code_lines.append(f'rslider {line}')
                 
             elif x == 0:
                 label = index_list[y - 1]
                 line = create_label(x_padding, y_padding, cell_width, cell_height, widget_count, x, y, label)
-                code_lines.append(f'cabbageCreate "label", "{line}"')
+                code_lines.append(f'label {line}')
             else:
 
                 #TODO
                 #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
-<<<<<<< HEAD
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
-                code_lines.append(f'cabbageCreate "nslider", "{line}"')
-=======
 
 
                 
@@ -237,7 +228,6 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                     
                 line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
                 code_lines.append(f'nslider {line}')
->>>>>>> 2289be1 (.)
 
                 mod_count += 1
 
@@ -250,7 +240,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                     bounds_x = x_padding + x * cell_width
                     bounds_y = y_padding + (y + 1) * cell_height
                     line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"{label}Out\\"), range(0, 1, 0, 1, 0.001), text(\\"{label}Out\\"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)'
-                    code_lines.append(f'cabbageCreate "rslider", "{line}"')
+                    code_lines.append(f'rslider {line}')
 
             
 
