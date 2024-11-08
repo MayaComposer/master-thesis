@@ -1,7 +1,7 @@
 <Cabbage> bounds(0, 0, 0, 0)
 form caption("ModMatrix") size(960, 720), guiMode("queue"), pluginId("plan"), colour("beige"), textColour("black"), fontColour("black"), typeface("sanangel.otf")
 
-;combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
+combobox bounds(0, 0, 80, 20), mode("resize"), value(3)
 
 label bounds(2, 681, 651, 35) channel("label1"), align("left"), fontColour(0, 0, 0, 255) text("Most recently changed widget:")
 
@@ -243,7 +243,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 
 		cabbageSet kTrig, "label1", sprintfk("text(\"Last updated widget: %s - Index:%d\")", SUpdatedChannel, kIndex)
 
-		
+		printk2 kMixXOut
 	
 	endin
 

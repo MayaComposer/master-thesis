@@ -140,31 +140,42 @@ inum_param = 11
 modmatrix giParam_Out, giModulators, giParam_In, giModScale, inum_mod, inum_param, kupdate
 ;output parameters___________________________ 
 
-kMixX table 0, giParam_Out
-kMixY table 1, giParam_Out
-kDelay table 2, giParam_Out
-kLPF table 3, giParam_Out
-kSendAmount table 4, giParam_Out
-kDistortAmount table 5, giParam_Out
-kShape table 6, giParam_Out
-kLfoFreq table 7, giParam_Out
-kLfoAmp table 8, giParam_Out
-kSmackidiboo table 9, giParam_Out
-kSmudgirydoobidy table 10, giParam_Out
+kMixXOut table 0, giParam_Out
+kMixYOut table 1, giParam_Out
+kDelayOut table 2, giParam_Out
+kLPFOut table 3, giParam_Out
+kSendAmountOut table 4, giParam_Out
+kDistortAmountOut table 5, giParam_Out
+kShapeOut table 6, giParam_Out
+kLfoFreqOut table 7, giParam_Out
+kLfoAmpOut table 8, giParam_Out
+kSmackidibooOut table 9, giParam_Out
+kSmudgirydoobidyOut table 10, giParam_Out
 
 
 ;channels to read parameters from___________________________ 
 
-cabbageSetValue "MixXOut", kMixX
-cabbageSetValue "MixYOut", kMixY
-cabbageSetValue "DelayOut", kDelay
-cabbageSetValue "LPFOut", kLPF
-cabbageSetValue "SendAmountOut", kSendAmount
-cabbageSetValue "DistortAmountOut", kDistortAmount
-cabbageSetValue "ShapeOut", kShape
-cabbageSetValue "LfoFreqOut", kLfoFreq
-cabbageSetValue "LfoAmpOut", kLfoAmp
-cabbageSetValue "SmackidibooOut", kSmackidiboo
-cabbageSetValue "SmudgirydoobidyOut", kSmudgirydoobidy
+cabbageSetValue "MixXOut", kMixXOut
+OSCsend kMixXOut, "", 9998, "MixXOut", "f", kMixXOut
+cabbageSetValue "MixYOut", kMixYOut
+OSCsend kMixYOut, "", 9998, "MixYOut", "f", kMixYOut
+cabbageSetValue "DelayOut", kDelayOut
+OSCsend kDelayOut, "", 9998, "DelayOut", "f", kDelayOut
+cabbageSetValue "LPFOut", kLPFOut
+OSCsend kLPFOut, "", 9998, "LPFOut", "f", kLPFOut
+cabbageSetValue "SendAmountOut", kSendAmountOut
+OSCsend kSendAmountOut, "", 9998, "SendAmountOut", "f", kSendAmountOut
+cabbageSetValue "DistortAmountOut", kDistortAmountOut
+OSCsend kDistortAmountOut, "", 9998, "DistortAmountOut", "f", kDistortAmountOut
+cabbageSetValue "ShapeOut", kShapeOut
+OSCsend kShapeOut, "", 9998, "ShapeOut", "f", kShapeOut
+cabbageSetValue "LfoFreqOut", kLfoFreqOut
+OSCsend kLfoFreqOut, "", 9998, "LfoFreqOut", "f", kLfoFreqOut
+cabbageSetValue "LfoAmpOut", kLfoAmpOut
+OSCsend kLfoAmpOut, "", 9998, "LfoAmpOut", "f", kLfoAmpOut
+cabbageSetValue "SmackidibooOut", kSmackidibooOut
+OSCsend kSmackidibooOut, "", 9998, "SmackidibooOut", "f", kSmackidibooOut
+cabbageSetValue "SmudgirydoobidyOut", kSmudgirydoobidyOut
+OSCsend kSmudgirydoobidyOut, "", 9998, "SmudgirydoobidyOut", "f", kSmudgirydoobidyOut
 
 

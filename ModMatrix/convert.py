@@ -76,10 +76,13 @@ for col_name in dataframe.columns:
     
     #parameters getting read from out table
     #kFreq table	0, giParam_Out
-    output_parameters.append('k' + col_name + ' table ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_Out')
+    output_parameters.append('k' + col_name + 'Out' + ' table ' + str(dataframe.columns.get_loc(col_name)) + ', giParam_Out')
 
-    #chnset parameter, "channel"
-    output_channels.append('cabbageSetValue ' + str('"' + col_name + 'Out' + '"') + ', ' + 'k' + col_name)
+    #cabbage ui update
+    output_channels.append('cabbageSetValue ' + str('"' + col_name + 'Out' + '"') + ', ' + 'k' + col_name + 'Out')
+
+    #osc send
+    output_channels.append('OSCsend ' + 'k' + col_name + 'Out' + ', ' + '"", ' + '9998, ' + str('"' + col_name + 'Out' + '", ') + '"f", ' + 'k' + col_name + 'Out')
     
 
 output = open('output.inc', 'w')
@@ -219,8 +222,8 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\\"mod{mod_count}\\"), range(0, 999, 0, 1, 0.01), fontSize(\\"15\\"), _type(\\"coeff\\")'
-                code_lines.append(f'cabbageCreate "nslider", "{line}"')
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
+                code_lines.append(f'nslider {line}')
 
                 mod_count += 1
 
