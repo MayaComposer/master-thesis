@@ -156,7 +156,7 @@ kSmudgirydoobidyOut table 10, giParam_Out
 ;channels to read parameters from___________________________ 
 
 cabbageSetValue "MixXOut", kMixXOut
-OSCsend kMixXOut, "", 9998, "MixXOut", "f", kMixXOut
+OSCsend kMixXOut, "", 9998, "/track/1/volume", "f", kMixXOut
 cabbageSetValue "MixYOut", kMixYOut
 OSCsend kMixYOut, "", 9998, "MixYOut", "f", kMixYOut
 cabbageSetValue "DelayOut", kDelayOut
