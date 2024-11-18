@@ -164,6 +164,10 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 	;OSC 
 	giOscHandler OSCinit 9994
 
+	giAnalysisHandler OSCinit 7001
+
+	
+
 	instr UserInterface
  
 		; iWidth chnget "SCREEN_WIDTH"
@@ -212,6 +216,43 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 
 		printk2 kMorphX
 		printk2 kMorphY
+
+		krms init 0 
+		krms_dB_n init 0
+		kamp_trans_hold init 0
+		katransDensEnv_n init 0
+		kenv_crest1 init 0
+		 kenv_dyn init 0
+		 kpitch_n init 0
+		 kcentroid_n init 0
+		 kspread_n init 0
+		 kskewness_n init 0
+		  kurtosis_n init 0
+		   kflatness_n init 0
+		    kcrest_n init 0
+			 kflux_n init 0
+			  krhythm_irregularity init 0
+			   krhythm_consonance init 0
+			    krhythm_consonance_deviation init 0
+				kra_flux init 0 
+				krhythm_ac_crest init 0
+				 kmfcc1 init 0
+				  kmfcc2 init 0
+				   kmfcc3 init 0
+				    kmfccdiff init 0
+
+		nxt_val:
+
+		kk1 OSClisten  giAnalysisHandler, "/analysis_a_1", "fffffffffffffffffffffff", krms, krms_dB_n, kamp_trans_hold, katransDensEnv_n, kenv_crest1, kenv_dyn, kpitch_n, kcentroid_n, kspread_n, kskewness_n, kurtosis_n, kflatness_n, kcrest_n, kflux_n, krhythm_irregularity, krhythm_consonance, krhythm_consonance_deviation, kra_flux, krhythm_ac_crest, kmfcc1, kmfcc2, kmfcc3, kmfccdiff
+
+		if (kk1 == 0 ) goto ex_val
+			kgoto nxt_val 
+		ex_val:
+			
+
+		kMorphX = krms_dB_n
+
+		printk2 krms_dB_n, 20
 		
 	endin
 
