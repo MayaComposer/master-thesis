@@ -155,8 +155,12 @@ kSmudgirydoobidyOut table 10, giParam_Out
 
 ;channels to read parameters from___________________________ 
 
+klfo randomh 0.1, 0.9, 1
+;klfo += 0.5
+printk2 klfo, 20
+kMixXOut += klfo
 cabbageSetValue "MixXOut", kMixXOut
-OSCsend kMixXOut, "", 9998, "/track/1/volume", "f", kMixXOut
+OSCsend kMixXOut, "127.0.0.1", 9998, "/track/1/volume", "f", kMixXOut
 cabbageSetValue "MixYOut", kMixYOut
 OSCsend kMixYOut, "", 9998, "MixYOut", "f", kMixYOut
 cabbageSetValue "DelayOut", kDelayOut

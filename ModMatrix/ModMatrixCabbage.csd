@@ -121,7 +121,7 @@ rslider bounds(801.6, 590.4, 72.0, 72.0), channel("SmudgirydoobidyOut"), range(0
 ;_______________________________________________________________________
 
 
-csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(0)
+csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(1)
 
 
 button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
@@ -154,15 +154,15 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is it genroutine -2?
 
 	;soundfiles
-	giCello	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
-	giElect	ftgen	0, 0, 0, 1, "elect.wav", 0, 0, 0			; soundfile
+	giCello	init 0;ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+	giElect	init 0;ftgen	0, 0, 0, 1, "elect.wav", 0, 0, 0			; soundfile
 
 	gSCello = "cello.wav"
 	gSElect = "elect.wav"
 
 
 	;OSC 
-	giOscHandler OSCinit 9993
+	giOscHandler OSCinit 9994
 
 	instr UserInterface
  
