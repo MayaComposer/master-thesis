@@ -155,18 +155,11 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 	; modulation scaling and routing (mod matrix) table, start with empty table
 	giModScale ftgen 0, 0, giMaxNumParam*giMaxNumMod, -2, 0	;why is it genroutine -2?
 
-	;soundfiles
-	giCello	init 0;ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
-	giElect	init 0;ftgen	0, 0, 0, 1, "elect.wav", 0, 0, 0			; soundfile
-
-	gSCello = "cello.wav"
-	gSElect = "elect.wav"
-
 
 	;OSC 
-	giOscHandler OSCinit 9994
+	giOscHandler OSCinit 9994 ;input from external device
 
-	giAnalysisHandler OSCinit 7001
+	giAnalysisHandler OSCinit 7001 ;analysis osc port within Reaper
 
 	
 
@@ -192,32 +185,23 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		; 	iX = 0
 		; 	iY += 1
 		; od
-
-		
-
-
 	endin
 	
 	instr Control
 
 		kToggleValue cabbageGet "ConsoleToggle", "value"
 
-		printk2 kToggleValue
-
 		if kToggleValue == 1 then
 			cabbageSet 1, "Console", "visible", 1
 		else
 			cabbageSet 1, "Console", "visible", 0
 		endif
-	endin 
+	endin
 
 	instr Receiver
 		prints "osc receiver initiliased"
 		
 		#include "receiver.inc"
-
-		printk2 kMorphX
-		printk2 kMorphY
 
 		krms init 0 
 		krms_dB_n init 0
@@ -258,8 +242,6 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		kAudiodescriptor4 = kflatness_n
 		kAudiodescriptor5 = katransDensEnv_n
 		kAudiodescriptor6 = kspread_n
-
-		printk2 krms_dB_n, 20
 		
 	endin
 
@@ -268,12 +250,7 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		prints "ModMatrix initialised"
 
 		#include "output.inc"
-		
-		
 
-		; This opcode takes an array of channel names and listens for a change. It reports a trigger value along with the name or index of the channel that changed. 
-		;SChannel, kTrig cabbageChanged SChannels[], [kThreshold, [kMode]]
-		;this version will return the name of the channel
 
 		SCoeffs[] cabbageGetWidgetChannels "_type(\"coeff\")"
 
@@ -290,8 +267,6 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		endif
 
 		cabbageSet kTrig, "label1", sprintfk("text(\"Last updated widget: %s - Index:%d\")", SUpdatedChannel, kIndex)
-
-		printk2 kMixXOut
 	
 	endin
 
@@ -303,28 +278,11 @@ instr Processing
 
 	kCutoff chnget "Cutoff"
 	
-
 	aSignal vco2 0.1, kFreq
 
 	aSignal tone aSignal, 200 - kCutoff
 
 	outs aSignal, aSignal
-
-endin
-
-
-
-
-instr sound_file
-
-	kMixX table 0, giParam_Out
-	aCello diskin gSCello, 1, 0, 1
-	aElect diskin gSElect, 1, 0, 1
-
-	aOut = aCello * kMixX * 0.5 + aElect * (1 - kMixX) * 0.5
-
-	outs aOut, aOut
-
 
 endin
 
@@ -337,7 +295,6 @@ endin
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
 	i "Processing" 0 865000
-	;i "sound_file" 0 865000
 
 </CsScore>
 </CsoundSynthesizer>

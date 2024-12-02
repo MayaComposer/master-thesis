@@ -139,6 +139,7 @@ print('\n', file=output)
 
 
 print(';channels to read parameters from___________________________ \n', file=output)
+print('kwhen init 0 kmetro metro 10 kwhen += kmetro kwhen = (kwhen%100)+1', file=output)
 for i in range(len(output_channels)):
     print(output_channels[i], file=output)
 
@@ -222,7 +223,7 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
                 #add default value to nslider and have it be value from excel sheet
                 bounds_x = x_padding + x * cell_width
                 bounds_y = y_padding + y * cell_height
-                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(0, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
+                line = f'bounds({bounds_x}, {bounds_y}, {cell_width}, {cell_height}), channel(\"mod{mod_count}\"), range(-999, 999, 0, 1, 0.01), fontSize(\"15\"), _type(\"coeff\")'
                 code_lines.append(f'nslider {line}')
 
                 mod_count += 1

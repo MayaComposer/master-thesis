@@ -157,23 +157,32 @@ kLfoAmpOut table 8, giParam_Out
 
 ;channels to read parameters from___________________________ 
 
+kwhen init 0
+
+kmetro metro 5
+
+kwhen += kmetro
+
+kwhen = (kwhen%100)+1
+
+
 cabbageSetValue "MixXOut", kMixXOut
-OSCsend kMixXOut, "127.0.0.1", 9998, "MixXOut", "f", kMixXOut
+OSCsend kMixXOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/1/value", "f", kMixXOut
 cabbageSetValue "MixYOut", kMixYOut
-OSCsend kMixYOut, "127.0.0.1", 9998, "MixYOut", "f", kMixYOut
+OSCsend kMixYOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/2/value", "f", kMixYOut
 cabbageSetValue "DelayOut", kDelayOut
-OSCsend kDelayOut, "127.0.0.1", 9998, "DelayOut", "f", kDelayOut
+OSCsend kDelayOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/3/value", "f", kDelayOut
 cabbageSetValue "LPFOut", kLPFOut
-OSCsend kLPFOut, "127.0.0.1", 9998, "LPFOut", "f", kLPFOut
+OSCsend kLPFOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/4/value", "f", kLPFOut
 cabbageSetValue "SendAmountOut", kSendAmountOut
-OSCsend kSendAmountOut, "127.0.0.1", 9998, "SendAmountOut", "f", kSendAmountOut
+OSCsend kSendAmountOut, "127.0.0.1", 9998, "/track/1/fx/2/fxparam/1/value", "f", kSendAmountOut
 cabbageSetValue "DistortAmountOut", kDistortAmountOut
-OSCsend kDistortAmountOut, "127.0.0.1", 9998, "DistortAmountOut", "f", kDistortAmountOut
+OSCsend kDistortAmountOut, "127.0.0.1", 9998, "/track/1/fx/2/fxparam/2/value", "f", kDistortAmountOut
 cabbageSetValue "ShapeOut", kShapeOut
-OSCsend kShapeOut, "127.0.0.1", 9998, "ShapeOut", "f", kShapeOut
+OSCsend kShapeOut, "127.0.0.1", 9998, "/track/1/fx/2/fxparam/3/value", "f", kShapeOut
 cabbageSetValue "LfoFreqOut", kLfoFreqOut
-OSCsend kLfoFreqOut, "127.0.0.1", 9998, "LfoFreqOut", "f", kLfoFreqOut
+OSCsend kLfoFreqOut, "127.0.0.1", 9998, "/track/1/fx/2/fxparam/4/value", "f", kLfoFreqOut
 cabbageSetValue "LfoAmpOut", kLfoAmpOut
-OSCsend kLfoAmpOut, "127.0.0.1", 9998, "LfoAmpOut", "f", kLfoAmpOut
+OSCsend kLfoAmpOut, "127.0.0.1", 9998, "/track/1/fx/2/fxparam/5/value", "f", kLfoAmpOut
 
 
