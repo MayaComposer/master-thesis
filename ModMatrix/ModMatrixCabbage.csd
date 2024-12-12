@@ -127,7 +127,7 @@ rslider bounds(787.2, 590.4, 86.4, 57.6), channel("LfoAmpOut"), range(0, 1, 0, 1
 
 
 
-button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
+button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("") latched(0)
 
 groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1), channel("debug"), colour("beige"), visible(0) {
 
@@ -197,11 +197,17 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 
 		kToggleValue cabbageGet "ConsoleToggle", "value"
 
-		if kToggleValue == 1 then
+		if changed:k(kToggleValue) == 1 then
 			cabbageSet 1, "debug", "visible", 1
-		else
-			cabbageSet 1, "debug", "visible", 0
 		endif
+		; else
+		; 	cabbageSet 1, "debug", "visible", 0
+		
+
+		; kTrig chnget "but1"
+		; if changed:k(kTrig)==1 then
+		; 	chnset "visible(1)", "pops"
+		; endif
 
 		
 		;OSC tester
