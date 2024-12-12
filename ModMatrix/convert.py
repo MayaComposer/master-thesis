@@ -139,7 +139,7 @@ print('\n', file=output)
 
 
 print(';channels to read parameters from___________________________ \n', file=output)
-print('kwhen init 0 kmetro metro 10 kwhen += kmetro kwhen = (kwhen%100)+1', file=output)
+print('kwhen init 0 \n kmetro metro 10 \n kwhen += kmetro \n kwhen = (kwhen%100)+1', file=output)
 for i in range(len(output_channels)):
     print(output_channels[i], file=output)
 
