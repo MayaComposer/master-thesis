@@ -216,17 +216,20 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 		kTrig init 0
 		
 		kOscTestConnection, kTrig cabbageGetValue "OscTestConnection"
-		printks2 "osc test:", kOscTestConnection 
+		printks2 "osc test:", kTrig
 		printk2 kOscTestConnection
 		printk2 kTrig, 4
 
-		if kTrig == 1 then 
+		if kTrig == 1 then
 			kRand = random:k(0, 1)
 		endif
 
-		printks2 "rnd val:", kOscTestConnection
+		; if kTrig == 1 then 
+		; 	kRand = random:k(0, 1)
+		; endif
 
-		printk2 kRand
+		printks2 "rnd val:", kRand
+		printk2 kRand, 8
 
 		OSCsend kTrig, "127.0.0.1", 9998, "/track/1/volume", "f", kRand
 	endin
