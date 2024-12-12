@@ -129,10 +129,10 @@ rslider bounds(787.2, 590.4, 86.4, 57.6), channel("LfoAmpOut"), range(0, 1, 0, 1
 
 button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
 
-groupbox bounds(0, 0, 960, 720), text("Debug window"), plant("debug"), popup(1), channel("debug"), colour("beige"), visible(0) {
+groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1), channel("debug"), colour("beige"), visible(0) {
 
-	button bounds(0, 300, 100, 50) channel("OscTestConnection") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("test OSC send") latched(0)
-	csoundoutput bounds(0, 360, 480, 360) channel("Console") visible(1)
+	button bounds(0, 130, 100, 50) channel("OscTestConnection") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("test OSC send") latched(0)
+	csoundoutput bounds(0, 180, 430, 180) channel("Console") visible(1)
 }
 </Cabbage>
 
@@ -194,9 +194,6 @@ groupbox bounds(0, 0, 960, 720), text("Debug window"), plant("debug"), popup(1),
 	endin
 	
 	instr Control
-		; if changed:k(kTrig)==1 then
-		; 	chnset "visible(1)", "pops"
-		; endif
 
 		kToggleValue cabbageGet "ConsoleToggle", "value"
 
@@ -206,6 +203,7 @@ groupbox bounds(0, 0, 960, 720), text("Debug window"), plant("debug"), popup(1),
 			cabbageSet 1, "debug", "visible", 0
 		endif
 
+		
 		;OSC tester
 		;OSCsend kwhen, ihost, iport, idestination, itype [, kdata1, kdata2, ...]
 		kOscTestConnection init 0 
@@ -216,7 +214,15 @@ groupbox bounds(0, 0, 960, 720), text("Debug window"), plant("debug"), popup(1),
 		printk2 kOscTestConnection
 		printk2 kTrig, 4
 
-		;OSCsend kTrig, "127.0.0.1", 9998, "/track/3/volume", "f", kOscTestConnection
+		if kTrig == 1 then 
+			kRand = random:k(0, 1)
+		endif
+
+		printks2 "rnd val:", kOscTestConnection
+
+		printk2 kRand
+
+		OSCsend kTrig, "127.0.0.1", 9998, "/track/1/volume", "f", kRand
 	endin
 
 	instr Receiver
