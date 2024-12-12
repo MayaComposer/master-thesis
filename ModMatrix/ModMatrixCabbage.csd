@@ -193,7 +193,7 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 		; od
 	endin
 	
-	instr Control
+	instr Debugger
 
 		kToggleValue cabbageGet "ConsoleToggle", "value"
 
@@ -324,7 +324,7 @@ endin
 
 	f0 z
 	i "UserInterface" 0 865000
-	i "Control" 0 865000
+	i "Debugger" 0 865000
 	i "Receiver" 0 865000
 	i "ModMatrix" 0 865000
 	i "Processing" 0 865000
