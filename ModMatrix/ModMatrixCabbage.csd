@@ -123,11 +123,13 @@ rslider bounds(787.2, 590.4, 86.4, 57.6), channel("LfoAmpOut"), range(0, 1, 0, 1
 ;_______________________________________________________________________
 
 
+;TESTING WIDGETS
+
 csoundoutput bounds(559, 627, 401, 93) channel("Console") visible(1)
 
 
 button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
-
+button bounds(909, 694, 25, 26) channel("OscTestConnection") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("") latched(0)
 </Cabbage>
 
 <CsoundSynthesizer>
@@ -196,6 +198,17 @@ button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185,
 		else
 			cabbageSet 1, "Console", "visible", 0
 		endif
+
+		;OSC tester
+		;OSCsend kwhen, ihost, iport, idestination, itype [, kdata1, kdata2, ...]
+		kOscTestConnection init 0 
+		
+		kOscTestConnection, kTrig cabbageGetValue "OscTestConnection"
+		printks2 "osc test:", kOscTestConnection 
+		printk2 kOscTestConnection
+		printk2 kTrig, 4
+
+		;OSCsend kTrig, "127.0.0.1", 9998, "/track/3/volume", "f", kOscTestConnection
 	endin
 
 	instr Receiver
