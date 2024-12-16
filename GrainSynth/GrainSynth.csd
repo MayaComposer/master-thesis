@@ -33,7 +33,7 @@ combobox bounds($PADDINGX, 0, 80, 40), mode("resize"), value(3) automatable(0) c
 groupbox bounds($PADDINGX, $PADDINGY, $BGX, $BGY) channel("groupbox10010") outlineThickness(0) $BOXCOL   {
 label bounds(98, 0, 142, 25) channel("label10001") text("Grain rate") $FONT fontSize(16) align("left")
 rslider bounds(0, 125, 100, 100) channel("GrainRateSlider") range(1, 100, 1, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75) popupText("Grain Rate Slider")
-xypad bounds(98, 25, 180, 180) channel("GrainRateAmp", "GrainRateFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0.1) rangeY(0.0, 50.0, 0.1)
+xypad bounds(98, 25, 180, 180) channel("GrainRateAmp", "GrainRateFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0)
 
 
 label bounds(104, 225, 80, 16) channel("label10002") text("Amp") $FONT 
@@ -50,7 +50,7 @@ label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSi
 
 rslider bounds(0, 125, 100, 100) channel("DurSlider") range(20, 5000, 20, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
-xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.0, 1.0, 0.1) rangeY(0.0, 50.0, 0.1)
+xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0)
 
 
 label bounds(108, 225, 80, 16) channel("label10003") text("Amp") $FONT
@@ -66,7 +66,7 @@ label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  font
 
 rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(20.0, 400, 1.0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
-xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0.1) rangeY(0.0, 50.0, 0.1) $DESIGN 
+xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0) $DESIGN 
 
 
 label bounds(108, 225, 80, 16) channel("label10005") text("Amp") $FONT
@@ -87,7 +87,7 @@ rslider bounds(0, 25, 100, 100) channel("FmPitch") range(0, 10, 0, 1, 0.1)  $DES
 
 rslider bounds(0, 125, 100, 100) channel("FmIndex") range(0, 20, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
-xypad bounds(98, 25, 180, 180) channel("FmAmp", "FmFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0.1) rangeY(0.0, 50.0, 0.1)
+xypad bounds(98, 25, 180, 180) channel("FmAmp", "FmFreq") $DESIGN $FONT fontSize(1) ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0)
 
 label bounds(108, 225, 80, 16) channel("label10008") text("Amp") $FONT 
 label bounds(208, 225, 80, 16) channel("label10009") text("Freq") $FONT
@@ -212,7 +212,7 @@ instr Receiver
 
 	kGrainRateScaled scale2 kGrainRate, 1, 100, 0.0, 1.0
 
-	chnset kGrainRateScaled, "GrainRateSlider"
+	chnset kGrainRateScaled, "OSCGrainRateSlider"
 	; kGrainRateAmp chnget "GrainRateAmp"
 	; kGrainRateFreq chnget "GrainRateFreq"
 
@@ -226,55 +226,72 @@ instr Receiver
 
 	kDur scale2 kDur, 20, 5000, 0.0, 1.0
 
-	chnset kDur, "DurSlider"
+	chnset kDur, "OSCDurSlider"
 
 	; ;FREQUENCY_____________________________________________________
 	; kFreqSlider chnget "FreqSlider"
 	; kFreqAmp chnget "FreqAmp"
 	; kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
-	; kFreq init 0
+	kFreq init 20
 
-	; kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
+	kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
 	
-	; kFreq scale2 kFreq, 0.0, 1000, 0.0, 1.0
+	kFreq scale2 kFreq, 20, 400, 0.0, 1.0
 
 
-	; chnset kFreq, "FreqSlider"
-
-	; ; kAdSlider chnget "Envelope"
-
-	; kEnv init 0
-	; kInputCheck4 init 0
-	; kInputCheck4 OSClisten giOscHandler, "GrainRateOut", "f", kEnv
-
-	; chnset kEnv, "Envelope"
-
-	; ; kRndMaskSlider chnget "RndMask"
-
-	; kRndMask init 0
-	; kInputCheck5 init 0
-	; kInputCheck5 OSClisten giOscHandler, "GrainRateOut", "f", kRndMask
-
-	; chnset kRndMask, "RndMask"
-
-	; kdistribution chnget "Distribution"
+	chnset kFreq, "OSCFreqSlider"
 
 	;FM modulation____________________________________________________
 	; kFmPitchSlider chnget "FmPitch"
 	; kFmIndexSlider chnget "FmIndex"
+	kFmPitch init 0
+
+	kInputCheck4 OSClisten giOscHandler, "FmPitchOut", "f", kFmPitch
+	
+	kFmPitch scale2 kFmPitch, 0, 10, 0.0, 1.0
+
+
+	chnset kFmPitch, "OSCFmPitch"
+
+
+
+	kFmIndex init 0
+
+	kInputCheck4 OSClisten giOscHandler, "FmIndexOut", "f", kFmIndex
+	
+	kFmIndex scale2 kFmIndex, 0, 20, 0.0, 1.0
+
+
+	chnset kFmIndex, "OSCFmIndex"
 
 	
 endin	
 
+instr MixChannels
 
+	kOutGrainRate init 1
+	kOscGrainRate chnget "OSCGrainRateSlider"
+	kSliderGrainRate chnget "GrainRateSlider"
+	kOutGrainRate = kOscGrainRate + kSliderGrainRate
+
+	printk2 kOutGrainRate
+	
+	chnset kOutGrainRate, "GrainRate"
+
+	kOscDur chnget "OSCDurSlider"
+	kOscFreq chnget "OSCFreqSlider"
+	kOscFmPitch chnget "OSCFmPitch"
+	kOscFmIndex chnget "OSCFmIndex"
+
+endin
 
 ;granular synth
 instr GrainSynth 
 	;______PROCESS SLIDERS______
 
 	;GRAIN RATE
-	kGrainRateSlider chnget "GrainRateSlider"
+	kGrainRateSlider chnget "GrainRate"
 	kGrainRateAmp chnget "GrainRateAmp"
 	kGrainRateFreq chnget "GrainRateFreq"
 
@@ -305,9 +322,10 @@ instr GrainSynth
 	kFreqAmp chnget "FreqAmp"
 	kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
+	
+
 	;if on button == on then this
 	kWavFreq RandomGaus kFreqSlider, kFreqAmp, kFreqFreq, kFreqSlider
-
 	;else
 	;kWavFreq = kfreqslider
 
@@ -492,6 +510,7 @@ endin
 <CsScore>
 f0 z
 i "Receiver" 0 865000
+i "MixChannels" 0 865000
 i "GrainSynth" 0 865000
 i "Control" 0 865000
 </CsScore>
