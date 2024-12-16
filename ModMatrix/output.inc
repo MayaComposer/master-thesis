@@ -145,24 +145,25 @@ kRndMaskOut table 7, giParam_Out
 
 ;channels to read parameters from___________________________ 
 
-kwhenOut init 0 
+kwhen init 0 
 kmetro metro 10 
-kwhenOut += kmetro 
-kwhenOut = (kwhenOut%100)+1
-
+kwhen += kmetro 
+kwhen = (kwhen%100)+1
 cabbageSetValue "GrainRateOut", kGrainRateOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/1/value", "f", kGrainRateOut
+OSCsend kwhen, "127.0.0.1", 9998, "GrainRateOut", "f", kGrainRateOut
 cabbageSetValue "DurationOut", kDurationOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/4/value", "f", kDurationOut
+OSCsend kwhen, "127.0.0.1", 9998, "DurationOut", "f", kDurationOut
 cabbageSetValue "FreqOut", kFreqOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/7/value", "f", kFreqOut
+OSCsend kwhen, "127.0.0.1", 9998, "FreqOut", "f", kFreqOut
 cabbageSetValue "FmPitchOut", kFmPitchOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/10/value", "f", kFmPitchOut
+OSCsend kwhen, "127.0.0.1", 9998, "FmPitchOut", "f", kFmPitchOut
 cabbageSetValue "FmIndexOut", kFmIndexOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/13/value", "f", kFmIndexOut
+OSCsend kwhen, "127.0.0.1", 9998, "FmIndexOut", "f", kFmIndexOut
 cabbageSetValue "EnvOut", kEnvOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/16/value", "f", kEnvOut
+OSCsend kwhen, "127.0.0.1", 9998, "EnvOut", "f", kEnvOut
 cabbageSetValue "DistrOut", kDistrOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/17/value", "f", kDistrOut
+OSCsend kwhen, "127.0.0.1", 9998, "DistrOut", "f", kDistrOut
 cabbageSetValue "RndMaskOut", kRndMaskOut
-OSCsend kwhenOut, "127.0.0.1", 9998, "/track/1/fx/1/fxparam/18/value", "f", kRndMaskOut
+OSCsend kwhen, "127.0.0.1", 9998, "RndMaskOut", "f", kRndMaskOut
+
+
