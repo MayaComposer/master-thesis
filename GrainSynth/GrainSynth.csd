@@ -166,6 +166,9 @@ giSigmoFall 	ftgen	0, 0, 8193, 19, 0.5, 1, 90, 1				; falling sigmoid
 giExpFall	ftgen	0, 0, 8193, 5, 1, 8193, 0.00001				; exponential decay
 giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window 
 
+;OSC 
+	giOscHandler OSCinit 9998 ;input from external device
+
 
 
 ;parameters to change
@@ -200,6 +203,69 @@ endop
 
 ;beta randomness
 ;kRand betarand krange, kalpha, kbeta
+
+instr Receiver
+	
+	;GRAIN RATE	
+	kGrainRate init 0
+	kInputCheck1 OSClisten giOscHandler, "GrainRateOut", "f", kGrainRate
+
+	kGrainRateScaled scale2 kGrainRate, 1, 100, 0.0, 1.0
+
+	chnset kGrainRateScaled, "GrainRateSlider"
+	; kGrainRateAmp chnget "GrainRateAmp"
+	; kGrainRateFreq chnget "GrainRateFreq"
+
+	; ;DURATION______________________________________________________
+	; kDurSlider chnget "DurSlider"
+	; kDurAmp chnget "DurAmp"
+	; kDurFreq chnget "DurFreq"
+
+	kDur init 20
+	kInputCheck2 OSClisten giOscHandler, "DurationOut", "f", kDur
+
+	kDur scale2 kDur, 20, 5000, 0.0, 1.0
+
+	chnset kDur, "DurSlider"
+
+	; ;FREQUENCY_____________________________________________________
+	; kFreqSlider chnget "FreqSlider"
+	; kFreqAmp chnget "FreqAmp"
+	; kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
+
+	; kFreq init 0
+
+	; kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
+	
+	; kFreq scale2 kFreq, 0.0, 1000, 0.0, 1.0
+
+
+	; chnset kFreq, "FreqSlider"
+
+	; ; kAdSlider chnget "Envelope"
+
+	; kEnv init 0
+	; kInputCheck4 init 0
+	; kInputCheck4 OSClisten giOscHandler, "GrainRateOut", "f", kEnv
+
+	; chnset kEnv, "Envelope"
+
+	; ; kRndMaskSlider chnget "RndMask"
+
+	; kRndMask init 0
+	; kInputCheck5 init 0
+	; kInputCheck5 OSClisten giOscHandler, "GrainRateOut", "f", kRndMask
+
+	; chnset kRndMask, "RndMask"
+
+	; kdistribution chnget "Distribution"
+
+	;FM modulation____________________________________________________
+	; kFmPitchSlider chnget "FmPitch"
+	; kFmIndexSlider chnget "FmIndex"
+
+	
+endin	
 
 
 
@@ -425,6 +491,7 @@ endin
 </CsInstruments>
 <CsScore>
 f0 z
+i "Receiver" 0 865000
 i "GrainSynth" 0 865000
 i "Control" 0 865000
 </CsScore>
