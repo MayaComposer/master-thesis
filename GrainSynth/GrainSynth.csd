@@ -218,39 +218,39 @@ instr Receiver
 
 	kDur init 20
 	kInputCheck2 OSClisten giOscHandler, "DurationOut", "f", kDur
-	kDur scale2 kDur, 20, 5000, 0.0, 1.0
-	chnset kDur, "OSCDur"
+	kDurScaled scale2 kDur, 20, 5000, 0.0, 1.0
+	chnset kDurScaled, "OSCDur"
 
 	; ;FREQUENCY_____________________________________________________
 	; kFreqSlider chnget "FreqSlider"
 	; kFreqAmp chnget "FreqAmp"
 	; kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
-	kFreq init 20
+	kFreq init 0
 	kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
-	kFreq scale2 kFreq, 20, 400, 0.0, 1.0
-	chnset kFreq, "OSCFreq"
+	kFreqScaled scale2 kFreq, 20, 1000, 0.0, 1.0
+	chnset kFreqScaled, "OSCFreq"
 
 	;FM modulation____________________________________________________
 	; kFmPitchSlider chnget "FmPitch"
 	; kFmIndexSlider chnget "FmIndex"
 	kFmPitch init 0
 	kInputCheck4 OSClisten giOscHandler, "FmPitchOut", "f", kFmPitch
-	kFmPitch scale2 kFmPitch, 0, 10, 0.0, 1.0
-	chnset kFmPitch, "OSCFmPitch"
+	kFmPitchScaled scale2 kFmPitch, 0, 10, 0.0, 1.0
+	chnset kFmPitchScaled, "OSCFmPitch"
 
 
 
 	kFmIndex init 0
 	kInputCheck4 OSClisten giOscHandler, "FmIndexOut", "f", kFmIndex
-	kFmIndex scale2 kFmIndex, 0, 20, 0.0, 1.0
-	chnset kFmIndex, "OSCFmIndex"
+	kFmIndexScaled scale2 kFmIndex, 0, 20, 0.0, 1.0
+	chnset kFmIndexScaled, "OSCFmIndex"
 
 
 	kEnv init 0
 	kInputCheck5 OSClisten giOscHandler, "EnvOut", "f", kEnv
-	kEnv scale2 kEnv, 0.0, 1.0, 0.0, 1.0
-	chnset kEnv, "OSCEnv"
+	kEnvScaled scale2 kEnv, 0.0, 1.0, 0.0, 1.0
+	chnset kEnvScaled, "OSCEnv"
 
 
 
@@ -276,7 +276,7 @@ instr MixChannels
 	;kOutDur limit kOutDur, 20, 5000
 	chnset kOutDur, "Dur"
 
-	kOutFreq init 1
+	kOutFreq init 20
 	kOscFreq chnget "OSCFreq"
 	kSliderFreq chnget "FreqSlider"
 	kOutFreq = kOscFreq + kSliderFreq
@@ -351,7 +351,7 @@ instr GrainSynth
 	kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
 	
-	kWavFreq init 200
+	kWavFreq init 20
 
 	;if on button == on then this
 	kWavFreq RandomGaus kFreqSlider, kFreqAmp, kFreqFreq, kFreqSlider
