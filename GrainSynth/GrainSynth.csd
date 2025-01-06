@@ -519,6 +519,8 @@ instr GrainSynth
 		iwaveamptab, asamplepos1, asamplepos2, asamplepos3, asamplepos4, \
 		kwavekey1, kwavekey2, kwavekey3, kwavekey4, imax_grains 
 
+	a1 limit a1, -1, 1
+	a2 limit a2, -1, 1
 	outs a1, a2
 endin
 
