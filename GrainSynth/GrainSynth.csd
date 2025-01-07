@@ -48,7 +48,7 @@ groupbox bounds(310, $PADDINGY, $BGX, $BGY) channel("groupbox10011") outlineThic
 
 label bounds(98, 0, 142, 25) channel("label10002") text("Duration") $FONT fontSize(16) align("left")
 
-rslider bounds(0, 125, 100, 100) channel("DurSlider") range(0, 5000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+rslider bounds(0, 125, 100, 100) channel("DurSlider") range(20, 5000, 0, 1, 1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
 xypad bounds(98, 25, 180, 180) channel("DurAmp", "DurFreq") $DESIGN fontSize(1) ballColour(161, 74, 118, 255) trackerColour(58, 124, 165, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0)
 
@@ -64,7 +64,7 @@ groupbox bounds(610, $PADDINGY, $BGX, $BGY) channel("groupbox10012") outlineThic
 
 label bounds(98, 0, 142, 25) channel("label10003") text("Frequency") $FONT  fontSize(16) align("left")
 
-rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(0, 400, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
+rslider bounds(0, 125, 100, 100) channel("FreqSlider") range(0.0, 10.0, 0, 1, 0.1)  $DESIGN $FONT valueTextBox(1) alpha(0.84) trackerInsideRadius(0.75)
 
 xypad bounds(98, 25, 180, 180) channel("FreqAmp", "FreqFreq") ballColour(161, 74, 118, 255) rangeX(0.0, 1.0, 0) rangeY(0.0, 50.0, 0) $DESIGN 
 
@@ -104,9 +104,10 @@ button bounds(0, 0, 30, 24) channel("button10017") fontColour:0(0, 0, 0, 255) fo
 ;envelope
 groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0) $BOXCOL  {
 
-	hslider bounds(0, 0, 115, 50) channel("EnvSlider") range(0, 1, 0, 1, 0.001) text("ad ratio") $COLOR $FONT
-	hslider bounds(0, 50, 115, 50) channel("Distribution") range(0, 1, 0, 1, 0.001) text("distribution") $COLOR $FONT
-	hslider bounds(0, 100, 115, 50) channel("RndMaskSlider") range(0, 1, 0, 1, 0.001) text("rndmask") $COLOR $FONT
+	hslider bounds(0, 0, 115, 50) channel("EnvSlider") range(0, 1, 0, 1, 0.001) text("ad ratio") $DESIGN $FONT
+	hslider bounds(0, 50, 115, 50) channel("Distribution") range(0, 1, 0, 1, 0.001) text("distribution") $DESIGN $FONT
+	hslider bounds(0, 100, 115, 50) channel("RndMaskSlider") range(0, 1, 0, 1, 0.001) text("rndmask") $DESIGN $FONT
+	button bounds(0, 150, 115, 50) channel("WaveformToggle") colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("sine", "sample") value(0) $DESIGN $FONT
 
 }
 
@@ -153,7 +154,7 @@ gifnf     	ftgen   2 ,0 ,giFftTabSize, 7, 0, giFftTabSize, 0   	; for pvs analys
 giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transient envelope shape for 
 
 ;soundfiles
-giSoundfile1	ftgen	0, 0, 0, 1, "cello.wav", 0, 0, 0			; soundfile
+giSoundfile1	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0			; soundfile
 
 ; classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
@@ -228,7 +229,7 @@ instr Receiver
 
 	kFreq init 0
 	kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
-	kFreqScaled scale2 kFreq, 20, 1000, 0.0, 1.0
+	kFreqScaled scale2 kFreq, 0, 10, 0.0, 1.0
 	chnset kFreqScaled, "OSCFreq"
 
 	;FM modulation____________________________________________________
@@ -276,10 +277,11 @@ instr MixChannels
 	;kOutDur limit kOutDur, 20, 5000
 	chnset kOutDur, "Dur"
 
-	kOutFreq init 20
+	kOutFreq init 1
 	kOscFreq chnget "OSCFreq"
 	kSliderFreq chnget "FreqSlider"
 	kOutFreq = kOscFreq + kSliderFreq
+	printk2 kOutFreq
 	;kOutFreq limit kOutFreq, 1, 400
 	chnset kOutFreq, "Freq"
 
@@ -316,6 +318,15 @@ endin
 
 ;granular synth
 instr GrainSynth 
+	kWaveformToggle cabbageGet "WaveformToggle", "value"
+
+	printk2 kWaveformToggle
+
+	; if kWaveformToggle == 1 then
+		
+	; else
+		
+	; endif
 	;______PROCESS SLIDERS______
 
 	;GRAIN RATE
@@ -346,18 +357,19 @@ instr GrainSynth
 
 
 	;FREQUENCY_____________________________________________________
+	kWavFreq init 1
 	kFreqSlider chnget "Freq"
 	kFreqAmp chnget "FreqAmp"
 	kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
 	
-	kWavFreq init 20
+	; kWavFreq init 1
 
 	;if on button == on then this
-	kWavFreq RandomGaus kFreqSlider, kFreqAmp, kFreqFreq, kFreqSlider
+	;kWavFreq RandomGaus kFreqSlider, kFreqAmp, kFreqFreq, kFreqSlider
 
 	;else
-	;kWavFreq = kfreqslider
+	kWavFreq = kFreqSlider
 
 	;_________________________________________________________________
 
@@ -389,24 +401,25 @@ instr GrainSynth
 	kamp = ampdbfs(-20)
 
 	; select source waveforms
-	kwaveform1 = giSine		; source audio waveform 1
-	kwave1Single	= 1			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform2	= giSine		; source audio waveform 2
-	kwave2Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform3	= giSine  ; source audio waveform 3
-	kwave3Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform4	= giSine	; source audio waveform 4
-	kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	;single cycle waveforms
+	; kwaveform1 = giSine		; source audio waveform 1
+	; kwave1Single	= 1			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform2	= giSine		; source audio waveform 2
+	; kwave2Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform3	= giSine  ; source audio waveform 3
+	; kwave3Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform4	= giSine	; source audio waveform 4
+	; kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
-	; ; select source waveforms
-	; kwaveform1 = giSoundfile1		; source audio waveform 1
-	; kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	; kwaveform2	= giSoundfile1		; source audio waveform 2
-	; kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	; kwaveform3	= giSoundfile1  ; source audio waveform 3
-	; kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	; kwaveform4	= giSoundfile1	; source audio waveform 4
-	; kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; select source waveforms
+	kwaveform1 = giSoundfile1		; source audio waveform 1
+	kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform2	= giSoundfile1		; source audio waveform 2
+	kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform3	= giSoundfile1  ; source audio waveform 3
+	kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform4	= giSoundfile1	; source audio waveform 4
+	kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
 	; get source waveform length (used when calculating transposition and time pointer)
 	kfilen1		tableng	 kwaveform1		; get length of the first source waveform
@@ -420,10 +433,10 @@ instr GrainSynth
 
 	; original pitch for each waveform, use if they should be transposed individually
 	; can also be used as a "cycles per second" parameter for single cycle waveforms (assuming that the kWavFreq parameter has a value of 1.0)
-	kwavekey1	= 1
-	kwavekey2	= 2
-	kwavekey3	= 3
-	kwavekey4	= 4
+	kwavekey1	= 0.5
+	kwavekey2	= 0.25
+	kwavekey3	= 0.125
+	kwavekey4	= 0.85
 
 	; set original key dependant on waveform length (only for sampled waveforms, not for single cycle waves)
 	kwavekey1	= (kwave1Single > 0 ? kwavekey1 : kwavekey1/kfildur1)
