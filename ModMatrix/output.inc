@@ -150,20 +150,20 @@ kmetro metro 10
 kwhen += kmetro 
 kwhen = (kwhen%100)+1
 cabbageSetValue "GrainRateOut", kGrainRateOut
-OSCsend kwhen, "127.0.0.1", 9998, "GrainRateOut", "f", kGrainRateOut
+OSCsend kwhen, "127.0.0.1", 999, "GrainRateOut", "f", kGrainRateOut
 cabbageSetValue "DurationOut", kDurationOut
-OSCsend kwhen, "127.0.0.1", 9998, "DurationOut", "f", kDurationOut
+OSCsend kwhen, "127.0.0.1", 999, "DurationOut", "f", kDurationOut
 cabbageSetValue "FreqOut", kFreqOut
-OSCsend kwhen, "127.0.0.1", 9998, "FreqOut", "f", kFreqOut
+OSCsend kwhen, "127.0.0.1", 999, "FreqOut", "f", kFreqOut
 cabbageSetValue "FmPitchOut", kFmPitchOut
-OSCsend kwhen, "127.0.0.1", 9998, "FmPitchOut", "f", kFmPitchOut
+OSCsend kwhen, "127.0.0.1", 999, "FmPitchOut", "f", kFmPitchOut
 cabbageSetValue "FmIndexOut", kFmIndexOut
-OSCsend kwhen, "127.0.0.1", 9998, "FmIndexOut", "f", kFmIndexOut
+OSCsend kwhen, "127.0.0.1", 999, "FmIndexOut", "f", kFmIndexOut
 cabbageSetValue "EnvOut", kEnvOut
-OSCsend kwhen, "127.0.0.1", 9998, "EnvOut", "f", kEnvOut
+OSCsend kwhen, "127.0.0.1", 999, "EnvOut", "f", kEnvOut
 cabbageSetValue "DistrOut", kDistrOut
-OSCsend kwhen, "127.0.0.1", 9998, "DistrOut", "f", kDistrOut
+OSCsend kwhen, "127.0.0.1", 999, "DistrOut", "f", kDistrOut
 cabbageSetValue "RndMaskOut", kRndMaskOut
-OSCsend kwhen, "127.0.0.1", 9998, "RndMaskOut", "f", kRndMaskOut
+OSCsend kwhen, "127.0.0.1", 999, "RndMaskOut", "f", kRndMaskOut
 
 

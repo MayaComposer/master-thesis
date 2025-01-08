@@ -125,7 +125,7 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 ;MISC sliders
 
 
-csoundoutput bounds(488, 474, 401, 191) channel("Console") visible(0)
+csoundoutput bounds(488, 474, 401, 191) channel("Console") visible(1)
 
 
 button bounds(874, 648, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
@@ -155,7 +155,9 @@ giSinEnv        ftgen   0, 0, 8192, 19, 1, 0.5, 270, 0.5        ; sinoid transie
 
 ;soundfiles
 giSoundfile1	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0			; soundfile
-
+giSoundfile2	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
+giSoundfile3	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
+giSoundfile4	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
 ; classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
 giCosine	ftgen	0, 0, 8193, 9, 1, 1, 90					; cosine wave
@@ -168,7 +170,7 @@ giExpFall	ftgen	0, 0, 8193, 5, 1, 8193, 0.00001				; exponential decay
 giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window 
 
 ;OSC 
-	giOscHandler OSCinit 9998 ;input from external device
+	giOscHandler OSCinit 999 ;input from external device
 
 
 
@@ -401,7 +403,7 @@ instr GrainSynth
 	kamp = ampdbfs(-20)
 
 	; select source waveforms
-	;single cycle waveforms
+	; single cycle waveforms
 	; kwaveform1 = giSine		; source audio waveform 1
 	; kwave1Single	= 1			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 	; kwaveform2	= giSine		; source audio waveform 2
@@ -411,14 +413,14 @@ instr GrainSynth
 	; kwaveform4	= giSine	; source audio waveform 4
 	; kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
-	; select source waveforms
+	; ; select source waveforms
 	kwaveform1 = giSoundfile1		; source audio waveform 1
 	kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform2	= giSoundfile1		; source audio waveform 2
+	kwaveform2	= giSoundfile2		; source audio waveform 2
 	kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform3	= giSoundfile1  ; source audio waveform 3
+	kwaveform3	= giSoundfile3  ; source audio waveform 3
 	kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform4	= giSoundfile1	; source audio waveform 4
+	kwaveform4	= giSoundfile4	; source audio waveform 4
 	kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
 	; get source waveform length (used when calculating transposition and time pointer)

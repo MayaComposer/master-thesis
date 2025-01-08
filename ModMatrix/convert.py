@@ -82,7 +82,7 @@ for col_name in dataframe.columns:
     output_channels.append('cabbageSetValue ' + str('"' + col_name + 'Out' + '"') + ', ' + 'k' + col_name + 'Out')
 
     #osc send
-    output_channels.append('OSCsend ' + 'kwhen' + ', ' + '"127.0.0.1", ' + '9998, ' + str('"' + col_name + 'Out' + '", ') + '"f", ' + 'k' + col_name + 'Out')
+    output_channels.append('OSCsend ' + 'kwhen' + ', ' + '"127.0.0.1", ' + '999, ' + str('"' + col_name + 'Out' + '", ') + '"f", ' + 'k' + col_name + 'Out')
     
 
 output = open('output.inc', 'w')
