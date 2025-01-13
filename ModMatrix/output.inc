@@ -146,9 +146,9 @@ kRndMaskOut table 7, giParam_Out
 ;channels to read parameters from___________________________ 
 
 kwhen init 0 
- kmetro metro 10 
- kwhen += kmetro 
- kwhen = (kwhen%100)+1
+kmetro metro 100
+kwhen += kmetro 
+kwhen = (kwhen%100)+1
 cabbageSetValue "GrainRateOut", kGrainRateOut
 OSCsend kwhen, "127.0.0.1", 9998, "GrainRateOut", "f", kGrainRateOut
 cabbageSetValue "DurationOut", kDurationOut
