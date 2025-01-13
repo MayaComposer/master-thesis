@@ -36,7 +36,7 @@ nslider bounds(489.6, 129.6, 96.0, 57.6), channel("mod12"), range(-1, 1, 0, 1, 0
 nslider bounds(585.6, 129.6, 96.0, 57.6), channel("mod13"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 129.6, 96.0, 57.6), channel("mod14"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 129.6, 96.0, 57.6), channel("mod15"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 187.20000000000002, 96.0, 57.6), channel("label27"), text("Audiodescriptor1"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 187.20000000000002, 96.0, 57.6), channel("label27"), text("Rms"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 187.20000000000002, 96.0, 57.6), channel("mod16"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 187.20000000000002, 96.0, 57.6), channel("mod17"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 187.20000000000002, 96.0, 57.6), channel("mod18"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -45,7 +45,7 @@ nslider bounds(489.6, 187.20000000000002, 96.0, 57.6), channel("mod20"), range(-
 nslider bounds(585.6, 187.20000000000002, 96.0, 57.6), channel("mod21"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 187.20000000000002, 96.0, 57.6), channel("mod22"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 187.20000000000002, 96.0, 57.6), channel("mod23"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 244.8, 96.0, 57.6), channel("label36"), text("Audiodescriptor2"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 244.8, 96.0, 57.6), channel("label36"), text("Pitch"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 244.8, 96.0, 57.6), channel("mod24"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 244.8, 96.0, 57.6), channel("mod25"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 244.8, 96.0, 57.6), channel("mod26"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -54,7 +54,7 @@ nslider bounds(489.6, 244.8, 96.0, 57.6), channel("mod28"), range(-1, 1, 0, 1, 0
 nslider bounds(585.6, 244.8, 96.0, 57.6), channel("mod29"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 244.8, 96.0, 57.6), channel("mod30"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 244.8, 96.0, 57.6), channel("mod31"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 302.4, 96.0, 57.6), channel("label45"), text("Audiodescriptor3"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 302.4, 96.0, 57.6), channel("label45"), text("Centroid"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 302.4, 96.0, 57.6), channel("mod32"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 302.4, 96.0, 57.6), channel("mod33"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 302.4, 96.0, 57.6), channel("mod34"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -63,7 +63,7 @@ nslider bounds(489.6, 302.4, 96.0, 57.6), channel("mod36"), range(-1, 1, 0, 1, 0
 nslider bounds(585.6, 302.4, 96.0, 57.6), channel("mod37"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 302.4, 96.0, 57.6), channel("mod38"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 302.4, 96.0, 57.6), channel("mod39"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 360.0, 96.0, 57.6), channel("label54"), text("Audiodescriptor4"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 360.0, 96.0, 57.6), channel("label54"), text("Flatness"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 360.0, 96.0, 57.6), channel("mod40"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 360.0, 96.0, 57.6), channel("mod41"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 360.0, 96.0, 57.6), channel("mod42"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -72,7 +72,7 @@ nslider bounds(489.6, 360.0, 96.0, 57.6), channel("mod44"), range(-1, 1, 0, 1, 0
 nslider bounds(585.6, 360.0, 96.0, 57.6), channel("mod45"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 360.0, 96.0, 57.6), channel("mod46"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 360.0, 96.0, 57.6), channel("mod47"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 417.59999999999997, 96.0, 57.6), channel("label63"), text("Audiodescriptor5"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 417.59999999999997, 96.0, 57.6), channel("label63"), text("TransDens"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 417.59999999999997, 96.0, 57.6), channel("mod48"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 417.59999999999997, 96.0, 57.6), channel("mod49"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 417.59999999999997, 96.0, 57.6), channel("mod50"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -81,7 +81,7 @@ nslider bounds(489.6, 417.59999999999997, 96.0, 57.6), channel("mod52"), range(-
 nslider bounds(585.6, 417.59999999999997, 96.0, 57.6), channel("mod53"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(681.6, 417.59999999999997, 96.0, 57.6), channel("mod54"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(777.6, 417.59999999999997, 96.0, 57.6), channel("mod55"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
-label bounds(9.6, 475.2, 96.0, 57.6), channel("label72"), text("Audiodescriptor6"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
+label bounds(9.6, 475.2, 96.0, 57.6), channel("label72"), text("Spread"), fontSize(10), outlineColour(255, 255, 255, 255) colour(249, 179, 255, 255) fontColour("black") align("centre") fontSize(10)
 nslider bounds(105.6, 475.2, 96.0, 57.6), channel("mod56"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(201.6, 475.2, 96.0, 57.6), channel("mod57"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 nslider bounds(297.6, 475.2, 96.0, 57.6), channel("mod58"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
@@ -108,12 +108,11 @@ rslider bounds(681.6, 590.4, 96.0, 57.6), channel("DistrOut"), range(0, 1, 0, 1,
 nslider bounds(777.6, 532.8, 96.0, 57.6), channel("mod71"), range(-1, 1, 0, 1, 0.01), fontSize("15"), _type("coeff")
 rslider bounds(777.6, 590.4, 96.0, 57.6), channel("RndMaskOut"), range(0, 1, 0, 1, 0.001), text("RndMaskOut"), markerColour(58, 124, 165) outlineColour(223, 181, 248) trackerColour(58, 124, 165) colour(161, 74, 118) textColour(0, 0, 0, 255) trackerThickness(1)
 
-
 ;_______________________________________________________________________
 
 
 ;TESTING WIDGETS
-
+;csoundoutput bounds(0, 180, 430, 180) channel("Console") visible(1)
 
 
 button bounds(934, 694, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("") latched(0)
@@ -294,13 +293,12 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 			kgoto nxt_val 
 		ex_val:
 			
-
-		kAudiodescriptor1 = krms_dB_n
-		kAudiodescriptor2 = kpitch_n
-		kAudiodescriptor3 = kcentroid_n
-		kAudiodescriptor4 = kflatness_n
-		kAudiodescriptor5 = katransDensEnv_n
-		kAudiodescriptor6 = kspread_n
+		kRms = krms_dB_n
+		kPitch = kpitch_n
+		kCentroid = kcentroid_n
+		kFlatness = kflatness_n
+		kTransDens = katransDensEnv_n
+		kSpread = kspread_n
 		
 	endin
 

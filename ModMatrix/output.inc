@@ -42,54 +42,54 @@ tablew 0, 12, giModScale ; Mousey to FmIndex
 tablew 0, 13, giModScale ; Mousey to Env
 tablew 0, 14, giModScale ; Mousey to Distr
 tablew 0, 15, giModScale ; Mousey to RndMask
-tablew 0, 16, giModScale ; Audiodescriptor1 to GrainRate
-tablew 0, 17, giModScale ; Audiodescriptor1 to Duration
-tablew 0, 18, giModScale ; Audiodescriptor1 to Freq
-tablew 0, 19, giModScale ; Audiodescriptor1 to FmPitch
-tablew 0, 20, giModScale ; Audiodescriptor1 to FmIndex
-tablew 0, 21, giModScale ; Audiodescriptor1 to Env
-tablew 0, 22, giModScale ; Audiodescriptor1 to Distr
-tablew 0, 23, giModScale ; Audiodescriptor1 to RndMask
-tablew 0, 24, giModScale ; Audiodescriptor2 to GrainRate
-tablew 0, 25, giModScale ; Audiodescriptor2 to Duration
-tablew 0, 26, giModScale ; Audiodescriptor2 to Freq
-tablew 0, 27, giModScale ; Audiodescriptor2 to FmPitch
-tablew 0, 28, giModScale ; Audiodescriptor2 to FmIndex
-tablew 0, 29, giModScale ; Audiodescriptor2 to Env
-tablew 0, 30, giModScale ; Audiodescriptor2 to Distr
-tablew 0, 31, giModScale ; Audiodescriptor2 to RndMask
-tablew 0, 32, giModScale ; Audiodescriptor3 to GrainRate
-tablew 0, 33, giModScale ; Audiodescriptor3 to Duration
-tablew 0, 34, giModScale ; Audiodescriptor3 to Freq
-tablew 0, 35, giModScale ; Audiodescriptor3 to FmPitch
-tablew 0, 36, giModScale ; Audiodescriptor3 to FmIndex
-tablew 0, 37, giModScale ; Audiodescriptor3 to Env
-tablew 0, 38, giModScale ; Audiodescriptor3 to Distr
-tablew 0, 39, giModScale ; Audiodescriptor3 to RndMask
-tablew 0, 40, giModScale ; Audiodescriptor4 to GrainRate
-tablew 0, 41, giModScale ; Audiodescriptor4 to Duration
-tablew 0, 42, giModScale ; Audiodescriptor4 to Freq
-tablew 0, 43, giModScale ; Audiodescriptor4 to FmPitch
-tablew 0, 44, giModScale ; Audiodescriptor4 to FmIndex
-tablew 0, 45, giModScale ; Audiodescriptor4 to Env
-tablew 0, 46, giModScale ; Audiodescriptor4 to Distr
-tablew 0, 47, giModScale ; Audiodescriptor4 to RndMask
-tablew 0, 48, giModScale ; Audiodescriptor5 to GrainRate
-tablew 0, 49, giModScale ; Audiodescriptor5 to Duration
-tablew 0, 50, giModScale ; Audiodescriptor5 to Freq
-tablew 0, 51, giModScale ; Audiodescriptor5 to FmPitch
-tablew 0, 52, giModScale ; Audiodescriptor5 to FmIndex
-tablew 0, 53, giModScale ; Audiodescriptor5 to Env
-tablew 0, 54, giModScale ; Audiodescriptor5 to Distr
-tablew 0, 55, giModScale ; Audiodescriptor5 to RndMask
-tablew 0, 56, giModScale ; Audiodescriptor6 to GrainRate
-tablew 0, 57, giModScale ; Audiodescriptor6 to Duration
-tablew 0, 58, giModScale ; Audiodescriptor6 to Freq
-tablew 0, 59, giModScale ; Audiodescriptor6 to FmPitch
-tablew 0, 60, giModScale ; Audiodescriptor6 to FmIndex
-tablew 0, 61, giModScale ; Audiodescriptor6 to Env
-tablew 0, 62, giModScale ; Audiodescriptor6 to Distr
-tablew 0, 63, giModScale ; Audiodescriptor6 to RndMask
+tablew 0, 16, giModScale ; Rms to GrainRate
+tablew 0, 17, giModScale ; Rms to Duration
+tablew 0, 18, giModScale ; Rms to Freq
+tablew 0, 19, giModScale ; Rms to FmPitch
+tablew 0, 20, giModScale ; Rms to FmIndex
+tablew 0, 21, giModScale ; Rms to Env
+tablew 0, 22, giModScale ; Rms to Distr
+tablew 0, 23, giModScale ; Rms to RndMask
+tablew 0, 24, giModScale ; Pitch to GrainRate
+tablew 0, 25, giModScale ; Pitch to Duration
+tablew 0, 26, giModScale ; Pitch to Freq
+tablew 0, 27, giModScale ; Pitch to FmPitch
+tablew 0, 28, giModScale ; Pitch to FmIndex
+tablew 0, 29, giModScale ; Pitch to Env
+tablew 0, 30, giModScale ; Pitch to Distr
+tablew 0, 31, giModScale ; Pitch to RndMask
+tablew 0, 32, giModScale ; Centroid to GrainRate
+tablew 0, 33, giModScale ; Centroid to Duration
+tablew 0, 34, giModScale ; Centroid to Freq
+tablew 0, 35, giModScale ; Centroid to FmPitch
+tablew 0, 36, giModScale ; Centroid to FmIndex
+tablew 0, 37, giModScale ; Centroid to Env
+tablew 0, 38, giModScale ; Centroid to Distr
+tablew 0, 39, giModScale ; Centroid to RndMask
+tablew 0, 40, giModScale ; Flatness to GrainRate
+tablew 0, 41, giModScale ; Flatness to Duration
+tablew 0, 42, giModScale ; Flatness to Freq
+tablew 0, 43, giModScale ; Flatness to FmPitch
+tablew 0, 44, giModScale ; Flatness to FmIndex
+tablew 0, 45, giModScale ; Flatness to Env
+tablew 0, 46, giModScale ; Flatness to Distr
+tablew 0, 47, giModScale ; Flatness to RndMask
+tablew 0, 48, giModScale ; TransDens to GrainRate
+tablew 0, 49, giModScale ; TransDens to Duration
+tablew 0, 50, giModScale ; TransDens to Freq
+tablew 0, 51, giModScale ; TransDens to FmPitch
+tablew 0, 52, giModScale ; TransDens to FmIndex
+tablew 0, 53, giModScale ; TransDens to Env
+tablew 0, 54, giModScale ; TransDens to Distr
+tablew 0, 55, giModScale ; TransDens to RndMask
+tablew 0, 56, giModScale ; Spread to GrainRate
+tablew 0, 57, giModScale ; Spread to Duration
+tablew 0, 58, giModScale ; Spread to Freq
+tablew 0, 59, giModScale ; Spread to FmPitch
+tablew 0, 60, giModScale ; Spread to FmIndex
+tablew 0, 61, giModScale ; Spread to Env
+tablew 0, 62, giModScale ; Spread to Distr
+tablew 0, 63, giModScale ; Spread to RndMask
 tablew 0, 64, giModScale ; LFO to GrainRate
 tablew 0, 65, giModScale ; LFO to Duration
 tablew 0, 66, giModScale ; LFO to Freq
@@ -104,12 +104,12 @@ tablew 0, 71, giModScale ; LFO to RndMask
 
 kMousex chnget "Mousex"
 kMousey chnget "Mousey"
-kAudiodescriptor1 chnget "Audiodescriptor1"
-kAudiodescriptor2 chnget "Audiodescriptor2"
-kAudiodescriptor3 chnget "Audiodescriptor3"
-kAudiodescriptor4 chnget "Audiodescriptor4"
-kAudiodescriptor5 chnget "Audiodescriptor5"
-kAudiodescriptor6 chnget "Audiodescriptor6"
+kRms chnget "Rms"
+kPitch chnget "Pitch"
+kCentroid chnget "Centroid"
+kFlatness chnget "Flatness"
+kTransDens chnget "TransDens"
+kSpread chnget "Spread"
 kLFO chnget "LFO"
 
 
@@ -117,12 +117,12 @@ kLFO chnget "LFO"
 
 tablew kMousex, 0, giModulators
 tablew kMousey, 1, giModulators
-tablew kAudiodescriptor1, 2, giModulators
-tablew kAudiodescriptor2, 3, giModulators
-tablew kAudiodescriptor3, 4, giModulators
-tablew kAudiodescriptor4, 5, giModulators
-tablew kAudiodescriptor5, 6, giModulators
-tablew kAudiodescriptor6, 7, giModulators
+tablew kRms, 2, giModulators
+tablew kPitch, 3, giModulators
+tablew kCentroid, 4, giModulators
+tablew kFlatness, 5, giModulators
+tablew kTransDens, 6, giModulators
+tablew kSpread, 7, giModulators
 tablew kLFO, 8, giModulators
 
 
@@ -146,24 +146,24 @@ kRndMaskOut table 7, giParam_Out
 ;channels to read parameters from___________________________ 
 
 kwhen init 0 
-kmetro metro 10 
-kwhen += kmetro 
-kwhen = (kwhen%100)+1
+ kmetro metro 10 
+ kwhen += kmetro 
+ kwhen = (kwhen%100)+1
 cabbageSetValue "GrainRateOut", kGrainRateOut
-OSCsend kwhen, "127.0.0.1", 999, "GrainRateOut", "f", kGrainRateOut
+OSCsend kwhen, "127.0.0.1", 9998, "GrainRateOut", "f", kGrainRateOut
 cabbageSetValue "DurationOut", kDurationOut
-OSCsend kwhen, "127.0.0.1", 999, "DurationOut", "f", kDurationOut
+OSCsend kwhen, "127.0.0.1", 9998, "DurationOut", "f", kDurationOut
 cabbageSetValue "FreqOut", kFreqOut
-OSCsend kwhen, "127.0.0.1", 999, "FreqOut", "f", kFreqOut
+OSCsend kwhen, "127.0.0.1", 9998, "FreqOut", "f", kFreqOut
 cabbageSetValue "FmPitchOut", kFmPitchOut
-OSCsend kwhen, "127.0.0.1", 999, "FmPitchOut", "f", kFmPitchOut
+OSCsend kwhen, "127.0.0.1", 9998, "FmPitchOut", "f", kFmPitchOut
 cabbageSetValue "FmIndexOut", kFmIndexOut
-OSCsend kwhen, "127.0.0.1", 999, "FmIndexOut", "f", kFmIndexOut
+OSCsend kwhen, "127.0.0.1", 9998, "FmIndexOut", "f", kFmIndexOut
 cabbageSetValue "EnvOut", kEnvOut
-OSCsend kwhen, "127.0.0.1", 999, "EnvOut", "f", kEnvOut
+OSCsend kwhen, "127.0.0.1", 9998, "EnvOut", "f", kEnvOut
 cabbageSetValue "DistrOut", kDistrOut
-OSCsend kwhen, "127.0.0.1", 999, "DistrOut", "f", kDistrOut
+OSCsend kwhen, "127.0.0.1", 9998, "DistrOut", "f", kDistrOut
 cabbageSetValue "RndMaskOut", kRndMaskOut
-OSCsend kwhen, "127.0.0.1", 999, "RndMaskOut", "f", kRndMaskOut
+OSCsend kwhen, "127.0.0.1", 9998, "RndMaskOut", "f", kRndMaskOut
 
 

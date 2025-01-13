@@ -2,31 +2,31 @@
 
 kMousex init 0
 kMousey init 0
-kAudiodescriptor1 init 0
-kAudiodescriptor2 init 0
-kAudiodescriptor3 init 0
-kAudiodescriptor4 init 0
-kAudiodescriptor5 init 0
-kAudiodescriptor6 init 0
+kRms init 0
+kPitch init 0
+kCentroid init 0
+kFlatness init 0
+kTransDens init 0
+kSpread init 0
 kLFO init 0
 
 
 kInputCheck1 OSClisten  giOscHandler, "/Mousex", "f", kMousex
 kInputCheck2 OSClisten  giOscHandler, "/Mousey", "f", kMousey
-kInputCheck3 OSClisten  giOscHandler, "/Audiodescriptor1", "f", kAudiodescriptor1
-kInputCheck4 OSClisten  giOscHandler, "/Audiodescriptor2", "f", kAudiodescriptor2
-kInputCheck5 OSClisten  giOscHandler, "/Audiodescriptor3", "f", kAudiodescriptor3
-kInputCheck6 OSClisten  giOscHandler, "/Audiodescriptor4", "f", kAudiodescriptor4
-kInputCheck7 OSClisten  giOscHandler, "/Audiodescriptor5", "f", kAudiodescriptor5
-kInputCheck8 OSClisten  giOscHandler, "/Audiodescriptor6", "f", kAudiodescriptor6
+kInputCheck3 OSClisten  giOscHandler, "/Rms", "f", kRms
+kInputCheck4 OSClisten  giOscHandler, "/Pitch", "f", kPitch
+kInputCheck5 OSClisten  giOscHandler, "/Centroid", "f", kCentroid
+kInputCheck6 OSClisten  giOscHandler, "/Flatness", "f", kFlatness
+kInputCheck7 OSClisten  giOscHandler, "/TransDens", "f", kTransDens
+kInputCheck8 OSClisten  giOscHandler, "/Spread", "f", kSpread
 kInputCheck9 OSClisten  giOscHandler, "/LFO", "f", kLFO
 ;put this into the receiver instrument
 chnset kMousex, "Mousex"
 chnset kMousey, "Mousey"
-chnset kAudiodescriptor1, "Audiodescriptor1"
-chnset kAudiodescriptor2, "Audiodescriptor2"
-chnset kAudiodescriptor3, "Audiodescriptor3"
-chnset kAudiodescriptor4, "Audiodescriptor4"
-chnset kAudiodescriptor5, "Audiodescriptor5"
-chnset kAudiodescriptor6, "Audiodescriptor6"
+chnset kRms, "Rms"
+chnset kPitch, "Pitch"
+chnset kCentroid, "Centroid"
+chnset kFlatness, "Flatness"
+chnset kTransDens, "TransDens"
+chnset kSpread, "Spread"
 chnset kLFO, "LFO"
