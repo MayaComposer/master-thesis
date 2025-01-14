@@ -50,7 +50,7 @@ for row_name in dataframe.index:
 
     init_osc_param.append('k' + str(row_name) + ' init 0')
     
-    osc_input.append('k' + 'InputCheck' + str(dataframe.index.get_loc(row_name)+1) + ' OSClisten ' + ' giOscHandler, ' + '"/' + str(row_name) + '", ' + '"' + 'f' + '", ' + 'k' + str(row_name))
+    osc_input.append('k' + 'InputCheck' + str(dataframe.index.get_loc(row_name)+1) + ' OSClisten ' + ' giOscHandler, ' + '"/' + str(row_name) + '", ' + '"' + 'f' + '", ' + 'k' + str(row_name)) # type: ignore
 
 
     #chnset kExpression, "Expression"
@@ -249,12 +249,12 @@ def generate_csound_ui(screen_width, screen_height, table_x=8, table_y=8):
 # Example usage
 screen_width = 960  # Replace with actual screen width
 screen_height = 720  # Replace with actual screen height
-csound_code = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
+cabbage_ui = generate_csound_ui(screen_width, screen_height, len(column_list) + 1, len(index_list) + 1)
 
 
 
 # Write to cabbage_user_interface.inc file
 with open("cabbage_ui.inc", "w") as file:
-    file.write(csound_code)
+    file.write(cabbage_ui)
 
 output.close()
