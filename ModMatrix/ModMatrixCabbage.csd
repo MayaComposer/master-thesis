@@ -196,6 +196,28 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 		kMOUSE_DOWN_MIDDLE     chnget  "MOUSE_DOWN_MIDDLE"
 		kMOUSE_DOWN_RIGHT      chnget  "MOUSE_DOWN_RIGHT"
 
+		kLastX init 0 
+		kLastY init 0
+		kLastVelocity init 0
+		; Calculate the differences
+		kDeltaX = kMOUSE_X - kLastX
+		kDeltaY = kMOUSE_Y - kLastY
+
+		; Calculate the velocity (Euclidean distance)
+		kMouseVelocity = sqrt(kDeltaX*kDeltaX + kDeltaY*kDeltaY)
+
+		; Calculate the acceleration
+    	kMouseAcceleration = kMouseVelocity - kLastVelocity
+
+		; Store the current positions for the next cycle
+		kLastX = kMOUSE_X
+		kLastY = kMOUSE_Y
+		kLastVelocity = kMouseVelocity
+
+		; Print the value of kval when it changes.
+  		printks2 "mouse vel %f\n", int(kMouseVelocity)
+		printks2 "mouse accel %f\n", int(kMouseAcceleration)
+
 		; printks2 "Mouse x, y:", 0
 		; printk2 kMOUSE_X, 2
 		; printk2 kMOUSE_Y, 2
