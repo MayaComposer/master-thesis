@@ -109,7 +109,7 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 	hslider bounds(0, 100, 115, 50) channel("RndMaskSlider") range(0, 1, 0, 1, 0.001) text("rndmask") $DESIGN $FONT
 	button bounds(0, 150, 115, 50) channel("WaveformToggle") fontColour:0(0, 0, 0, 255) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("sine", "sample") value(0)
 
-	button bounds(0, 200, 115, 50) channel("StartRecordButton") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "Recording")
+	button bounds(0, 200, 115, 50) channel("StartRecordButton") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "Recording") value(0)
 
 	vmeter bounds(500, 70, 36, 180) channel("vu1") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1) 
 	vmeter bounds(540, 70, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1)
@@ -213,6 +213,24 @@ instr Control
 		cabbageSet 1, "Console", "visible", 1
 	else
 		cabbageSet 1, "Console", "visible", 0
+	endif
+
+
+	;if button is pressed
+	; turn on record input instrument for x amount of time starting now
+	;x equals buffer length in seconds
+	;giLiveFeedLenSec = giLiveFeedLen/sr
+
+	;when recording is done, set button value to 0 again
+
+	kRecordButton cabbageGet "StartRecordButton", "value"
+	printk2 kRecordButton
+
+	kSwitch changed kRecordButton
+	if kSwitch == 1 then
+		if kRecordButton == 1 then
+			event "i", "RecordInput", 0, giLiveFeedLenSec
+		endif
 	endif
 endin 
 
@@ -328,16 +346,17 @@ instr MixChannels
 endin
 
 instr RecordInput
+	prints "Recording started"
 
 	aInput inch 1 ; signal input
 
-	aFeed chnget "partikkelFeedback" ; feedback from partikkel audio output
-	aInput = aInput + aFeed ; mix feedback with live input
+	; aFeed chnget "partikkelFeedback" ; feedback from partikkel audio output
+	; aInput = aInput + aFeed ; mix feedback with live input
 
 	; write audio to table
 	iAudioTable = giLiveFeed
 	iLength = ftlen(iAudioTable)
-	aenv linsegr 1, 1, 1, 0.1, 0
+	aenv linsegr 0, 0.1, 1, giLiveFeedLenSec - 0.2, 1, 0.1, 0
 	aInput *= aenv
 	gkstartFollow init 0
 	gkstartFollow tablewa iAudioTable, aInput, 0 ; write audio aInput to table
@@ -598,7 +617,6 @@ endin
 f0 z
 i "Receiver" 0 865000
 i "MixChannels" 0 865000
-i "RecordInput" 0 865000
 i "GrainSynth" 0 865000
 i "Control" 0 865000
 </CsScore>
