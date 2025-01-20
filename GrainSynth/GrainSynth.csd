@@ -107,7 +107,12 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 	hslider bounds(0, 0, 115, 50) channel("EnvSlider") range(0, 1, 0, 1, 0.001) text("ad ratio") $DESIGN $FONT
 	hslider bounds(0, 50, 115, 50) channel("Distribution") range(0, 1, 0, 1, 0.001) text("distribution") $DESIGN $FONT
 	hslider bounds(0, 100, 115, 50) channel("RndMaskSlider") range(0, 1, 0, 1, 0.001) text("rndmask") $DESIGN $FONT
-	button bounds(0, 150, 115, 50) channel("WaveformToggle") colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("sine", "sample") value(0) $DESIGN $FONT
+	button bounds(0, 150, 115, 50) channel("WaveformToggle") fontColour:0(0, 0, 0, 255) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("sine", "sample") value(0)
+
+	button bounds(0, 200, 115, 50) channel("StartRecordButton") fontColour:0(0, 0, 0, 255) fontSize(1) colour:0(152, 114, 114, 255) colour:1(109, 3, 173, 255) text("off", "Recording")
+
+	vmeter bounds(500, 70, 36, 180) channel("vu1") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1) 
+	vmeter bounds(540, 70, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1)
 
 }
 
@@ -119,8 +124,7 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 ;label bounds(100, 128, 100, 16) channel("label10016") text("grain masking") $FONT
 ;label bounds(100, 144, 100, 16) channel("label10015") text("waveamptab") $FONT fontColour(58, 124, 165, 255) textColour(58, 124, 165, 255)
 
-; vmeter bounds(820, 490, 36, 180) channel("vu1") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1) 
-; vmeter bounds(858, 490, 36, 180) channel("vu2") value(0) outlineColour(0, 0, 0), overlayColour(0, 0, 0) meterColour:0(255, 0, 0) meterColour:1(255, 255, 0) meterColour:2(0, 255, 0) outlineThickness(1)
+
 
 ;MISC sliders
 
@@ -158,6 +162,13 @@ giSoundfile1	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0			; soundfile
 giSoundfile2	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
 giSoundfile3	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
 giSoundfile4	ftgen	0, 0, 0, 1, "noise.wav", 0, 0, 0
+
+; live input buffer table for granular effects processing
+ giLiveFeedLen = 524288
+ giLiveFeedLenSec = giLiveFeedLen/sr
+ giLiveFeed ftgen 0, 0, giLiveFeedLen+1, 2, 0 ; create empty buffer for live input
+
+
 ; classic waveforms
 giSine		ftgen	0, 0, 65537, 10, 1					; sine wave
 giCosine	ftgen	0, 0, 8193, 9, 1, 1, 90					; cosine wave
@@ -170,25 +181,7 @@ giExpFall	ftgen	0, 0, 8193, 5, 1, 8193, 0.00001				; exponential decay
 giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window 
 
 ;OSC 
-	giOscHandler OSCinit 999 ;input from external device
-
-
-
-;parameters to change
-;grain rate ✅
-;grain dur ✅
-;freq ✅
-;fm PITCH ✅
-;Fm Index ✅
-;ad ratio
-;random mask
-;channel mask
-;waveamptamp to do a sort of morphing thing between sines and samples
-;distribution
-;envelope
-
-;TODO add morphing  between sine waves and sound file
-
+giOscHandler OSCinit 999 ;input from external device
 
 ;random distribution around a center  value (mean) with an amplitude, which is how
 ;wide the distribution is basically
@@ -206,6 +199,22 @@ endop
 
 ;beta randomness
 ;kRand betarand krange, kalpha, kbeta
+
+
+
+instr Control
+	;things to control UI and stuff
+
+	kToggleValue cabbageGet "ConsoleToggle", "value"
+
+	printk2 kToggleValue
+
+	if kToggleValue == 1 then
+		cabbageSet 1, "Console", "visible", 1
+	else
+		cabbageSet 1, "Console", "visible", 0
+	endif
+endin 
 
 instr Receiver
 	
@@ -318,7 +327,26 @@ instr MixChannels
 
 endin
 
-;granular synth
+instr RecordInput
+
+	aInput inch 1 ; signal input
+
+	aFeed chnget "partikkelFeedback" ; feedback from partikkel audio output
+	aInput = aInput + aFeed ; mix feedback with live input
+
+	; write audio to table
+	iAudioTable = giLiveFeed
+	iLength = ftlen(iAudioTable)
+	aenv linsegr 1, 1, 1, 0.1, 0
+	aInput *= aenv
+	gkstartFollow init 0
+	gkstartFollow tablewa iAudioTable, aInput, 0 ; write audio aInput to table
+	gkstartFollow = (gkstartFollow > (giLiveFeedLen-1) ? 0 : gkstartFollow) ; reset kstart when table is full
+	tablegpw iAudioTable ; update table guard point (for interpolation)
+	chnset gkstartFollow, "kstartFollow" ; output the buffer position to chn
+
+endin
+
 instr GrainSynth 
 	kWaveformToggle cabbageGet "WaveformToggle", "value"
 
@@ -401,7 +429,6 @@ instr GrainSynth
 
 	; amp
 	kamp = ampdbfs(-20)
-
 	; select source waveforms
 	; single cycle waveforms
 	; kwaveform1 = giSine		; source audio waveform 1
@@ -413,15 +440,28 @@ instr GrainSynth
 	; kwaveform4	= giSine	; source audio waveform 4
 	; kwave4Single	= 1		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
 
-	; ; select source waveforms
-	kwaveform1 = giSoundfile1		; source audio waveform 1
-	kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform2	= giSoundfile2		; source audio waveform 2
-	kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform3	= giSoundfile3  ; source audio waveform 3
-	kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
-	kwaveform4	= giSoundfile4	; source audio waveform 4
-	kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; ; ; select source waveforms
+	; kwaveform1 = giSoundfile1		; source audio waveform 1
+	; kwave1Single	= 0			; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform2	= giSoundfile2		; source audio waveform 2
+	; kwave2Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform3	= giSoundfile3  ; source audio waveform 3
+	; kwave3Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	; kwaveform4	= giSoundfile4	; source audio waveform 4
+	; kwave4Single	= 0		; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+
+
+
+	;LIVE INPUT
+
+	kwaveform1	= giLiveFeed		; source audio waveform 1
+	kwave1Single	= 0
+	kwaveform2	= giLiveFeed		; source audio waveform 2
+	kwave2Single	= 0
+	kwaveform3	= giLiveFeed		; source audio waveform 3
+	kwave3Single	= 0
+	kwaveform4	= giLiveFeed		; source audio waveform 4
+	kwave4Single	= 0
 
 	; get source waveform length (used when calculating transposition and time pointer)
 	kfilen1		tableng	 kwaveform1		; get length of the first source waveform
@@ -435,10 +475,10 @@ instr GrainSynth
 
 	; original pitch for each waveform, use if they should be transposed individually
 	; can also be used as a "cycles per second" parameter for single cycle waveforms (assuming that the kWavFreq parameter has a value of 1.0)
-	kwavekey1	= 0.5
-	kwavekey2	= 0.25
-	kwavekey3	= 0.125
-	kwavekey4	= 0.85
+	kwavekey1	= 1
+	kwavekey2	= 1
+	kwavekey3	= 1
+	kwavekey4	= 1
 
 	; set original key dependant on waveform length (only for sampled waveforms, not for single cycle waves)
 	kwavekey1	= (kwave1Single > 0 ? kwavekey1 : kwavekey1/kfildur1)
@@ -464,6 +504,20 @@ instr GrainSynth
 	asamplepos3	= asamplepos3*(1-kwave3Single) + isamplepos3
 	asamplepos4	= asamplepos4*(1-kwave4Single) + isamplepos4
 
+	; if samplepos is close to zero, see to it that grain playback does not cross the record pointer border,
+	; as this will delay the (live feed) sound for the length of a livefeed sample buffer.
+	; So, check grain duration and transpose, limit samplepos accordingly
+	ksamplepos1 init 0
+	ksamplepos1 limit ksamplepos1, (kDuration*kWavFreq)/(giLiveFeedLenSec*1000), 1
+
+	; make samplepos follow the record pointer instead of staying at a stationary value, makes live follow samplepos into "grain delay time"
+	kstartFollow chnget "kstartFollow" ; the current buffer write position for live follow mode
+	ksamplepos1 = (kstartFollow/giLiveFeedLen) - ksamplepos1 ; move samplepos in parallel with the write pointer for the input buffer
+	ksamplepos1 = (ksamplepos1 < 0 ? ksamplepos1+1 : ksamplepos1) ; wrap around on undershoot
+	ksamplepos1 = (ksamplepos1 > 1 ? ksamplepos1-1 : ksamplepos1) ; wrap around on overshoot
+	asamplepos1 upsamp ksamplepos1 ; upsample
+
+
 	; grain shape
 	kAdSlider chnget "Envelope"
 	ka_d_ratio = kAdSlider
@@ -478,7 +532,7 @@ instr GrainSynth
 
 
     ;modulation of waveform amplitude
-/*     kwgain1 limit ((1-kWaveX)*(1-kWaveY)), 0, 1
+	/*kwgain1 limit ((1-kWaveX)*(1-kWaveY)), 0, 1
     kwgain2 limit (kWaveX*(1-kWaveY)), 0, 1
     kwgain3 limit ((1-kWaveX)*kWaveY), 0, 1
     kwgain4 limit (kWaveX*kWaveY), 0, 1
@@ -515,15 +569,6 @@ instr GrainSynth
 	ktraincps = 0 ; trainlet cps
 	knumpartials = 0 ; number of partials in trainlet
 	kchroma = 0 ; chroma of trainlet
-	kwaveform2 = kwaveform2 ; in the simplest version we only use waveform1
-	kwaveform3 = kwaveform3 ; in the simplest version we only use waveform1
-	kwaveform4 = kwaveform4 ; in the simplest version we only use waveform1
-	asamplepos2 = asamplepos2 ; in the simplest version we only use waveform1
-	asamplepos3 = asamplepos3 ; in the simplest version we only use waveform1
-	asamplepos4 = asamplepos4 ; in the simplest version we only use waveform1
-	kwavekey2 = kwavekey2 ; in the simplest version we only use waveform1
-	kwavekey3 = kwavekey3 ; in the simplest version we only use waveform1
-	kwavekey4 = kwavekey4 ; in the simplest version we only use waveform1
 	imax_grains = 100 ; max grains in one k-period (set and forget)
 
 	a1,a2 partikkel aGrainRate, kdistribution, idisttab, async, kenv2amt, ienv2tab, \
@@ -537,27 +582,23 @@ instr GrainSynth
 	a1 limit a1, -1, 1
 	a2 limit a2, -1, 1
 	outs a1, a2
+
+	;add sound to meter
+	k1 rms a1, 20
+	k2 rms a2, 20
+
+	cabbageSetValue "vu1", portk(k1*100, .25), metro(10)
+	cabbageSetValue "vu2", portk(k2*100, .25), metro(10)
 endin
 
-instr Control
-	;things to control UI and stuff
 
-	kToggleValue cabbageGet "ConsoleToggle", "value"
-
-	printk2 kToggleValue
-
-	if kToggleValue == 1 then
-		cabbageSet 1, "Console", "visible", 1
-	else
-		cabbageSet 1, "Console", "visible", 0
-	endif
-endin 
 
 </CsInstruments>
 <CsScore>
 f0 z
 i "Receiver" 0 865000
 i "MixChannels" 0 865000
+i "RecordInput" 0 865000
 i "GrainSynth" 0 865000
 i "Control" 0 865000
 </CsScore>
