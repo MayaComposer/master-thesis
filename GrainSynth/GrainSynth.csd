@@ -223,14 +223,34 @@ instr Control
 
 	;when recording is done, set button value to 0 again
 
-	kRecordButton cabbageGet "StartRecordButton", "value"
-	printk2 kRecordButton
+	; kRecordButton cabbageGet "StartRecordButton", "value"
+	; printk2 kRecordButton
 
-	kSwitch changed kRecordButton
-	if kSwitch == 1 then
-		if kRecordButton == 1 then
-			event "i", "RecordInput", 0, giLiveFeedLenSec
-		endif
+	; kSwitch changed kRecordButton
+	; if kSwitch == 1 then
+	; 	if kRecordButton == 1 then
+	; 		event "i", "RecordInput", 0, giLiveFeedLenSec
+	; 	endif
+	; endif
+
+	kPlay chnget "StartRecordButton"
+
+	kTrigPlay trigger kPlay, 0.5, 0
+
+	kTrigStop trigger kPlay, 0.5, 1
+
+	iRecordInstrument = 1
+
+	if kTrigPlay > 0 then
+
+		event "i", iRecordInstrument, 0, -1
+
+	endif
+
+	if kTrigStop > 0 then
+
+		event "i", -iRecordInstrument, 0, .1
+
 	endif
 endin 
 
@@ -345,7 +365,7 @@ instr MixChannels
 
 endin
 
-instr RecordInput
+instr 1
 	prints "Recording started"
 
 	aInput inch 1 ; signal input
@@ -447,7 +467,7 @@ instr GrainSynth
 	;printing
 
 	; amp
-	kamp = ampdbfs(-20)
+	kamp = ampdbfs(-10)
 	; select source waveforms
 	; single cycle waveforms
 	; kwaveform1 = giSine		; source audio waveform 1
