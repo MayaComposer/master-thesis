@@ -316,14 +316,14 @@ instr MixChannels
 	kOscGrainRate chnget "OSCGrainRate"
 	kSliderGrainRate chnget "GrainRateSlider"
 	kOutGrainRate = kOscGrainRate + kSliderGrainRate
-	;kOutGrainRate limit kOutGrainRate, 1, 100
+	kOutGrainRate limit kOutGrainRate, 1, 100
 	chnset kOutGrainRate, "GrainRate"
 
 	kOutDur init 20
 	kOscDur chnget "OSCDur"
 	kSliderDur chnget "DurSlider"
 	kOutDur = kOscDur + kSliderDur
-	;kOutDur limit kOutDur, 20, 5000
+	kOutDur limit kOutDur, 20, 5000
 	chnset kOutDur, "Dur"
 
 	kOutFreq init 1
@@ -331,21 +331,21 @@ instr MixChannels
 	kSliderFreq chnget "FreqSlider"
 	kOutFreq = kOscFreq + kSliderFreq
 	printk2 kOutFreq
-	;kOutFreq limit kOutFreq, 1, 400
+	kOutFreq limit kOutFreq, 1, 400
 	chnset kOutFreq, "Freq"
 
 	kOutFmPitch init 0
 	kOscFmPitch chnget "OSCFmPitch"
 	kSliderFmPitch chnget "FmPitchSlider"
 	kOutFmPitch = kOscFmPitch + kSliderFmPitch
-	;kOutFmPitch limit kOutFmPitch, 0, 10
+	kOutFmPitch limit kOutFmPitch, 0, 10
 	chnset kOutFmPitch, "FmPitch"
 
 	kOutFmIndex init 0
 	kOscFmIndex chnget "OSCFmIndex"
 	kSliderFmIndex chnget "FmIndexSlider"
 	kOutFmIndex = kOscFmIndex + kSliderFmIndex
-	;kOutFmIndex limit kOutFmIndex, 0, 20
+	kOutFmIndex limit kOutFmIndex, 0, 20
 	chnset kOutFmIndex, "FmIndex"
 
 	kOutEnv init 0
@@ -501,6 +501,17 @@ instr GrainSynth
 	kwave3Single	= 0
 	kwaveform4	= giLiveFeed		; source audio waveform 4
 	kwave4Single	= 0
+
+
+	; ;soundfile
+	; kwaveform1	= giSoundfile1		; source audio waveform 1
+	; kwave1Single	= 0
+	; kwaveform2	= giSoundfile1		; source audio waveform 2
+	; kwave2Single	= 0
+	; kwaveform3	= giSoundfile1		; source audio waveform 3
+	; kwave3Single	= 0
+	; kwaveform4	= giSoundfile1		; source audio waveform 4
+	; kwave4Single	= 0
 
 	; get source waveform length (used when calculating transposition and time pointer)
 	kfilen1		tableng	 kwaveform1		; get length of the first source waveform
