@@ -181,7 +181,7 @@ giExpFall	ftgen	0, 0, 8193, 5, 1, 8193, 0.00001				; exponential decay
 giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window 
 
 ;OSC 
-giOscHandler OSCinit 999 ;input from external device
+giOscHandler OSCinit 9998 ;input from external device
 
 ;random distribution around a center  value (mean) with an amplitude, which is how
 ;wide the distribution is basically
@@ -266,15 +266,12 @@ instr Receiver
 
 	; ;DURATION______________________________________________________
 
-	kDur init 20
+	kDur init 0
 	kInputCheck2 OSClisten giOscHandler, "DurationOut", "f", kDur
 	kDurScaled scale2 kDur, 20, 5000, 0.0, 1.0
 	chnset kDurScaled, "OSCDur"
 
 	; ;FREQUENCY_____________________________________________________
-	; kFreqSlider chnget "FreqSlider"
-	; kFreqAmp chnget "FreqAmp"
-	; kFreqFreq chnget "FreqFreq" ;this is kinda dirty, oh well
 
 	kFreq init 0
 	kInputCheck3 OSClisten giOscHandler, "FreqOut", "f", kFreq
@@ -320,17 +317,16 @@ instr MixChannels
 	chnset kOutGrainRate, "GrainRate"
 
 	kOutDur init 20
+	kOscDur init 0
 	kOscDur chnget "OSCDur"
 	kSliderDur chnget "DurSlider"
 	kOutDur = kOscDur + kSliderDur
-	kOutDur limit kOutDur, 20, 5000
 	chnset kOutDur, "Dur"
 
 	kOutFreq init 1
 	kOscFreq chnget "OSCFreq"
 	kSliderFreq chnget "FreqSlider"
 	kOutFreq = kOscFreq + kSliderFreq
-	printk2 kOutFreq
 	kOutFreq limit kOutFreq, 1, 400
 	chnset kOutFreq, "Freq"
 
@@ -362,7 +358,13 @@ instr MixChannels
 	kOutRndMask limit kOutRndMask, 0.0, 1.0
 	chnset kOutRndMask, "RndMask"
 
-
+	printks2 "Grain Rate: %f\n", kOutGrainRate
+	printks2 "Duration: %f\n", kOutDur
+	printks2 "Frequency: %f\n", kOutFreq
+	printks2 "FM Pitch: %f\n", kOutFmPitch
+	printks2 "FM Index: %f\n", kOutFmIndex
+	printks2 "Envelope: %f\n", kOutEnv
+	printks2 "Random Mask: %f\n", kOutRndMask
 endin
 
 instr 1
@@ -491,27 +493,27 @@ instr GrainSynth
 
 
 
-	;LIVE INPUT
+	; ;LIVE INPUT
 
-	kwaveform1	= giLiveFeed		; source audio waveform 1
-	kwave1Single	= 0
-	kwaveform2	= giLiveFeed		; source audio waveform 2
-	kwave2Single	= 0
-	kwaveform3	= giLiveFeed		; source audio waveform 3
-	kwave3Single	= 0
-	kwaveform4	= giLiveFeed		; source audio waveform 4
-	kwave4Single	= 0
-
-
-	; ;soundfile
-	; kwaveform1	= giSoundfile1		; source audio waveform 1
+	; kwaveform1	= giLiveFeed		; source audio waveform 1
 	; kwave1Single	= 0
-	; kwaveform2	= giSoundfile1		; source audio waveform 2
+	; kwaveform2	= giLiveFeed		; source audio waveform 2
 	; kwave2Single	= 0
-	; kwaveform3	= giSoundfile1		; source audio waveform 3
+	; kwaveform3	= giLiveFeed		; source audio waveform 3
 	; kwave3Single	= 0
-	; kwaveform4	= giSoundfile1		; source audio waveform 4
+	; kwaveform4	= giLiveFeed		; source audio waveform 4
 	; kwave4Single	= 0
+
+
+	;soundfile
+	kwaveform1	= giSoundfile1		; source audio waveform 1
+	kwave1Single	= 0 ; flag to set if waveform is single cycle (set to zero for sampled waveforms)
+	kwaveform2	= giSoundfile1		; source audio waveform 2
+	kwave2Single	= 0
+	kwaveform3	= giSoundfile1		; source audio waveform 3
+	kwave3Single	= 0
+	kwaveform4	= giSoundfile1		; source audio waveform 4
+	kwave4Single	= 0
 
 	; get source waveform length (used when calculating transposition and time pointer)
 	kfilen1		tableng	 kwaveform1		; get length of the first source waveform
