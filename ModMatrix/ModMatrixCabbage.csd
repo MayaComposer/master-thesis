@@ -122,7 +122,7 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 	button bounds(0, 130, 100, 50) channel("OscTestConnection") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("test OSC send") latched(1)
 	csoundoutput bounds(0, 180, 430, 180) channel("Console") visible(1)
 
-	button bounds(0, 230, 100, 50) channel("MouseListen") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("Mouse listen") latched(1) value(1)
+	button bounds(110, 130, 100, 50) channel("MouseListen") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("Mouse listen") latched(1) value(1)
 
 	nslider bounds( 55, 25, 90, 35), text("MOUSE X"), fontColour("white"), textBox(1), channel("X"), range(0, 1, 0, 1, 0.01)
 	nslider bounds(160, 25, 90, 35), text("MOUSE Y"), fontColour("white"), textBox(1), channel("Y"), range(0, 1, 0, 1, 0.01)
@@ -215,8 +215,8 @@ groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1),
 		kLastVelocity = kMouseVelocity
 
 		; Print the value of kval when it changes.
-  		printks2 "mouse vel %f\n", int(kMouseVelocity)
-		printks2 "mouse accel %f\n", int(kMouseAcceleration)
+  		; printks2 "mouse vel %f\n", int(kMouseVelocity)
+		; printks2 "mouse accel %f\n", int(kMouseAcceleration)
 
 		; printks2 "Mouse x, y:", 0
 		; printk2 kMOUSE_X, 2

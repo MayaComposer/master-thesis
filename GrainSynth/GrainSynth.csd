@@ -128,11 +128,12 @@ groupbox bounds(310, 298, 580, 250) channel("groupbox10014") outlineThickness(0)
 
 ;MISC sliders
 
+button bounds(875, 650, 25, 25) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("") latched(0)
 
-csoundoutput bounds(488, 474, 401, 191) channel("Console") visible(1)
+groupbox bounds(0, 0, 430, 360), text("Debug window"), plant("debug"), popup(1), channel("debug"), colour("beige"), visible(1) {
 
-
-button bounds(874, 648, 25, 26) channel("ConsoleToggle") colour:0(238, 185, 185, 255) colour:1(2, 255, 69, 255) text("")
+	csoundoutput bounds(0, 180, 430, 180) channel("Console") visible(1)
+}
 
 </Cabbage>
 
@@ -181,7 +182,7 @@ giExpFall	ftgen	0, 0, 8193, 5, 1, 8193, 0.00001				; exponential decay
 giTriangleWin 	ftgen	0, 0, 8193, 7, 0, 4096, 1, 4096, 0			; triangular window 
 
 ;OSC 
-giOscHandler OSCinit 9998 ;input from external device
+giOscHandler OSCinit 999 ;input from external device
 
 ;random distribution around a center  value (mean) with an amplitude, which is how
 ;wide the distribution is basically
@@ -200,20 +201,20 @@ endop
 ;beta randomness
 ;kRand betarand krange, kalpha, kbeta
 
+instr Debugger
+
+		kToggleValue cabbageGet "ConsoleToggle", "value"
+
+		if changed:k(kToggleValue) == 1 then
+			cabbageSet 1, "debug", "visible", 1
+		endif
+	endin
+
 
 
 instr Control
 	;things to control UI and stuff
 
-	kToggleValue cabbageGet "ConsoleToggle", "value"
-
-	printk2 kToggleValue
-
-	if kToggleValue == 1 then
-		cabbageSet 1, "Console", "visible", 1
-	else
-		cabbageSet 1, "Console", "visible", 0
-	endif
 
 
 	;if button is pressed
@@ -648,6 +649,7 @@ endin
 </CsInstruments>
 <CsScore>
 f0 z
+i "Debugger" 0 865000
 i "Receiver" 0 865000
 i "MixChannels" 0 865000
 i "GrainSynth" 0 865000

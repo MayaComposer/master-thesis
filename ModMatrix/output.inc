@@ -152,21 +152,21 @@ kwhen = (kwhen%100)+1
 
 if kwhen == 1 then
     cabbageSetValue "GrainRateOut", kGrainRateOut
-    OSCsend kGrainRateOut, "127.0.0.1", 9998, "GrainRateOut", "f", kGrainRateOut
+    OSCsend kGrainRateOut, "127.0.0.1", 999, "GrainRateOut", "f", kGrainRateOut
     cabbageSetValue "DurationOut", kDurationOut
-    OSCsend kDurationOut, "127.0.0.1", 9998, "DurationOut", "f", kDurationOut
+    OSCsend kDurationOut, "127.0.0.1", 999, "DurationOut", "f", kDurationOut
     cabbageSetValue "FreqOut", kFreqOut
-    OSCsend kFreqOut, "127.0.0.1", 9998, "FreqOut", "f", kFreqOut
+    OSCsend kFreqOut, "127.0.0.1", 999, "FreqOut", "f", kFreqOut
     cabbageSetValue "FmPitchOut", kFmPitchOut
-    OSCsend kFmPitchOut, "127.0.0.1", 9998, "FmPitchOut", "f", kFmPitchOut
+    OSCsend kFmPitchOut, "127.0.0.1", 999, "FmPitchOut", "f", kFmPitchOut
     cabbageSetValue "FmIndexOut", kFmIndexOut
-    OSCsend kFmIndexOut, "127.0.0.1", 9998, "FmIndexOut", "f", kFmIndexOut
+    OSCsend kFmIndexOut, "127.0.0.1", 999, "FmIndexOut", "f", kFmIndexOut
     cabbageSetValue "EnvOut", kEnvOut
-    OSCsend kEnvOut, "127.0.0.1", 9998, "EnvOut", "f", kEnvOut
+    OSCsend kEnvOut, "127.0.0.1", 999, "EnvOut", "f", kEnvOut
     cabbageSetValue "DistrOut", kDistrOut
-    OSCsend kDistrOut, "127.0.0.1", 9998, "DistrOut", "f", kDistrOut
+    OSCsend kDistrOut, "127.0.0.1", 999, "DistrOut", "f", kDistrOut
     cabbageSetValue "RndMaskOut", kRndMaskOut
-    OSCsend kRndMaskOut, "127.0.0.1", 9998, "RndMaskOut", "f", kRndMaskOut
+    OSCsend kRndMaskOut, "127.0.0.1", 999, "RndMaskOut", "f", kRndMaskOut
 endif
 
 ; cabbageSetValue "GrainRateOut", kGrainRateOut
